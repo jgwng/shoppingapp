@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shoppingapp/providers/product_provider.dart';
 import 'package:shoppingapp/widgets/product_item.dart';
 import 'package:provider/provider.dart';
-import '../providers/product.dart';
+import 'package:shoppingapp/providers/product.dart';
 class ProductsGrid extends StatelessWidget{
 
 
@@ -17,7 +17,9 @@ class ProductsGrid extends StatelessWidget{
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
       itemCount: products.length,
-      itemBuilder: (ctx,i) => ChangeNotifierProvider(child:  ProductItem(
+      itemBuilder: (ctx,i) => ChangeNotifierProvider(
+        create: (ctx) => products[i],
+        child:  ProductItem(
 //          products[i].id,
 //          products[i].title,
 //          products[i].imageUrl
