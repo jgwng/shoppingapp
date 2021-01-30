@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/screens/product_detail_screen.dart';
 import '../screens/product_detail_screen.dart';
-import '../providers/product.dart';
+import '../models/product.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart.dart';
 

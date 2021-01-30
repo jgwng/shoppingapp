@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:shoppingapp/providers/product_provider.dart';
 import 'package:shoppingapp/widgets/product_item.dart';
 import 'package:provider/provider.dart';
-import 'package:shoppingapp/providers/product.dart';
+import 'package:shoppingapp/models/product.dart';
+
 class ProductsGrid extends StatelessWidget{
 final bool showFavs;
   ProductsGrid(this.showFavs);
@@ -17,8 +18,8 @@ final bool showFavs;
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
       itemCount: products.length,
-      itemBuilder: (ctx,i) => ChangeNotifierProvider(
-        create: (ctx) => products[i],
+      itemBuilder: (ctx,i) => ChangeNotifierProvider.value(
+        value: products[i],
         child:  ProductItem(
 //          products[i].id,
 //          products[i].title,
