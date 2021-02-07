@@ -1,15 +1,24 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shoppingapp/providers/cart.dart';
 import 'package:shoppingapp/providers/orders.dart';
 import 'package:shoppingapp/screens/cart_screen.dart';
 import 'package:shoppingapp/screens/product_detail_screen.dart';
 import 'package:shoppingapp/screens/products_overview_screen.dart';
+import 'package:shoppingapp/screens/register_page/user_register_page.dart';
 import './providers/product_provider.dart';
 import 'package:provider/provider.dart';
 import './providers/cart.dart';
 import 'package:shoppingapp/screens/orders_screen.dart';
-void main() {
-  runApp(MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MyApp());
+  });
+
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +44,7 @@ class MyApp extends StatelessWidget {
 
         ),
 
-        home: ProductsOverViewScreen(),
+        home: UserRegisterPage(),
 
         routes: {
           ProductDetailScreen.routeName: (ctx)=>ProductDetailScreen(),
