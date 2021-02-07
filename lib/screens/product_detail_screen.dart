@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoppingapp/screens/qr_code_scanner/qr_code_scanner.dart';
 import '../providers/product_provider.dart';
 import 'package:provider/provider.dart';
 class ProductDetailScreen extends StatelessWidget{
@@ -24,9 +25,14 @@ class ProductDetailScreen extends StatelessWidget{
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 300, width: double.infinity,
-              child: Image.network(loadedProduct.imageUrl,fit:BoxFit.cover),),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context,MaterialPageRoute(builder: (c) => QRCodeScan()));
+              },
+              child: Container(
+               height: 300, width: double.infinity,
+                  child: Image.network(loadedProduct.imageUrl,fit:BoxFit.cover),),
+            ),
             SizedBox(height: 10,),
             Text('${loadedProduct.price}',style: TextStyle(color:Colors.grey,fontSize:20),),
             SizedBox(height: 10,),

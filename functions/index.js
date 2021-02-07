@@ -1,41 +1,43 @@
-const nodemailer = require('nodemailer');
-const cors = require('cors')({origin: true});
-const functions = require('firebase-functions');
+const functions = require("firebase-functions");
 const admin = require('firebase-admin');
+
+// // Create and Deploy Your First Cloud Functions
+// // https://firebase.google.com/docs/functions/write-firebase-functions
+//
+// exports.helloWorld = functions.https.onRequest((request, response) => {
+//   functions.logger.info("Hello logs!", {structuredData: true});
+//   response.send("Hello from Firebase!");
+// });
 admin.initializeApp();
 
-let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth:{
-        user : 'petplan20.crm@gmail.com',
-        pass : 'petplan0313$'
-    }
-});
+const msg = {
+    android : {
+           notification : {
+           },
+       },
+        apns : {
+           payload : {
+               aps : {
+                   sound : "default",
+                    alert : {
 
-exports.sendEmail = functions.region('asia-northeast3').https.onRequest((req, res) => {
-    cors(req,res,() => {
-     const dest = req.query.dest;
-        console.log(res);
-        console.log(req.body.dest);
+                   },
+               }
+           },
+        }
+}
 
-        //getting dest email by query string
-        // const dest = req.query.dest;
-        const mailOptions = {
+exports.sendFCM = functions.region('asia-northeast3').https.onCall(async (data, context)  => {
+    let {title, body, target} = data;
+    msg.data.title = title;
+    msg.data.body = body;
+    msg.android.data.title = title;
+    msg.android.data.body = body;
+    // msg.apns.payload.aps.alert.title = title;
+    // msg.apns.payload.aps.alert.body = body;
+    msg.token = target
 
-            to: req.body.data.dest,
-            subject: req.body.data.subject,
-            text:req.body.data.text,
-            attachment: req.body.data.attachment
-             // email subject
-        };
-
-        return transporter.sendMail(mailOptions,(erro,info)=> {
-            if(erro){
-                return res.send(erro.toString());
-            }
-            return res.send('Sended');
-        });
-
-   });
-
+    console.log(msg);
+    var result = admin.messaging().send(msg);
+    return result;
 });
