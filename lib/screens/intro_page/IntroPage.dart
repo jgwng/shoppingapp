@@ -5,13 +5,18 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/grocery-cart.png'),
-            SizedBox(height: 12.5,),
+            SizedBox(
+              width: 200,
+              height: 200,
+
+              child: Image.asset('assets/images/grocery-cart.png',fit: BoxFit.fill,),
+            ),
+
           ],
         ),
       ),

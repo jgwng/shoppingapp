@@ -45,10 +45,6 @@ class _RegisterPageState extends State<RegisterPage> {
       return Center(child: CircularProgressIndicator());
     if(registerState.loading)
       return Center(child: CircularProgressIndicator());
-    if(!registerState.userState){
-      return UserRegisterPage();
-      }else{
-        return UserRegisterPage();
-       }
+    return UserRegisterPage();
   }
 }

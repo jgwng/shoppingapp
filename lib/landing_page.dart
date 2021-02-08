@@ -20,7 +20,7 @@ class _LandingPageState extends State<LandingPage> {
   initialize(BuildContext context) {
     // size
     sizeIsNotZero(Stream<double>.periodic(
-        Duration(milliseconds: 100),
+        Duration(milliseconds:200),
             (x) => MediaQuery.of(context).size.width));
 
     // SharedPreferences
@@ -37,39 +37,39 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          builder: (context, snapshot) {
-            return FutureBuilder(
                 future: init,
-                builder: (context, snapshot){
-                  if(snapshot.connectionState == ConnectionState.done)
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
                     size = MediaQuery.of(context).size;
-                  paddingTop = MediaQuery.of(context).padding.top;
-                  paddingBottom = MediaQuery.of(context).padding.bottom;
-                  availableHeight = size.height - paddingBottom - paddingBottom;
-                  sharedPreferencesServiceProvider.overrideWithValue(
-                      SharedPreferencesService(snapshot.data));
-                  return Consumer(
-                    builder : (context,watch,child){
-                      final authStateChanges = watch(authStateChangesProvider);
-                      return authStateChanges.when(
-                          data: (user){
-                            return data(context,user);
-                          },
-                          loading: () => IntroPage(),
-                          error: (error, stackTrace){
-                            print(error.toString());
-                            print(stackTrace);
-                            return Container();
-                          });
-                    },
+                    paddingTop = MediaQuery.of(context).padding.top;
+                    paddingBottom = MediaQuery.of(context).padding.bottom;
+                    availableHeight =
+                        size.height - paddingTop - paddingBottom;
+                    sharedPreferencesServiceProvider.overrideWithValue(
+                        SharedPreferencesService(snapshot.data));
+                    return Consumer(
+                      builder: (context, watch, child) {
+                        final authStateChanges = watch(
+                            authStateChangesProvider);
+                        return authStateChanges.when(
+                            data: (user) {
+                              return data(context, user);
+                            },
+                            loading: () => IntroPage(),
+                            error: (error, stackTrace) {
+                              print(error.toString());
+                              print(stackTrace);
+                              return Container();
+                            });
+                      },
 
-                  );// 로그인 화면
-                 //애니메이션 화면
+                    ); // 로그인 화면
+                  }
 
-                });
-          }
-      ),
-    );
+                  return IntroPage();
+                }
+      )
+      );
   }
   Widget data(context, user){
     if(user != null)

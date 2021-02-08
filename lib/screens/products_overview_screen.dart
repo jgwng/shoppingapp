@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoppingapp/providers/orders.dart';
 import 'package:shoppingapp/providers/product_provider.dart';
 import 'package:shoppingapp/screens/cart_screen.dart';
 import 'package:shoppingapp/widgets/app_drawer.dart';
@@ -26,7 +27,7 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen>{
     // TODO: implement build
     final productsContainer = Provider.of<Products>(context,listen: false);
 
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         title: Text('MyShop'),
         actions: <Widget>[
@@ -39,7 +40,6 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen>{
                _showOnlyFavorites = false;
              }
            });
-
             },
             itemBuilder: (_) => [
             PopupMenuItem(child: Text('Only Favorites'), value: FilterOptions.Favorites,),
@@ -54,9 +54,6 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen>{
                 Navigator.of(context).pushNamed(CartScreen.routeName);
 
             },))
-
-
-
         ],),
       drawer: AppDrawer(),
       body: ProductsGrid(_showOnlyFavorites),

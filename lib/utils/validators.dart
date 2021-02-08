@@ -20,3 +20,11 @@ String validateSecondAddress(String value){
     return '주소를 입력해주세요';
   }
 }
+
+String validateTitle(String value){
+  if(value != ""){
+    return null;
+  }else{
+    return '제목을 입력해주세요';
+  }
+}

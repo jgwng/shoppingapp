@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/constants/size.dart';
+import 'package:shoppingapp/providers/cart.dart';
+import 'package:shoppingapp/providers/orders.dart';
+import 'package:shoppingapp/providers/product_provider.dart';
+import 'package:shoppingapp/screens/intro_page/IntroPage.dart';
+import 'package:shoppingapp/screens/one_on_one_question_page/ask_question.dart';
+import 'package:shoppingapp/screens/products_overview_screen.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
+import 'package:shoppingapp/widgets/custom_checkbox.dart';
 import 'package:shoppingapp/widgets/custom_radio.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 
@@ -19,21 +30,27 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController secondAddressController = TextEditingController();
+  TextEditingController adminVerifyNumberController = TextEditingController();
 
   FocusNode nameFocusNode = FocusNode();
   FocusNode phoneNumberFocusNode = FocusNode();
   FocusNode secondAddressFocusNode = FocusNode();
+  FocusNode adminVerifyNumberFocusNode = FocusNode();
 
   String postNumber = '우편번호';
   String firstAddress = '검색을 통해 주소를 입력하세요';
   bool gender = false;
   int genderValue = -1;
-  TextStyle textStyle = AppThemes.textTheme.headline1.copyWith(
-      fontSize: 15, color: Colors.black);
+  TextStyle textStyle =  GoogleFonts.notoSans(fontWeight: FontWeight.w500,fontSize: 15,
+      color: Color.fromRGBO(
+          42, 42, 42, 1.0));
+
   DateTime age;
   num birthYear;
   String birthMD;
   String birthday = "생년월일을 입력해주세요.";
+
+  bool verifyAdmin = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +61,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
           child: AppBar(
             automaticallyImplyLeading: false,
             titleSpacing: 0,
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             elevation: 0,
             centerTitle: true,
             title:  Text("회원가입",style: GoogleFonts.lato(fontWeight: FontWeight.w500,fontSize: 20,color: Colors.black)),
@@ -56,15 +73,16 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
          if(!currentFocus.hasPrimaryFocus){
            currentFocus.unfocus();
          }
-       },child:  SingleChildScrollView(
-       padding: EdgeInsets.symmetric(horizontal: 24),
-       child: Center(
-         child: Column(
-           crossAxisAlignment: CrossAxisAlignment.center,
-           mainAxisAlignment:MainAxisAlignment.center,
-           children: [
+       },child: SingleChildScrollView(
 
-             SizedBox(height: 20,),
+       padding: EdgeInsets.symmetric(horizontal: 24),
+        child: Center(
+
+         child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           mainAxisAlignment:MainAxisAlignment.start,
+           children: [
+             SizedBox(height: widgetHeight(20),),
              infoField(nameController,nameFocusNode,"이름을 입력해 주세요",validateName),
              SizedBox(height:10),
              _inputBirthDay(),
@@ -95,7 +113,6 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                              FocusScope.of(context).requestFocus(secondAddressFocusNode);
                            });
                          }
-
                        },
                        child: Text("주소 검색"),
                      )
@@ -116,6 +133,10 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
              ),
              SizedBox(height: 10),
              infoField(secondAddressController,secondAddressFocusNode,"나머지 주소를 입력해주세요",validatePhoneNumber),
+             SizedBox(height: 10),
+             Text("관리자 인증",style : textStyle,textAlign: TextAlign.start,),
+             SizedBox(height: 10),
+             infoField(adminVerifyNumberController,adminVerifyNumberFocusNode,"관리자 번호를 입력해주세요",validatePhoneNumber),
 
 
            ],
@@ -129,7 +150,22 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         padding: EdgeInsets.only(bottom: 30,left: 30,right: 30),
         child:RaisedButton(
           onPressed: (){
+            Navigator.push(context,MaterialPageRoute(builder:(c) => IntroPage()));
 
+
+
+            // Navigator.push(context,MaterialPageRoute(builder: (c) =>
+            //     MultiProvider(providers:[
+            //       ChangeNotifierProvider(
+            //         create: (ctx) => Products(),),
+            //       ChangeNotifierProvider(
+            //         create: (ctx) => Cart(),),
+            //       ChangeNotifierProvider(
+            //           create:(ctx) => Orders()),
+            //     ],child : ProductsOverViewScreen())
+            //
+            //
+            //     ));
           },
           child: Text("정보 입력"),
         ),
@@ -213,7 +249,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                   decoration: BoxDecoration(
                       border: Border(bottom: BorderSide(color: Color.fromRGBO(238, 238, 238, 1.0)))),
                   child: Text(birthday,textAlign: TextAlign.center,style: (birthday != "생년월일을 입력해주세요") ? textStyle.copyWith(color: Colors.black,fontSize: 14) :
-                  AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w400, color: Color.fromRGBO(112, 112, 112, 1.0))),
+                 textStyle),
                 ),
               )
           ),

@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shoppingapp/landing_page.dart';
 import 'package:shoppingapp/providers/cart.dart';
 import 'package:shoppingapp/providers/orders.dart';
 import 'package:shoppingapp/screens/cart_screen.dart';
@@ -16,7 +18,9 @@ void main() async{
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(MyApp());
+    runApp(ProviderScope(
+      child : MyApp()
+    ));
   });
 
 }
@@ -25,17 +29,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(
-          create: (ctx) => Products(),),
-      ChangeNotifierProvider(
-        create: (ctx) => Cart(),),
-      ChangeNotifierProvider(
-          create:(ctx) => Orders())
-
-
-    ],
-      child: MaterialApp(
+    return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.purple,
@@ -44,15 +38,13 @@ class MyApp extends StatelessWidget {
 
         ),
 
-        home: UserRegisterPage(),
-
+        home: LandingPage(),
         routes: {
           ProductDetailScreen.routeName: (ctx)=>ProductDetailScreen(),
           CartScreen.routeName : (ctx) => CartScreen(),
           OrdersScreen.routeName:(ctx)=> OrdersScreen(),
         },
-      ),
-    );
+      );
   }
 }
 
