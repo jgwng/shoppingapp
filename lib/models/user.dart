@@ -6,8 +6,9 @@ class User{
   String secondAddress;
   bool userState;
   bool isAdmin;
+  String userToken;
   User({this.userUID, this.name,this.phoneNumber,this.firstAddress,
-    this.secondAddress,this.userState : false,this.isAdmin :false});
+    this.secondAddress,this.userState : false,this.isAdmin :false,this.userToken});
 
 
 

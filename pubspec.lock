@@ -215,7 +215,7 @@ packages:
       name: flutter_riverpod
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.3+1"
+    version: "0.12.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -379,7 +379,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.2+3"
+    version: "4.3.3"
   qr:
     dependency: transitive
     description:
@@ -393,7 +393,7 @@ packages:
       name: qr_code_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.1"
+    version: "0.3.2"
   qr_flutter:
     dependency: "direct main"
     description:
@@ -414,7 +414,7 @@ packages:
       name: riverpod
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.3"
+    version: "0.12.4"
   service_worker:
     dependency: transitive
     description:

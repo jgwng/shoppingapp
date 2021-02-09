@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -5,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:shoppingapp/constants/size.dart';
+import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/screens/intro_page/IntroPage.dart';
 import 'package:shoppingapp/screens/send_marketing_push/send_custom_push.dart';
 import 'package:shoppingapp/utils/validators.dart';
@@ -42,7 +44,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   num birthYear;
   String birthMD;
   String birthday = "생년월일을 입력해주세요.";
-
+  User user = User();
   bool verifyAdmin = false;
 
   @override
@@ -142,7 +144,8 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         height: 80,
         padding: EdgeInsets.only(bottom: 30,left: 30,right: 30),
         child:RaisedButton(
-          onPressed: (){
+          onPressed: () async{
+            user.userToken = await FirebaseMessaging.instance.getToken();
             Navigator.push(context,MaterialPageRoute(builder:(c) => SendMarketingPush()));
 
 

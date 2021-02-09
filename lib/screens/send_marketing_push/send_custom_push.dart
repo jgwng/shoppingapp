@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/models/SelectAgeModel.dart';
+import 'package:shoppingapp/models/select_age_model.dart';
 import 'package:shoppingapp/widgets/custom_radio.dart';
 
 class SendMarketingPush extends StatefulWidget{
@@ -11,7 +11,7 @@ class SendMarketingPush extends StatefulWidget{
 }
 
 class _SendMarketingPushState extends State<SendMarketingPush>{
-  TextStyle textStyle =  GoogleFonts.notoSans(fontWeight: FontWeight.w500,fontSize: 15, color: Color.fromRGBO(42, 42, 42, 1.0));
+  TextStyle textStyle =  GoogleFonts.notoSans(fontWeight: FontWeight.w500,fontSize: 20, color: Color.fromRGBO(42, 42, 42, 1.0));
   bool gender = false;
   int genderValue = -1;
   List<int> ageList = [10,20,30,40,50,60];
@@ -32,11 +32,38 @@ class _SendMarketingPushState extends State<SendMarketingPush>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            titleSpacing: 0,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            centerTitle: true,
+            title:  Text("푸시메세지 설정",style: GoogleFonts.lato(fontWeight: FontWeight.w500,fontSize: 20,color: Colors.black)),
+        ),
+      ),
       body:SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 60),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 60,
+                  height: 60,
+                  child:Image.asset("assets/images/set_fcm_page/advertising.png",fit: BoxFit.cover,),),
+                SizedBox(width: 40,),
+                Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text("매력적인 메세지로\n고객들을 유도해봐요!",style: TextStyle(fontFamily: "SpoqaHanSansNeo",fontWeight: FontWeight.w500,color: Colors.black,fontSize: 20),),
+                )
+
+              ],
+            ),
+            SizedBox(height: 30,),
             _selectGender(),
+            SizedBox(height: 20,),
             Row(
               children: [
                 SizedBox(width: 24,),
@@ -47,15 +74,16 @@ class _SendMarketingPushState extends State<SendMarketingPush>{
                     overScroll.disallowGlow();
                     return;
                   },child:  Container(
-                    height:100,
+                    height: 110,
                     width: 300,
-                  child: GridView.count(
+                    child: GridView.count(
                     padding: EdgeInsets.only(left: 24,right: 24,top: 10),
                     crossAxisCount: 3,
                     shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     crossAxisSpacing: 15.0,
                     mainAxisSpacing: 10.0,
-                    childAspectRatio: 20/10,
+                    childAspectRatio: 20/12,
                     children: List.generate(ageList.length,(index){
                       return ageSelectButton(standardAge[index],index);
                     }
@@ -64,20 +92,42 @@ class _SendMarketingPushState extends State<SendMarketingPush>{
                 ),)
               ],
             ),
-            Container(
-              width : 200,
-              height: 200,
-              child:  CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.time,
-                initialDateTime: DateTime(1969, 1, 1,10, 0),
-                onDateTimeChanged: (DateTime newDateTime) {
-                  print(newDateTime);
-                },
-                use24hFormat: false,
-                minuteInterval: 60,
+            SizedBox(height: 20,),
+            Row(
+              children: [
+                SizedBox(width: 24,),
+                Expanded(
+                    child:  Text("시간대",style: textStyle,)),
+                Container(
+                  width : 274,
+                  height: 150,
+                  child:  CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    initialDateTime: DateTime(1969, 1, 1,10, 0),
+                    onDateTimeChanged: (DateTime newDateTime) {
+                      print(newDateTime);
+                    },
+                    use24hFormat: false,
+                    minuteInterval: 60,
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: 30,),
+        Container(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            width: double.infinity,
+            height: 50,
+            child: RaisedButton(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6.0),
               ),
-            )
-
+              onPressed: (){
+              
+              },
+              child : Text("내용 설정하기!",style:  GoogleFonts.lato(fontWeight: FontWeight.w500,fontSize: 20,color: Colors.black)),)
+        ),
           ],
         ),
       )
@@ -91,7 +141,7 @@ class _SendMarketingPushState extends State<SendMarketingPush>{
         Expanded(
             child:  Text("성별",style: textStyle,)),
         SizedBox(
-          width: 300,
+          width: 276,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -149,7 +199,7 @@ class _SendMarketingPushState extends State<SendMarketingPush>{
         SizedBox(width: 9),
         Text(
           genderText,
-          style:TextStyle( color: Color.fromRGBO(42, 42, 42, 1.0)
+          style:TextStyle( color: Color.fromRGBO(42, 42, 42, 1.0),fontSize: 16
           ),
         )
       ],
