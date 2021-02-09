@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 
 class RegisterInfoField extends StatefulWidget{
@@ -11,18 +12,12 @@ class RegisterInfoField extends StatefulWidget{
   RegisterInfoField({Key key,this.textEditingController,this.focusNode,this.iconName,this.function,this.hintText}) : super(key:key);
 
 
-
-
   @override
   _RegisterInfoFieldState createState() => _RegisterInfoFieldState();
 }
 
 class _RegisterInfoFieldState extends State<RegisterInfoField>{
-  TextStyle textStyle = AppThemes.textTheme.headline1.copyWith(
-      fontSize: 15, color: Colors.black);
-
-
-
+  TextStyle textStyle = GoogleFonts.notoSans(fontSize: 15, color: Colors.black,fontWeight: FontWeight.w500);
 
 
   @override

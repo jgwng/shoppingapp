@@ -3,19 +3,12 @@ import 'package:flutter/widgets.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
-import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
-import 'package:shoppingapp/providers/cart.dart';
-import 'package:shoppingapp/providers/orders.dart';
-import 'package:shoppingapp/providers/product_provider.dart';
 import 'package:shoppingapp/screens/intro_page/IntroPage.dart';
-import 'package:shoppingapp/screens/one_on_one_question_page/ask_question.dart';
-import 'package:shoppingapp/screens/products_overview_screen.dart';
+import 'package:shoppingapp/screens/send_marketing_push/send_custom_push.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
-import 'package:shoppingapp/widgets/custom_checkbox.dart';
 import 'package:shoppingapp/widgets/custom_radio.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 
@@ -150,7 +143,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         padding: EdgeInsets.only(bottom: 30,left: 30,right: 30),
         child:RaisedButton(
           onPressed: (){
-            Navigator.push(context,MaterialPageRoute(builder:(c) => IntroPage()));
+            Navigator.push(context,MaterialPageRoute(builder:(c) => SendMarketingPush()));
 
 
 

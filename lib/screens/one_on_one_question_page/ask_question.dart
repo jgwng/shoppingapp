@@ -1,14 +1,10 @@
 import 'dart:io';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/constants/size.dart';
-import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/models/question.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:shoppingapp/widgets/custom_checkbox.dart';
-import 'package:shoppingapp/models/user.dart';
-import 'package:shoppingapp/providers/user_state_provider.dart';
-import 'package:flutter_riverpod/all.dart';
 
 class OneOnOneQuestion extends StatefulWidget {
   @override

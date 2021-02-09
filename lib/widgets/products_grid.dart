@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:shoppingapp/providers/product_provider.dart';
 import 'package:shoppingapp/widgets/product_item.dart';
 import 'package:provider/provider.dart';
-import 'package:shoppingapp/models/product.dart';
 
 class ProductsGrid extends StatelessWidget{
 final bool showFavs;
