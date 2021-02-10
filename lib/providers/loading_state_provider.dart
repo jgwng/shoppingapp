@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 final loadingStateProvider = Provider<LoadingState>((ref) {
   final LoadingState loadingState = ref.watch(nowLoadingStateProvider.state);
   return loadingState;

@@ -3,7 +3,7 @@ import 'package:shoppingapp/constants/firestore_path.dart';
 import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/providers/firebase_auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //Firebase CloudStore CRUD 하는 곳
 class FirestoreRepository {

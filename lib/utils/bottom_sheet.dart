@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:shoppingapp/widgets/modal_bottom_sheet/birthday_choice_bottom_sheet.dart';
-import 'dart:io';
 
 
 Future<DateTime> onBirthdayPickerBottomSheet(BuildContext context)async {

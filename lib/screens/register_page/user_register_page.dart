@@ -7,12 +7,13 @@ import 'package:intl/intl.dart';
 
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/user.dart';
-import 'package:shoppingapp/screens/intro_page/IntroPage.dart';
-import 'package:shoppingapp/screens/send_marketing_push/send_custom_push.dart';
+import 'package:shoppingapp/screens/grade_page/grade_page.dart';
+import 'package:shoppingapp/screens/send_marketing_push/custom_push_list.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
 import 'package:shoppingapp/widgets/custom_radio.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
+import 'package:shoppingapp/widgets/text_title_appbar.dart';
 
 
 class UserRegisterPage extends StatefulWidget{
@@ -49,19 +50,8 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
 
   @override
   Widget build(BuildContext context) {
-    bool focus = false;
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            titleSpacing: 0,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            centerTitle: true,
-            title:  Text("회원가입",style: GoogleFonts.lato(fontWeight: FontWeight.w500,fontSize: 20,color: Colors.black)),
-          ),
-        ),
+        appBar: TextTitleAppBar(title:"회원 가입"),
      body: GestureDetector(
        onTap: (){
          FocusScopeNode currentFocus = FocusScope.of(context);
@@ -104,7 +94,6 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                            setState(() {
                              postNumber = model.zonecode;
                              firstAddress = model.address;
-                             focus = true;
                              FocusScope.of(context).requestFocus(secondAddressFocusNode);
                            });
                          }
@@ -146,7 +135,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         child:RaisedButton(
           onPressed: () async{
             user.userToken = await FirebaseMessaging.instance.getToken();
-            Navigator.push(context,MaterialPageRoute(builder:(c) => SendMarketingPush()));
+            Navigator.push(context,MaterialPageRoute(builder:(c) => GradeDetail()));
 
 
 

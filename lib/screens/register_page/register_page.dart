@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/providers/register_state_provider.dart';
 import 'package:shoppingapp/screens/register_page/user_register_page.dart';
 
