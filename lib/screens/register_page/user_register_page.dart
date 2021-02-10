@@ -134,7 +134,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         padding: EdgeInsets.only(bottom: 30,left: 30,right: 30),
         child:RaisedButton(
           onPressed: () async{
-            user.userToken = await FirebaseMessaging.instance.getToken();
+            // user.userToken = await FirebaseMessaging.instance.getToken();
             Navigator.push(context,MaterialPageRoute(builder:(c) => GradeDetail()));
 
 
