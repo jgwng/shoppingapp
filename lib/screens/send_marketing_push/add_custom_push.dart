@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/models/select_age_model.dart';
 import 'package:shoppingapp/widgets/custom_radio.dart';
-import 'package:shoppingapp/widgets/text_title_appbar.dart';
+import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 
 class AddMarketingPush extends StatefulWidget{
   @override

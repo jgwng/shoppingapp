@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/screens/send_marketing_push/local_widget/add_new_fcm_button.dart';
 import 'package:shoppingapp/screens/send_marketing_push/local_widget/fcm_list_item.dart';
-import 'package:shoppingapp/widgets/text_title_appbar.dart';
+import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 
 class CustomPushList extends StatefulWidget{
   @override

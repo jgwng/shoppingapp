@@ -7,13 +7,12 @@ import 'package:intl/intl.dart';
 
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/user.dart';
-import 'package:shoppingapp/screens/grade_page/grade_page.dart';
-import 'package:shoppingapp/screens/send_marketing_push/custom_push_list.dart';
+import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
+import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_radio.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
-import 'package:shoppingapp/widgets/text_title_appbar.dart';
 
 
 class UserRegisterPage extends StatefulWidget{
@@ -135,7 +134,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         child:RaisedButton(
           onPressed: () async{
             // user.userToken = await FirebaseMessaging.instance.getToken();
-            Navigator.push(context,MaterialPageRoute(builder:(c) => GradeDetail()));
+            Navigator.push(context,MaterialPageRoute(builder:(c) => SettingPage()));
 
 
 

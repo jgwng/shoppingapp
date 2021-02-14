@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/models/question.dart';
 import 'package:shoppingapp/utils/validators.dart';
+import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_checkbox.dart';
 
 class OneOnOneQuestion extends StatefulWidget {
@@ -75,6 +77,9 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: TextTitleAppBar(
+        title: "1:1 문의하기"
+        ),
         body: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overScroll){
             overScroll.disallowGlow();
@@ -85,12 +90,11 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
             onTap: () => unFocus(),
             child: SingleChildScrollView(
               child: Container(
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.symmetric(horizontal:24.0),
                 child: Form(
                   key: _infoFormKey,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: widgetHeight(8.12),),
                       questionNTitleField("제목", questionTitleController, questionFocusNode, "제목을 입력해주세요.", validateTitle),
                       //Text "제목" & 일대일 질문 제목
                       SizedBox(height: widgetHeight(22.5),),
@@ -100,7 +104,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
                       SizedBox(height: widgetHeight(24.36),),
                       //개인정보 수집 및 이용동의 체크 부분
                       checkPrivacyNNotice(),
-                      SizedBox(height: widgetHeight(20),),
+                      SizedBox(height: widgetHeight(30),),
                       SizedBox(
                         width: 160,
                         height: 40,
@@ -112,7 +116,6 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
                                 question.replyState = 0;
 
                                 // question.uid = user.uid/ question.replytoken = user.token
-
 
                                 //FCM전송 & FirebaseDB 업데이트
                           },
@@ -206,7 +209,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
                 borderColor: Colors.black,
                 value: question.privacyCheck,
                 checkColor: Colors.white,
-                activeColor: Colors.black,
+                activeColor: AppThemes.mainColor,
                 onChanged: (value) => checkBoxTap(value), //체크시 개인정보 수집 및 이용 동의
               ),
             ),
@@ -221,7 +224,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
           ],
         ),
         SizedBox(
-          height: widgetHeight(73.08),
+          height: widgetHeight(120),
         ),
         Container(
           width: size.width,
