@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/user.dart';
+import 'package:shoppingapp/screens/main_page.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
@@ -134,7 +135,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         child:RaisedButton(
           onPressed: () async{
             // user.userToken = await FirebaseMessaging.instance.getToken();
-            Navigator.push(context,MaterialPageRoute(builder:(c) => SettingPage()));
+            Navigator.push(context,MaterialPageRoute(builder:(c) => MainPage()));
 
 
 

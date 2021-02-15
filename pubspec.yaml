@@ -82,6 +82,7 @@ flutter:
     - assets/images/grade_page/grade_3.png
     - assets/images/grade_page/grade_4.png
     - assets/images/grade_page/grade_5.png
+    - assets/images/coupon_list_page/checkmark.png
     - assets/logo/grocery-cart.png
   # To add assets to your application, add an assets section, like this:
   # assets:

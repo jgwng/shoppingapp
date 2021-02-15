@@ -43,7 +43,7 @@ class _TermsOfUseState extends State<TermsOfUse> with SingleTickerProviderStateM
                 Container(constraints: BoxConstraints.expand(height: 60),
                   child: TabBar(
                       controller: tabController,
-                      indicatorColor: AppThemes.pointColor,
+                      indicatorColor: AppThemes.mainColor,
                       indicatorWeight: 3,
                       labelPadding: EdgeInsets.symmetric(vertical: 10.0),// 2번째 Tab Text길이 조정을 위해 적용
                       tabs:[

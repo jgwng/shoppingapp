@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/screens/setting_page/ask_question.dart';
+import 'package:shoppingapp/screens/setting_page/announcement_list_page.dart';
+import 'package:shoppingapp/screens/setting_page/ask_question_page.dart';
+import 'package:shoppingapp/screens/setting_page/coupon_list_page.dart';
+import 'package:shoppingapp/screens/setting_page/faq.dart';
 import 'package:shoppingapp/screens/setting_page/grade_page.dart';
 import 'package:shoppingapp/screens/setting_page/term_of_use.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
@@ -12,7 +15,9 @@ class SettingPage extends StatefulWidget{
 }
 
 class _SettingPageState extends State<SettingPage>{
-  List<String> itemTitle = ["등급 관련 안내","1:1문의하기","쿠폰 관리","자주 묻는 질문","이용 약관"];
+
+
+  List<String> itemTitle = ["쿠폰 관리","공지사항","1:1문의하기","등급 관련 안내","자주 묻는 질문","이용 약관"];
 
 
   @override
@@ -24,7 +29,7 @@ class _SettingPageState extends State<SettingPage>{
        padding: EdgeInsets.symmetric(horizontal: 30),
        child: Column(
          children: [
-            SizedBox(height: 20,),
+
             Card(
                 shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -61,29 +66,48 @@ class _SettingPageState extends State<SettingPage>{
                      )
                  )
              ),
-           Container(
-             height: 500,
+
+           NotificationListener<OverscrollIndicatorNotification>(
+             onNotification: (OverscrollIndicatorNotification overScroll){
+               overScroll.disallowGlow();
+               return;
+             },child: Container(
+             height: 440,
              child: ListView.separated(
                separatorBuilder:(ctx,i) => Divider(height: 2,color: AppThemes.mainColor,thickness:1,),
                itemCount: itemTitle.length,
+               physics: NeverScrollableScrollPhysics(),
                shrinkWrap: true,
                itemBuilder: (ctx,i) => listItem(i),),
-           )
+           ),),
+           SizedBox(height: 20,),
+           Text("CopyRight to Gunny in Daejeon, All Rights Reserved",style: AppThemes.textTheme.bodyText2.copyWith(
+             color: AppThemes.inActiveColor
+           ),)
+
             ]
            )),
+
        );
   }
   Widget listItem(int index){
     return  GestureDetector(
       onTap: () => onTap(index),
       child: Container(
-        height: 80,
+        height: 75,
         width: double.infinity,
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(itemTitle[index],textAlign: TextAlign.center,style: AppThemes.textTheme.bodyText1,),
+            Row(
+              children: [
+                listItemIcon(index),
+                SizedBox(width: 20,),
+                Text(itemTitle[index],textAlign: TextAlign.center,style: AppThemes.textTheme.bodyText1,),
+              ],
+            ),
+
             Icon(Icons.arrow_right_rounded,size: 30,)
           ],
         ),
@@ -91,26 +115,54 @@ class _SettingPageState extends State<SettingPage>{
     );
   }
 
+  Widget listItemIcon(int index){
+    switch(index){
+      case 0:
+        return Icon(Icons.style_outlined);
+        break;
+      case 1:
+        return Icon(Icons.announcement_outlined);
+        break;
+      case 2:
+        return Icon(Icons.support_agent_outlined);
+        break;
+      case 3:
+        return Icon(Icons.grade_outlined);
+        break;
+      case 4:
+        return Icon(Icons.question_answer_outlined);
+        break;
+      case 5:
+        return Icon(Icons.info_outline);
+        break;
+    }
+    return Container();
+  }
+
   void onTap(int index){
     switch(index){
-      //등급 관련 안내
+      //쿠폰 관리
       case 0:
-        Navigator.push(context,MaterialPageRoute(builder:(c) => GradeDetail()));
+        Navigator.push(context,MaterialPageRoute(builder:(c) => CouponListPage()));
         break;
-      //1:1 문의하기
-        case 1:
+      //공지사항
+      case 1:
+        Navigator.push(context,MaterialPageRoute(builder:(c) => AnnouncementListPage()));
+        break;
+      //1:1문의하기
+      case 2:
         Navigator.push(context,MaterialPageRoute(builder:(c) => OneOnOneQuestion()));
         break;
-      //쿠폰 관리
-      case 2:
-        Navigator.push(context,MaterialPageRoute(builder:(c) => SettingPage()));
+      //등급 관련 안내
+      case 3:
+        Navigator.push(context,MaterialPageRoute(builder:(c) => GradeDetail()));
         break;
       //자주 묻는 질문
-        case 3:
-        Navigator.push(context,MaterialPageRoute(builder:(c) => SettingPage()));
+      case 4:
+        Navigator.push(context,MaterialPageRoute(builder:(c) => FAQ()));
         break;
       // 이용 약관
-      case 4:
+      case 5:
         Navigator.push(context,MaterialPageRoute(builder:(c) => TermsOfUse()));
         break;
     }

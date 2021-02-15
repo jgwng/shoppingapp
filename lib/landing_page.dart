@@ -7,7 +7,7 @@ import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/providers/firebase_auth_provider.dart';
 import 'package:shoppingapp/providers/shared_preferences_provider.dart';
 import 'package:shoppingapp/screens/register_page/register_page.dart';
-import 'package:shoppingapp/screens/intro_page/IntroPage.dart';
+import 'package:shoppingapp/screens/intro_page/Intro_page.dart';
 class LandingPage extends StatefulWidget{
   @override
   _LandingPageState createState() => _LandingPageState();
