@@ -53,7 +53,7 @@ class _LandingPageState extends State<LandingPage> {
                             authStateChangesProvider);
                         return authStateChanges.when(
                             data: (user) {
-                              return data(context, user);
+                              return  data(context, user);
                             },
                             loading: () => IntroPage(),
                             error: (error, stackTrace) {

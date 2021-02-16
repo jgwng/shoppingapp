@@ -34,7 +34,7 @@ List<FAQListItem> faqList(BuildContext context){
         TextSpan(text: "에서 물음표 모양의 아이콘을 탭하시면 보실 수 있습니다.",style : answerStyle,),
       ]),
     )),
-    FAQListItem("고객문의","앱을 사용하다가 이상한 오류가 났어요",RichText(
+    FAQListItem("고객문의","앱을 사용하다가 오류를 발견하였어요",RichText(
       text: TextSpan(text: '',style : answerStyle,
           children:[
             TextSpan(text: '하단 탭 - 설정(톱니바퀴 모양) - 1:1문의하기',style : linkStyle,

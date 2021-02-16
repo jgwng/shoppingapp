@@ -4,10 +4,16 @@ import 'package:flutter/widgets.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/user.dart';
+import 'package:shoppingapp/providers/cart.dart';
+import 'package:shoppingapp/providers/orders.dart';
+import 'package:shoppingapp/providers/product_provider.dart';
 import 'package:shoppingapp/screens/main_page.dart';
+import 'package:shoppingapp/screens/order_check_page/order_check.dart';
+import 'package:shoppingapp/screens/products_overview_screen.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
@@ -135,10 +141,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         child:RaisedButton(
           onPressed: () async{
             // user.userToken = await FirebaseMessaging.instance.getToken();
-            Navigator.push(context,MaterialPageRoute(builder:(c) => MainPage()));
-
-
-
+            Navigator.push(context,MaterialPageRoute(builder:(c) => OrderCheck()));
             // Navigator.push(context,MaterialPageRoute(builder: (c) =>
             //     MultiProvider(providers:[
             //       ChangeNotifierProvider(
@@ -147,10 +150,13 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
             //         create: (ctx) => Cart(),),
             //       ChangeNotifierProvider(
             //           create:(ctx) => Orders()),
-            //     ],child : ProductsOverViewScreen())
+            //     ],child : MainPage())
             //
             //
             //     ));
+
+
+
           },
           child: Text("정보 입력"),
         ),

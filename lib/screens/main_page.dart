@@ -1,6 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoppingapp/providers/cart.dart';
+import 'package:shoppingapp/providers/orders.dart';
+import 'package:shoppingapp/providers/product_provider.dart';
+import 'package:shoppingapp/screens/cart_screen.dart';
+import 'package:shoppingapp/screens/products_overview_screen.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
+import 'package:shoppingapp/widgets/badge.dart';
 
 class MainPage extends StatefulWidget{
   @override
@@ -34,7 +41,7 @@ class _MainPageState extends State<MainPage>{
       activeIcon: Icon(Icons.settings_outlined),)
   ];
   final List<Widget> _pageList = [
-    Container(),
+    ProductsOverViewScreen(),
     Container(),
     Container(),
     SettingPage(),
@@ -66,6 +73,7 @@ class _MainPageState extends State<MainPage>{
          currentIndex: _currentIndex,
          items: _bNBItems
      ),
+
    );
   }
 
