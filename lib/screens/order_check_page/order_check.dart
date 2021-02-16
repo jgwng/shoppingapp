@@ -37,7 +37,7 @@ class _OrderCheckState extends State<OrderCheck>{
 
                           ],
                         ),
-                      ],
+                      ], 
                     ),
                     SizedBox(height: 8,),
                     Divider(color: AppThemes.mainColor,),
