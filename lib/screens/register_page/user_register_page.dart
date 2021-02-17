@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shoppingapp/constants/app_themes.dart';
 
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/user.dart';
@@ -74,14 +75,14 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
            mainAxisAlignment:MainAxisAlignment.start,
            children: [
              SizedBox(height: widgetHeight(20),),
-             infoField(nameController,nameFocusNode,"이름을 입력해 주세요",validateName),
-             SizedBox(height:10),
+             infoField(nameController,nameFocusNode,"이름을 입력해 주세요",validateName,0),
+             SizedBox(height:20),
              _inputBirthDay(),
-             SizedBox(height:10),
-             infoField(phoneNumberController,phoneNumberFocusNode,"(-) 없이 입력해주세요",validatePhoneNumber),
-             SizedBox(height:10),
+             SizedBox(height:20),
+             infoField(phoneNumberController,phoneNumberFocusNode,"(-) 없이 입력해주세요",validatePhoneNumber,1),
+             SizedBox(height:20),
              _selectGender(),
-             SizedBox(height:10),
+             SizedBox(height:20),
              Container(
                  child: Row(
                    children: [
@@ -122,11 +123,27 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                child: Text(firstAddress,style: textStyle,textAlign: TextAlign.left,),
              ),
              SizedBox(height: 10),
-             infoField(secondAddressController,secondAddressFocusNode,"나머지 주소를 입력해주세요",validatePhoneNumber),
+             infoField(secondAddressController,secondAddressFocusNode,"나머지 주소를 입력해주세요",validatePhoneNumber,2),
+             SizedBox(height: 15),
+             GestureDetector(
+               onTap: () {
+                 //관리자 코드 입력 주의에 대한 다이얼로그 띄우고 확인 버튼 누르면 밑에 보이기
+                 setState(() {
+                   verifyAdmin = !verifyAdmin;
+
+                 });
+               },
+               child:  Row(
+                 children: [
+                   Text("관리자 인증",style : textStyle,textAlign: TextAlign.start,),
+                   SizedBox(width: 5,),
+                   Icon(verifyAdmin ? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined,size: 20,color: AppThemes.mainColor,)
+                 ],
+               ),
+             ),
              SizedBox(height: 10),
-             Text("관리자 인증",style : textStyle,textAlign: TextAlign.start,),
-             SizedBox(height: 10),
-             infoField(adminVerifyNumberController,adminVerifyNumberFocusNode,"관리자 번호를 입력해주세요",validatePhoneNumber),
+             if(verifyAdmin)
+             infoField(adminVerifyNumberController,adminVerifyNumberFocusNode,"관리자 번호를 입력해주세요",validatePhoneNumber,3),
 
 
            ],
@@ -141,7 +158,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         child:RaisedButton(
           onPressed: () async{
             // user.userToken = await FirebaseMessaging.instance.getToken();
-            Navigator.push(context,MaterialPageRoute(builder:(c) => OrderCheck()));
+            Navigator.push(context,MaterialPageRoute(builder:(c) => MainPage()));
             // Navigator.push(context,MaterialPageRoute(builder: (c) =>
             //     MultiProvider(providers:[
             //       ChangeNotifierProvider(
@@ -164,15 +181,12 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
    );
   }
   Widget infoField(TextEditingController textEditingController,
-      FocusNode focusNode,String hintText,Function(String number) function){
+      FocusNode focusNode,String hintText,Function(String number) function,int index){
     return Column(
       children: [
         Container(
             height: 50,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.grey[700],width: 1)
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 5),
 
             //이름
             child: TextFormField(
@@ -180,10 +194,11 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                 focusNode: focusNode,
                 validator: function,
                 style:TextStyle(color: Colors.black),
-                keyboardType: (hintText == "핸드폰 번호((-) 없이)") ? TextInputType.number : TextInputType.text,
+                keyboardType: (index == 1) ? TextInputType.number : TextInputType.text,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.account_circle_rounded),
-                  suffixIcon: GestureDetector(
+
+                  prefixIcon: selectIcon(index),
+                  suffixIcon: ((index == 1) | (index == 3)) ? GestureDetector(
                     onTap :(){
                       print("aaa");
                     },
@@ -191,20 +206,20 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                       width: 100,
                       alignment: Alignment.centerRight,
                       padding: EdgeInsets.only(right:10),
-                      child: Text("인증번호 전송",style: textStyle,),
+                      child: Text(index == 1 ? "인증번호 전송" : "번호 인증",style: textStyle,),
                     ),
-                  ),
+                  ) : null,
                   hintText: hintText,
                   hintStyle: TextStyle(color: Colors.black45),
                   border: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: Colors.transparent)),
+                          color: AppThemes.mainColor)),
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: Colors.transparent)),
+                          color: AppThemes.mainColor)),
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: Colors.transparent)),
+                          color: AppThemes.mainColor)),
                 )
             )
         ),
@@ -238,7 +253,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                   height: 50,
                   alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Color.fromRGBO(238, 238, 238, 1.0)))),
+                      border: Border(bottom: BorderSide(color: AppThemes.mainColor))),
                   child: Text(birthday,textAlign: TextAlign.center,style: (birthday != "생년월일을 입력해주세요") ? textStyle.copyWith(color: Colors.black,fontSize: 14) :
                  textStyle),
                 ),
@@ -303,7 +318,24 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   }
 
 
+  Widget selectIcon(int index){
+    switch(index){
+      case 0:
+        return Icon(Icons.account_circle_rounded);
+        break;
+      case 1:
+        return Icon(Icons.call);
+        break;
+      case 2:
+        return Icon(Icons.room_rounded);
+        break;
+      case 3:
+        return Icon(Icons.supervisor_account);
+        break;
 
+    }
+    return Container();
+  }
 
 
 

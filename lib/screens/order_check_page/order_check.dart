@@ -12,75 +12,89 @@ class _OrderCheckState extends State<OrderCheck>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.only(left: 40,top: 80),
-        child: Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: BorderSide(width: 2, color: AppThemes.mainColor)),
-            child: Container(
-                width: 320,
-                height: 160,
-                padding: EdgeInsets.only(left: 20,right: 20,top: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 4,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("주문을 한 날짜입니다.",style: AppThemes.textTheme.bodyText1,),
-                        Row(
-                          children: [
-                            Text("상세보기",style: AppThemes.textTheme.bodyText2.copyWith(color: AppThemes.inActiveColor),),
-                            Icon(Icons.arrow_forward_ios,color: AppThemes.inActiveColor,)
+      body:  orderCard(),
+    );
+  }
 
-                          ],
-                        ),
-                      ], 
-                    ),
-                    SizedBox(height: 8,),
-                    Divider(color: AppThemes.mainColor,),
-                    SizedBox(height: 2,),
-                    Text("현재 배송 상태를 표시"),
-                    SizedBox(height: 6,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 60,height: 60,child: Image.asset('assets/logo/grocery-cart.png',fit: BoxFit.fill,alignment: Alignment.center,)),
-                        SizedBox(width: 20,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 25,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text("주문 금액 : ",style: AppThemes.textTheme.headline1),
-                                Text("15000원",style: AppThemes.textTheme.bodyText1),
-                              ],
+
+
+
+  //주문 정보 알려주는 카드 아이템 하나
+  Widget orderCard(){
+    return Container(
+      padding: EdgeInsets.only(left: 40,top: 80),
+      child: Card(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(width: 2, color: AppThemes.mainColor)),
+          child: Container(
+              width: 320,
+              height: 160,
+              padding: EdgeInsets.only(left: 20,right: 20,top: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 4,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("주문 번호 입니다.",style: AppThemes.textTheme.bodyText1,),
+                      Row(
+                        children: [
+                          Text("상세보기",style: AppThemes.textTheme.bodyText2.copyWith(color: AppThemes.inActiveColor),),
+                          Icon(Icons.arrow_forward_ios,color: AppThemes.inActiveColor,)
+
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8,),
+                  Divider(color: AppThemes.mainColor,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 5,),
+                          cardItem("주문일시","2021/02/17 10:12"),
+                          SizedBox(height: 5,),
+                          cardItem("수량","3"),
+                          SizedBox(height: 5,),
+                          cardItem("결제가격","35,820"),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(height:40),
+                          Container(
+                            width: 65,
+                            height: 25,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color : AppThemes.mainColor,
+                                borderRadius: BorderRadius.circular(6.0)
                             ),
-
-                          ],
-                        )
-
-                      ],
-                    ),
-                    SizedBox(height: 5,),
-
-                  ],
-                )
-            )
-        ),
+                            child: Text("배송 완료",style: TextStyle(color: Colors.white),),
+                          )
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              )
+          )
       ),
     );
   }
-  _launchURL() async {
-    const url = 'https://www.doortodoor.co.kr/parcel/pa_004.jsp';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+
+  Widget cardItem(String title, String content){
+    return Row(
+      children: [
+        SizedBox(width: 70,
+          child: Text(title,style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 14),),),
+        Text(content,style: AppThemes.textTheme.bodyText2,)
+      ],
+    );
   }
 }

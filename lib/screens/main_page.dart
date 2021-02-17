@@ -5,8 +5,12 @@ import 'package:shoppingapp/providers/cart.dart';
 import 'package:shoppingapp/providers/orders.dart';
 import 'package:shoppingapp/providers/product_provider.dart';
 import 'package:shoppingapp/screens/cart_screen.dart';
+import 'package:shoppingapp/screens/home_page/home_page.dart';
+import 'package:shoppingapp/screens/order_check_page/order_check.dart';
 import 'package:shoppingapp/screens/products_overview_screen.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
+import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
+import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/badge.dart';
 
 class MainPage extends StatefulWidget{
@@ -41,15 +45,22 @@ class _MainPageState extends State<MainPage>{
       activeIcon: Icon(Icons.settings_outlined),)
   ];
   final List<Widget> _pageList = [
+    HomePage(),
     ProductsOverViewScreen(),
-    Container(),
-    Container(),
+    OrderCheck(),
     SettingPage(),
   ];
+
+
+  final List<String> _titleList = ["Gunny","전체 보기","배송 관리","앱 설정"];
+
+
+
 
   @override
   Widget build(BuildContext context) {
    return Scaffold(
+     appBar: MainAppBar(title: _titleList[_currentIndex],),
      body: PageView(
        children: _pageList,
        controller: _pageController,

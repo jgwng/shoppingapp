@@ -24,7 +24,6 @@ class _SettingPageState extends State<SettingPage>{
   Widget build(BuildContext context) {
     // TODO: implement build
    return Scaffold(
-     appBar: TextTitleAppBar(title: "개인정보 설정"),
      body: SingleChildScrollView(
        padding: EdgeInsets.symmetric(horizontal: 30),
        child: Column(
