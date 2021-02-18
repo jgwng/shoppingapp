@@ -75,7 +75,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
            mainAxisAlignment:MainAxisAlignment.start,
            children: [
              SizedBox(height: widgetHeight(20),),
-             infoField(nameController,nameFocusNode,"이름을 입력해 주세요",validateName,0),
+             infoField(nameController,nameFocusNode,"닉네임을 입력해 주세요",validateName,0),
              SizedBox(height:20),
              _inputBirthDay(),
              SizedBox(height:20),
@@ -303,7 +303,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
 
               });
             },
-            activeColor: Colors.black,
+            activeColor: AppThemes.mainColor,
             backgroundColor: Colors.white,
             inactiveColor:Colors.grey
         ),

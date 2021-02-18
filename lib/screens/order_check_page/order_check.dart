@@ -12,7 +12,13 @@ class _OrderCheckState extends State<OrderCheck>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  orderCard(),
+      body:  Column(
+        children: [
+          SizedBox(height: 10,child: Container(color: Colors.grey[200],),),
+          orderCard(),
+          SizedBox(height: 10,child: Container(color: Colors.grey[200],),)
+        ],
+      )
     );
   }
 
@@ -22,15 +28,15 @@ class _OrderCheckState extends State<OrderCheck>{
   //주문 정보 알려주는 카드 아이템 하나
   Widget orderCard(){
     return Container(
-      padding: EdgeInsets.only(left: 40,top: 80),
-      child: Card(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(width: 2, color: AppThemes.mainColor)),
-          child: Container(
-              width: 320,
+               width: double.infinity,
               height: 160,
               padding: EdgeInsets.only(left: 20,right: 20,top: 15),
+              decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: AppThemes.inActiveColor,width:1),
+                    bottom: BorderSide(color: AppThemes.inActiveColor,width:1),
+                  )
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -80,12 +86,10 @@ class _OrderCheckState extends State<OrderCheck>{
                         ],
                       )
                     ],
-                  )
+                  ),
                 ],
               )
-          )
-      ),
-    );
+          );
   }
 
   Widget cardItem(String title, String content){

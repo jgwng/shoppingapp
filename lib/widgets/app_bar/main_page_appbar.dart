@@ -22,7 +22,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
             MaterialPageRoute(builder: (context) => NoticeListPage()),
           ),
           child: Container(
-            padding: EdgeInsets.only(right: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.notifications_outlined,color: Colors.black,),
           )
           //알림 없을때는 - Icons.notification_none_outlined 있을때는 Icons.Notification_on_outlined
@@ -38,7 +38,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(70.0);
+  Size get preferredSize => Size.fromHeight(60.0);
 
 
 

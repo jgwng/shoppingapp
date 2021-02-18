@@ -4,7 +4,7 @@ class Coupon{
   num minOrderAmount;
   DateTime expiredDate;
   String couponCode;
-
-  Coupon({this.couponTitle, this.discountAmount, this.minOrderAmount, this.expiredDate,this.couponCode});
+  List<String> couponNoticeList;
+  Coupon({this.couponTitle, this.discountAmount, this.minOrderAmount, this.expiredDate,this.couponCode,this.couponNoticeList});
 
 }

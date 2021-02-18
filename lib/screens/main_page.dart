@@ -1,17 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shoppingapp/providers/cart.dart';
-import 'package:shoppingapp/providers/orders.dart';
-import 'package:shoppingapp/providers/product_provider.dart';
-import 'package:shoppingapp/screens/cart_screen.dart';
 import 'package:shoppingapp/screens/home_page/home_page.dart';
 import 'package:shoppingapp/screens/order_check_page/order_check.dart';
 import 'package:shoppingapp/screens/products_overview_screen.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
-import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
-import 'package:shoppingapp/widgets/badge.dart';
 
 class MainPage extends StatefulWidget{
   @override
