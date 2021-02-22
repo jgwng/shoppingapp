@@ -5,9 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/landing_page.dart';
-import 'package:shoppingapp/screens/cart_screen.dart';
-import 'package:shoppingapp/screens/product_detail_screen.dart';
-import 'package:shoppingapp/screens/orders_screen.dart';
 
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -55,11 +52,6 @@ class MyApp extends StatelessWidget {
         ),
 
         home: LandingPage(),
-        routes: {
-          ProductDetailScreen.routeName: (ctx)=>ProductDetailScreen(),
-          CartScreen.routeName : (ctx) => CartScreen(),
-          OrdersScreen.routeName:(ctx)=> OrdersScreen(),
-        },
       );
   }
 }

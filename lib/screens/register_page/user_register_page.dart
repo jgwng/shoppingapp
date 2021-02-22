@@ -1,21 +1,13 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/user.dart';
-import 'package:shoppingapp/providers/cart.dart';
-import 'package:shoppingapp/providers/orders.dart';
-import 'package:shoppingapp/providers/product_provider.dart';
 import 'package:shoppingapp/screens/main_page.dart';
-import 'package:shoppingapp/screens/order_check_page/order_check.dart';
-import 'package:shoppingapp/screens/products_overview_screen.dart';
-import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
@@ -34,6 +26,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController secondAddressController = TextEditingController();
   TextEditingController adminVerifyNumberController = TextEditingController();
+  TextEditingController birthdayController = TextEditingController();
 
   FocusNode nameFocusNode = FocusNode();
   FocusNode phoneNumberFocusNode = FocusNode();
@@ -75,11 +68,11 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
            mainAxisAlignment:MainAxisAlignment.start,
            children: [
              SizedBox(height: widgetHeight(20),),
-             infoField(nameController,nameFocusNode,"닉네임을 입력해 주세요",validateName,0),
-             SizedBox(height:20),
-             _inputBirthDay(),
+             infoField(nameController,nameFocusNode,"닉네임을 입력해 주세요 (최대 10자입니다)",validateName,0),
              SizedBox(height:20),
              infoField(phoneNumberController,phoneNumberFocusNode,"(-) 없이 입력해주세요",validatePhoneNumber,1),
+             SizedBox(height:20),
+             _inputBirthDay(),
              SizedBox(height:20),
              _selectGender(),
              SizedBox(height:20),
@@ -112,7 +105,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
              ),
              SizedBox(height: 10),
              Container(
-               width: MediaQuery.of(context).size.width,
+               width: size.width,
                height: 50,
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.circular(10),
@@ -227,6 +220,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
       ],
     );
   }
+
   Widget _inputBirthDay(){
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -234,7 +228,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
           Expanded(
               child:  Text("생년월일",style: textStyle,)),
           SizedBox(
-              width: 225,
+              width: 213,
               child: GestureDetector(
                 onTap: () async {
                   age = await onBirthdayPickerBottomSheet(context);

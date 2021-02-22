@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/screens/home_page/home_page.dart';
+import 'package:shoppingapp/screens/home_page/product_detail_screen.dart';
 import 'package:shoppingapp/screens/order_check_page/order_check.dart';
-import 'package:shoppingapp/screens/products_overview_screen.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
 
@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage>{
   ];
   final List<Widget> _pageList = [
     HomePage(),
-    ProductsOverViewScreen(),
+    ProductDetailScreen(),
     OrderCheck(),
     SettingPage(),
   ];
