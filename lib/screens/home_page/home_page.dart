@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
 
@@ -73,9 +74,9 @@ class _HomePageState extends State<HomePage>{
               behavior: MyBehavior(),
               child: GridView.count(
                   physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: 5),
                   crossAxisCount:2,
-                  childAspectRatio: 140/190,
+                  childAspectRatio: 140/200,
                   crossAxisSpacing: 23.0,
                   mainAxisSpacing: 20.0,
                   shrinkWrap: true,
@@ -163,7 +164,7 @@ class _HomePageState extends State<HomePage>{
 
   Widget discountListItem(){
     return Container(
-      height: 180,
+      height: widgetHeight(200),
       width: 140,
       padding: EdgeInsets.only(left: 20,top: 15),
       decoration: BoxDecoration(
@@ -193,7 +194,7 @@ class _HomePageState extends State<HomePage>{
           )),
           SizedBox(height: 8,),
           Text("챔피온 티셔츠",style: AppThemes.textTheme.bodyText1),
-          SizedBox(height: 8,),
+          SizedBox(height: 6,),
           Text.rich(TextSpan(
             children: <TextSpan>[
               new TextSpan(
@@ -208,8 +209,10 @@ class _HomePageState extends State<HomePage>{
             ),
           ),
 
+
         ],
-      ))
+      )),
+          SizedBox(height: 6,),
         ],
       ),
     );

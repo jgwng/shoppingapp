@@ -11,6 +11,7 @@ class ProductDetailScreen extends StatefulWidget{
 class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTickerProviderStateMixin{
   TabController controller;
   ScrollController _controller;
+  ScrollController _controller1;
   bool isTabBarVisible = true;
   @override
   void initState() {
@@ -18,7 +19,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
     controller = TabController(length: 3, vsync: this);
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
-
+    _controller1 = ScrollController();
   }
 
   _scrollListener() {
@@ -49,7 +50,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              pinned: true,
+              pinned: innerBoxIsScrolled,
 
               forceElevated: true,
               floating: true,
@@ -97,56 +98,75 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
 
           ];
         },
-        body: NotificationListener<ScrollNotification>(
-          child: CustomScrollView(
+        body: SafeArea(
+          child: Builder(
+            builder: (context){
+              final _scr = PrimaryScrollController.of(context);
+              _scr.addListener(() {
+                if (_scr.position.pixels == _scr.position.maxScrollExtent) {
+                  print('At DOWNW!!!');
+                }
+              });
+              return NotificationListener<ScrollNotification>(
+                child: CustomScrollView(
+                  controller: _scr,
+                  slivers: [
 
-            slivers: [
+                    SliverFillRemaining(
+                        fillOverscroll: true,
 
-              SliverFillRemaining(
-                fillOverscroll: true,
-                  hasScrollBody: true,
-                  child: TabBarView(
-                    controller: controller,
-                    children: [
+                        hasScrollBody: true,
+                        child: TabBarView(
+                          controller: controller,
+                          children: [
 
-                      Container(
-                        height: 200,
+                            Container(
+                              height: 100,
+                              child: Text("AAAAA"),
+                              color: Colors.pink,
+                            ),
+                            Container(
+                              height: 200,
+                              margin: EdgeInsets.all(5),
+                              color: Colors.blueGrey,
+                            ),
+                            Container(
+                              height: 200,
+                              margin: EdgeInsets.all(5),
+                              color: Colors.blueGrey,
+                            ),
+                          ],
+                        )),
 
-                        color: Colors.pink,
-                      ),
-                      Container(
-                        height: 200,
-                        margin: EdgeInsets.all(5),
-                        color: Colors.blueGrey,
-                      ),
-                      Container(
-                        height: 200,
-                        margin: EdgeInsets.all(5),
-                        color: Colors.blueGrey,
-                      ),
-                    ],
-                  )),
+                    SliverList(
+                      delegate: SliverChildListDelegate([
 
-              SliverList(
-                delegate: SliverChildListDelegate([
+                        Container(height: 10,color: Colors.transparent,),
+                        Container(width: 300,height: 250,color: Colors.red,),
+                        Container(width: 300,height: 250,color: Colors.green,),
+                        Container(width: 300,height: 250,color: Colors.blue,),
+                      ]),
+                    )
+                  ],
+                ),
+                onNotification: (ScrollNotification scrollInfo){
+                  if(scrollInfo.metrics.pixels>580 && isTabBarVisible){
 
-                  Container(height: 10,color: Colors.transparent,),
-                  Container(width: 300,height: 250,color: Colors.red,),
-                  Container(width: 300,height: 250,color: Colors.green,),
-                  Container(width: 300,height: 250,color: Colors.blue,),
-                ]),
-              )
-            ],
+                  }
+                  print(scrollInfo.metrics.pixels);
+                  return false;
+                },
+
+              );
+            },
           ),
-          onNotification: (ScrollNotification scrollInfo){
-            if(scrollInfo.metrics.pixels>580 && isTabBarVisible){
-
-            }
-            print(scrollInfo.metrics.pixels);
-            return false;
-          },
-
         )
+
+
+
+
+
+
 
 
 

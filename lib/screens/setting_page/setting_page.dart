@@ -6,7 +6,6 @@ import 'package:shoppingapp/screens/setting_page/ask_question_page.dart';
 import 'package:shoppingapp/screens/setting_page/coupon_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/faq.dart';
 import 'package:shoppingapp/screens/setting_page/grade_page.dart';
-import 'package:shoppingapp/screens/setting_page/personal_info_page.dart';
 import 'package:shoppingapp/screens/setting_page/term_of_use.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 
@@ -30,7 +29,7 @@ class _SettingPageState extends State<SettingPage>{
        child: Column(
          children: [
             GestureDetector(
-              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => PersonalInfoPage())),
+              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => CouponListPage())),
               child:Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
