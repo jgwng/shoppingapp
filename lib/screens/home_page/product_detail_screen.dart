@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
-
+import 'dart:math' as math;
 class ProductDetailScreen extends StatefulWidget{
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -18,7 +18,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
     super.initState();
     controller = TabController(length: 3, vsync: this);
     _controller = ScrollController();
-    _controller.addListener(_scrollListener);
+    // _controller.addListener(_scrollListener);
     _controller1 = ScrollController();
   }
 
@@ -38,6 +38,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
       });
     }
   }
+
+  SliverPersistentHeader makeHeader(String headerText) {
+    return SliverPersistentHeader(
+      pinned: true,
+
+      delegate: AppBarDelegate(
+        minHeight: 60.0,
+        maxHeight: 60.0,
+        child: Container(
+            color: Colors.white, child: Center(child:
+        Text(headerText))),
+      ),
+    );
+  }
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +69,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              pinned: innerBoxIsScrolled,
+              pinned: true,
 
               forceElevated: true,
               floating: true,
@@ -82,16 +101,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                   ],
                 ),
               ),
-              expandedHeight: 580.0,
-              bottom:TabBar(
-                indicatorColor: Colors.black,
-                labelColor: Colors.black,
-                tabs: [
-                  Tab(text: 'POSTS'),
-                  Tab(text: 'DETAILS'),
-                  Tab(text: 'FOLLOWERS'),
-                ],
-                controller: controller,
+              expandedHeight: 550.0,
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(0.0),
+                child: Container(),
               ),
             ),
 
@@ -103,15 +116,36 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
             builder: (context){
               final _scr = PrimaryScrollController.of(context);
               _scr.addListener(() {
+
+                if(_scr.position.pixels == _scr.position.maxScrollExtent-750){
+                  print("AAAA");
+                }
                 if (_scr.position.pixels == _scr.position.maxScrollExtent) {
                   print('At DOWNW!!!');
+                  print(_scr.position.maxScrollExtent);
+                }
+                if (_scr.position.pixels == _scr.position.minScrollExtent) {
+                  print('At TOP!!!');
                 }
               });
-              return NotificationListener<ScrollNotification>(
-                child: CustomScrollView(
+                return CustomScrollView(
                   controller: _scr,
                   slivers: [
-
+                    SliverPersistentHeader(
+                        pinned: true,
+                        floating: true,
+                        delegate: _SliverAppBarDelegate(
+                        TabBar(
+                          indicatorColor: Colors.black,
+                          labelColor: Colors.black,
+                          tabs: [
+                            Tab(text: 'POSTS'),
+                            Tab(text: 'DETAILS'),
+                            Tab(text: 'FOLLOWERS'),
+                          ],
+                          controller: controller,
+                        )
+                    )),
                     SliverFillRemaining(
                         fillOverscroll: true,
 
@@ -137,69 +171,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                             ),
                           ],
                         )),
-
+                    makeHeader('Header Section 2'),
                     SliverList(
-                      delegate: SliverChildListDelegate([
+                        delegate: SliverChildListDelegate([
 
-                        Container(height: 10,color: Colors.transparent,),
-                        Container(width: 300,height: 250,color: Colors.red,),
-                        Container(width: 300,height: 250,color: Colors.green,),
-                        Container(width: 300,height: 250,color: Colors.blue,),
-                      ]),
-                    )
+
+                          Container(width: 300,height: 250,color: Colors.red,),
+                          Container(width: 300,height: 250,color: Colors.green,),
+                          Container(width: 300,height: 250,color: Colors.blue,),
+                        ]),
+                      ),
+
                   ],
-                ),
-                onNotification: (ScrollNotification scrollInfo){
-                  if(scrollInfo.metrics.pixels>580 && isTabBarVisible){
-
-                  }
-                  print(scrollInfo.metrics.pixels);
-                  return false;
-                },
-
               );
             },
           ),
         )
-
-
-
-
-
-
-
-
-
-
-
-
-
         )
-
-
-
-
-        // ListView.builder(
-        //   itemCount: 100,
-        //
-        //   itemBuilder: (BuildContext context, int index) {
-        //     return Card(
-        //       color: index % 2 == 0 ? Colors.blue : Colors.green,
-        //       child: Container(
-        //         alignment: Alignment.center,
-        //         width: double.infinity,
-        //         height: 100.0,
-        //         child: Text(
-        //           'Flutter is awesome',
-        //           style: TextStyle(fontSize: 18.0),
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // ),
       );
   }
-
 }
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate(this._tabBar);
@@ -207,22 +197,51 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;
 
   @override
-  double get minExtent => 0;
+  double get minExtent =>  _tabBar.preferredSize.height;
   @override
   double get maxExtent => _tabBar.preferredSize.height;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    print(overlapsContent);
-    return new Container(
+
+    return SizedBox.expand(child: Container(
       color: Colors.white, // ADD THE COLOR YOU WANT AS BACKGROUND.
       child: _tabBar,
-    );
+    ));
   }
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
     return false;
+  }
+}
+
+class AppBarDelegate extends SliverPersistentHeaderDelegate {
+  AppBarDelegate({
+    @required this.minHeight,
+    @required this.maxHeight,
+    @required this.child,
+  });
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+  @override
+  double get minExtent => minHeight;
+  @override
+  double get maxExtent => math.max(maxHeight, minHeight);
+  @override
+  Widget build(
+      BuildContext context,
+      double shrinkOffset,
+      bool overlapsContent)
+  {
+    return new SizedBox.expand(child: child);
+  }
+  @override
+  bool shouldRebuild(AppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }
