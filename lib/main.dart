@@ -33,7 +33,7 @@ void main() async{
       .then((_) {
     runApp(ProviderScope(
       child : MyApp()
-    ));
+    )); 
   });
 
 }

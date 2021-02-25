@@ -41,14 +41,56 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
 
   SliverPersistentHeader makeHeader(String headerText) {
     return SliverPersistentHeader(
-      pinned: true,
-
+      pinned: false,
+      floating: true,
       delegate: AppBarDelegate(
-        minHeight: 60.0,
-        maxHeight: 60.0,
-        child: Container(
-            color: Colors.white, child: Center(child:
-        Text(headerText))),
+        minHeight: 80.0,
+        maxHeight: 80.0,
+        child: TabBarView(
+          controller: controller,
+          children: [
+            Container(
+              height: 10,
+              color: Colors.pink,
+            ),
+            Container(
+              height: 200,
+              margin: EdgeInsets.all(5),
+              color: Colors.blueGrey,
+            ),
+            Container(
+              height: 200,
+              margin: EdgeInsets.all(5),
+              color: Colors.blueGrey,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  Widget renderTitle(String title) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        child: TabBarView(
+          controller: controller,
+          children: [
+            Container(
+              height: 10,
+              color: Colors.pink,
+            ),
+            Container(
+              height: 200,
+              margin: EdgeInsets.all(5),
+              color: Colors.blueGrey,
+            ),
+            Container(
+              height: 200,
+              margin: EdgeInsets.all(5),
+              color: Colors.blueGrey,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -56,139 +98,103 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
 
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
+        body:
+        NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  pinned: isTabBarVisible,
+                  forceElevated: false,
+                  floating: true,
+                  backgroundColor: Colors.white,
+                  leading: Container(),
+                  flexibleSpace: FlexibleSpaceBar(
+                    collapseMode: CollapseMode.pin,
+                    background: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 350,
+                          child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.contain),
+                        ),
+                        SizedBox(height: 20,),
+                        Text("제품 이름이 들어갈 공간입니다.",style: AppThemes.textTheme.subtitle1,),
+                        SizedBox(height: 10),
+                        Text("할인율",style: AppThemes.textTheme.bodyText1,),
+                        SizedBox(height: 10),
+                        Divider(height: 2,thickness: 1,color: AppThemes.mainColor,),
+                        SizedBox(height: 15,),
+                        Text("적립 포인트 : 100개",style: AppThemes.textTheme.bodyText1,),
+                        SizedBox(height: 5,),
+                        Text("배송비 : 없음(무료 배송!)",style: AppThemes.textTheme.bodyText1,),
+                        SizedBox(height: 5,),
+                        Text("예상 출고일 : 2월 18일",style: AppThemes.textTheme.bodyText1),
+                        SizedBox(height: 15),
 
-
-
-      NestedScrollView(
-
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              pinned: true,
-
-              forceElevated: true,
-              floating: true,
-              backgroundColor: Colors.white,
-              leading: Container(),
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                background: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 350,
-                      child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.contain),
+                      ],
                     ),
-                    SizedBox(height: 20,),
-                    Text("제품 이름이 들어갈 공간입니다.",style: AppThemes.textTheme.subtitle1,),
-                    SizedBox(height: 10),
-                    Text("할인율",style: AppThemes.textTheme.bodyText1,),
-                    SizedBox(height: 10),
-                    Divider(height: 2,thickness: 1,color: AppThemes.mainColor,),
-                    SizedBox(height: 15,),
-                    Text("적립 포인트 : 100개",style: AppThemes.textTheme.bodyText1,),
-                    SizedBox(height: 5,),
-                    Text("배송비 : 없음(무료 배송!)",style: AppThemes.textTheme.bodyText1,),
-                    SizedBox(height: 5,),
-                    Text("예상 출고일 : 2월 18일",style: AppThemes.textTheme.bodyText1),
-                    SizedBox(height: 15),
+                  ),
+                  expandedHeight: 580.0,
+                  bottom: TabBar(
+                    indicatorColor: Colors.black,
+                    labelColor: Colors.black,
+                    tabs: [
+                      Tab(text: 'POSTS'),
+                      Tab(text: 'DETAILS'),
+                      Tab(text: 'FOLLOWERS'),
+                    ],
+                    controller: controller,
+                  ),
 
-                  ],
                 ),
-              ),
-              expandedHeight: 550.0,
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(0.0),
-                child: Container(),
-              ),
-            ),
 
 
-          ];
-        },
-        body: SafeArea(
-          child: Builder(
-            builder: (context){
-              final _scr = PrimaryScrollController.of(context);
-              _scr.addListener(() {
+              ];
+            },
+            body: SafeArea(
+              child: Builder(
+                builder: (context){
+                  final _scr = PrimaryScrollController.of(context);
+                  _scr.addListener(() {
+                    if(_scr.position.pixels == _scr.position.maxScrollExtent-750){
+                      print("AAAA");
+                    }
+                    if (_scr.position.pixels == _scr.position.maxScrollExtent) {
+                      print('At DOWNW!!!');
+                      print(_scr.position.maxScrollExtent);
+                    }
+                    if (_scr.position.pixels == _scr.position.minScrollExtent) {
+                      setState(() {
+                        isTabBarVisible = false;
+                      });
+                    }
+                  });
+                  return
+                    CustomScrollView(
+                    controller: _scr,
+                    slivers: [
 
-                if(_scr.position.pixels == _scr.position.maxScrollExtent-750){
-                  print("AAAA");
-                }
-                if (_scr.position.pixels == _scr.position.maxScrollExtent) {
-                  print('At DOWNW!!!');
-                  print(_scr.position.maxScrollExtent);
-                }
-                if (_scr.position.pixels == _scr.position.minScrollExtent) {
-                  print('At TOP!!!');
-                }
-              });
-                return CustomScrollView(
-                  controller: _scr,
-                  slivers: [
-                    SliverPersistentHeader(
-                        pinned: true,
-                        floating: true,
-                        delegate: _SliverAppBarDelegate(
-                        TabBar(
-                          indicatorColor: Colors.black,
-                          labelColor: Colors.black,
-                          tabs: [
-                            Tab(text: 'POSTS'),
-                            Tab(text: 'DETAILS'),
-                            Tab(text: 'FOLLOWERS'),
-                          ],
-                          controller: controller,
-                        )
-                    )),
-                    SliverFillRemaining(
-                        fillOverscroll: true,
-
-                        hasScrollBody: true,
-                        child: TabBarView(
-                          controller: controller,
-                          children: [
-
-                            Container(
-                              height: 100,
-                              child: Text("AAAAA"),
-                              color: Colors.pink,
-                            ),
-                            Container(
-                              height: 200,
-                              margin: EdgeInsets.all(5),
-                              color: Colors.blueGrey,
-                            ),
-                            Container(
-                              height: 200,
-                              margin: EdgeInsets.all(5),
-                              color: Colors.blueGrey,
-                            ),
-                          ],
-                        )),
-                    makeHeader('Header Section 2'),
-                    SliverList(
+                      SliverList(
                         delegate: SliverChildListDelegate([
 
-
+                          Container(height: 30,color: Colors.white,),
                           Container(width: 300,height: 250,color: Colors.red,),
                           Container(width: 300,height: 250,color: Colors.green,),
                           Container(width: 300,height: 250,color: Colors.blue,),
                         ]),
                       ),
 
-                  ],
-              );
-            },
-          ),
+                    ],
+                  );
+
+                },
+              ),
+            )
         )
-        )
-      );
+    );
   }
 }
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
