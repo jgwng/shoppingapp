@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
-import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 import 'dart:math' as math;
 class ProductDetailScreen extends StatefulWidget{
   @override
@@ -9,245 +9,106 @@ class ProductDetailScreen extends StatefulWidget{
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTickerProviderStateMixin{
-  TabController controller;
-  ScrollController _controller;
-  ScrollController _controller1;
-  bool isTabBarVisible = true;
+  int widgetIndex = 0;
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 3, vsync: this);
-    _controller = ScrollController();
-    // _controller.addListener(_scrollListener);
-    _controller1 = ScrollController();
   }
-
-  _scrollListener() {
-
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-
-        print("reach the bottom");
-      });
-    }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        print("reach the top");
-      });
-    }
-  }
-
-  SliverPersistentHeader makeHeader(String headerText) {
-    return SliverPersistentHeader(
-      pinned: false,
-      floating: true,
-      delegate: AppBarDelegate(
-        minHeight: 80.0,
-        maxHeight: 80.0,
-        child: TabBarView(
-          controller: controller,
-          children: [
-            Container(
-              height: 10,
-              color: Colors.pink,
-            ),
-            Container(
-              height: 200,
-              margin: EdgeInsets.all(5),
-              color: Colors.blueGrey,
-            ),
-            Container(
-              height: 200,
-              margin: EdgeInsets.all(5),
-              color: Colors.blueGrey,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-  Widget renderTitle(String title) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
-        child: TabBarView(
-          controller: controller,
-          children: [
-            Container(
-              height: 10,
-              color: Colors.pink,
-            ),
-            Container(
-              height: 200,
-              margin: EdgeInsets.all(5),
-              color: Colors.blueGrey,
-            ),
-            Container(
-              height: 200,
-              margin: EdgeInsets.all(5),
-              color: Colors.blueGrey,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:
-        NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  pinned: isTabBarVisible,
-                  forceElevated: false,
-                  floating: true,
-                  backgroundColor: Colors.white,
-                  leading: Container(),
-                  flexibleSpace: FlexibleSpaceBar(
-                    collapseMode: CollapseMode.pin,
-                    background: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 350,
-                          child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.contain),
-                        ),
-                        SizedBox(height: 20,),
-                        Text("제품 이름이 들어갈 공간입니다.",style: AppThemes.textTheme.subtitle1,),
-                        SizedBox(height: 10),
-                        Text("할인율",style: AppThemes.textTheme.bodyText1,),
-                        SizedBox(height: 10),
-                        Divider(height: 2,thickness: 1,color: AppThemes.mainColor,),
-                        SizedBox(height: 15,),
-                        Text("적립 포인트 : 100개",style: AppThemes.textTheme.bodyText1,),
-                        SizedBox(height: 5,),
-                        Text("배송비 : 없음(무료 배송!)",style: AppThemes.textTheme.bodyText1,),
-                        SizedBox(height: 5,),
-                        Text("예상 출고일 : 2월 18일",style: AppThemes.textTheme.bodyText1),
-                        SizedBox(height: 15),
+        body: ListView(
+          children: [
+          Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 350,
+              child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.contain),
+            ),
+            SizedBox(height: 20,),
+            Text("제품 이름이 들어갈 공간입니다.",style: AppThemes.textTheme.subtitle1,),
+            SizedBox(height: 10),
+            Text("할인율",style: AppThemes.textTheme.bodyText1,),
+            SizedBox(height: 10),
+            Divider(height: 2,thickness: 1,color: AppThemes.mainColor,),
+            SizedBox(height: 15,),
+            Text("적립 포인트 : 100개",style: AppThemes.textTheme.bodyText1,),
+            SizedBox(height: 5,),
+            Text("배송비 : 없음(무료 배송!)",style: AppThemes.textTheme.bodyText1,),
+            SizedBox(height: 5,),
+            Text("예상 출고일 : 2월 18일",style: AppThemes.textTheme.bodyText1),
+            SizedBox(height: 15),
 
-                      ],
+          ],
+        ),
+                  StickyHeader(
+                  header: Container(
+                  height: 60.0,
+                    color: Colors.white,
+
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                      children: [
+                        stickyTab("상품 설명",0),
+                        stickyTab("배송/반품/고시",1),
+                        stickyTab("상품 문의",2),],
                     ),
                   ),
-                  expandedHeight: 580.0,
-                  bottom: TabBar(
-                    indicatorColor: Colors.black,
-                    labelColor: Colors.black,
-                    tabs: [
-                      Tab(text: 'POSTS'),
-                      Tab(text: 'DETAILS'),
-                      Tab(text: 'FOLLOWERS'),
-                    ],
-                    controller: controller,
-                  ),
-
-                ),
-
-
-              ];
-            },
-            body: SafeArea(
-              child: Builder(
-                builder: (context){
-                  final _scr = PrimaryScrollController.of(context);
-                  _scr.addListener(() {
-                    if(_scr.position.pixels == _scr.position.maxScrollExtent-750){
-                      print("AAAA");
-                    }
-                    if (_scr.position.pixels == _scr.position.maxScrollExtent) {
-                      print('At DOWNW!!!');
-                      print(_scr.position.maxScrollExtent);
-                    }
-                    if (_scr.position.pixels == _scr.position.minScrollExtent) {
-                      setState(() {
-                        isTabBarVisible = false;
-                      });
-                    }
-                  });
-                  return
-                    CustomScrollView(
-                    controller: _scr,
-                    slivers: [
-
-                      SliverList(
-                        delegate: SliverChildListDelegate([
-
-                          Container(height: 30,color: Colors.white,),
-                          Container(width: 300,height: 250,color: Colors.red,),
-                          Container(width: 300,height: 250,color: Colors.green,),
-                          Container(width: 300,height: 250,color: Colors.blue,),
-                        ]),
-                      ),
-
-                    ],
-                  );
-
-                },
-              ),
-            )
+                content: contentWidget(widgetIndex),
+    ),
+          Container(
+            height: 700,
+            color: Colors.white
+          )
+          ],
         )
-    );
-  }
-}
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._tabBar);
+       );
 
-  final TabBar _tabBar;
-
-  @override
-  double get minExtent =>  _tabBar.preferredSize.height;
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-
-    return SizedBox.expand(child: Container(
-      color: Colors.white, // ADD THE COLOR YOU WANT AS BACKGROUND.
-      child: _tabBar,
-    ));
   }
 
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
-  }
-}
+  Widget stickyTab(String text,int index){
+    return GestureDetector(onTap: (){
+      setState(() {
+        widgetIndex = index;
+        print(widgetIndex);
+      });
+    },
+      child: Container(
+        width: (size.width)/3,
+        padding: EdgeInsets.only(bottom: 5,top: 20,left: 15,right: 15),
 
-class AppBarDelegate extends SliverPersistentHeaderDelegate {
-  AppBarDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
-  });
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-  @override
-  double get minExtent => minHeight;
-  @override
-  double get maxExtent => math.max(maxHeight, minHeight);
-  @override
-  Widget build(
-      BuildContext context,
-      double shrinkOffset,
-      bool overlapsContent)
-  {
-    return new SizedBox.expand(child: child);
+        child: Column(
+          children: [
+            Text(
+              text,textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.black),
+            ),
+            SizedBox(height: 10,),
+            Divider(color: (widgetIndex == index) ? Colors.black : Colors.transparent,height: 2,thickness: 1,)
+          ],
+        ),
+      ),);
   }
-  @override
-  bool shouldRebuild(AppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
+
+
+
+
+  Widget contentWidget(int index){
+    switch(index){
+      case  0:
+        return Container(color: Colors.pink,height: 600);
+        break;
+      case 1:
+        return Container(color: Colors.black,height: 400);
+        break;
+      case 2:
+        return Container(color: Colors.green,height: 200);
+        break;
+      }
+      return Container();
+    }
+
   }
-}
