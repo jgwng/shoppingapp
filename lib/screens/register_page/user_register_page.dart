@@ -44,7 +44,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   DateTime age;
   num birthYear;
   String birthMD;
-  String birthday = "생년월일을 입력해주세요.";
+  String birthday = "생년월일";
   User user = User();
   bool verifyAdmin = false;
 
@@ -68,9 +68,9 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
            mainAxisAlignment:MainAxisAlignment.start,
            children: [
              SizedBox(height: widgetHeight(20),),
-             infoField(nameController,nameFocusNode,"닉네임을 입력해 주세요 (최대 10자입니다)",validateName,0),
+             infoField(nameController,nameFocusNode,"닉네임",validateName,0),
              SizedBox(height:20),
-             infoField(phoneNumberController,phoneNumberFocusNode,"(-) 없이 입력해주세요",validatePhoneNumber,1),
+             infoField(phoneNumberController,phoneNumberFocusNode,"전화번호((-) 없이)",validatePhoneNumber,1),
              SizedBox(height:20),
              _inputBirthDay(),
              SizedBox(height:20),
@@ -116,7 +116,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                child: Text(firstAddress,style: textStyle,textAlign: TextAlign.left,),
              ),
              SizedBox(height: 10),
-             infoField(secondAddressController,secondAddressFocusNode,"나머지 주소를 입력해주세요",validatePhoneNumber,2),
+             infoField(secondAddressController,secondAddressFocusNode,"나머지 주소",validatePhoneNumber,2),
              SizedBox(height: 15),
              GestureDetector(
                onTap: () {
@@ -136,7 +136,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
              ),
              SizedBox(height: 10),
              if(verifyAdmin)
-             infoField(adminVerifyNumberController,adminVerifyNumberFocusNode,"관리자 번호를 입력해주세요",validatePhoneNumber,3),
+             infoField(adminVerifyNumberController,adminVerifyNumberFocusNode,"관리자 번호",validatePhoneNumber,3),
 
 
            ],
@@ -248,7 +248,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                   alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
                       border: Border(bottom: BorderSide(color: AppThemes.mainColor))),
-                  child: Text(birthday,textAlign: TextAlign.center,style: (birthday != "생년월일을 입력해주세요") ? textStyle.copyWith(color: Colors.black,fontSize: 14) :
+                  child: Text(birthday,textAlign: TextAlign.center,style: (birthday != "생년월일") ? textStyle.copyWith(color: Colors.black,fontSize: 14) :
                  textStyle),
                 ),
               )
