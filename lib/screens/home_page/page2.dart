@@ -4,7 +4,7 @@ import 'package:shoppingapp/screens/home_page/product_list_page.dart';
 import 'package:shoppingapp/widgets/category_item.dart';
 
 class Page2 extends StatefulWidget{
-  @override
+  @override  
   _Page2State createState() => _Page2State();
 }
 
