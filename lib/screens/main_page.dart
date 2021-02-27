@@ -6,6 +6,7 @@ import 'package:shoppingapp/screens/home_page/product_detail_screen.dart';
 import 'package:shoppingapp/screens/order_check_page/order_check.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
+import 'package:shoppingapp/widgets/category_item.dart';
 
 class MainPage extends StatefulWidget{
   @override
@@ -40,7 +41,7 @@ class _MainPageState extends State<MainPage>{
   ];
   final List<Widget> _pageList = [
     HomePage(),
-    HexagonPaint(Offset(200,200),30),
+    Page2(),
     OrderCheck(),
     SettingPage(),
   ];

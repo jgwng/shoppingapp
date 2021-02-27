@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoppingapp/constants/app_text_list.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/select_model.dart';
@@ -10,7 +11,7 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage>{
-  List<String> categoryList = ["유니섹스","여성","남성","가방 잡화","슈즈"];
+  List<String> categoryList =AppText.categoryList;
   List<SelectCategoryModel> categoryModel = List<SelectCategoryModel>();
 
   TextStyle priceStyle = AppThemes.textTheme.bodyText1.copyWith(fontSize: 14);
