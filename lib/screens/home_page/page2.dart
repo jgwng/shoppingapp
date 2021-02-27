@@ -4,7 +4,7 @@ import 'package:shoppingapp/screens/home_page/product_list_page.dart';
 import 'package:shoppingapp/widgets/category_item.dart';
 
 class Page2 extends StatefulWidget{
-  @override  
+  @override
   _Page2State createState() => _Page2State();
 }
 
@@ -24,12 +24,12 @@ class _Page2State extends State<Page2>{
             //(2,1)
             Container(
               alignment: Alignment(-0.515,0.093),
-              child: categoryItem("카테고리"),
+              child: categoryItem("남성"),
             ),
             //(2,3)
             Container(
               alignment: Alignment(1.15,0.093),
-              child: categoryItem("카테고리"),
+              child: categoryItem("여성"),
             ),
             //(3,1)
             Container(
