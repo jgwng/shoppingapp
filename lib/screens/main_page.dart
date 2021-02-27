@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/screens/home_page/home_page.dart';
+import 'package:shoppingapp/screens/home_page/page2.dart';
 import 'package:shoppingapp/screens/home_page/product_detail_screen.dart';
 import 'package:shoppingapp/screens/order_check_page/order_check.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
@@ -39,7 +40,7 @@ class _MainPageState extends State<MainPage>{
   ];
   final List<Widget> _pageList = [
     HomePage(),
-    ProductDetailScreen(),
+    HexagonPaint(Offset(200,200),30),
     OrderCheck(),
     SettingPage(),
   ];
