@@ -41,7 +41,7 @@ class HexagonPainter extends CustomPainter {
   Path createHexagonPath() {
     final path = Path();
     var angle = (math.pi * 2) / SIDES_OF_HEXAGON;
-    print( math.cos(3.14));
+
     Offset firstPoint = Offset(radius * math.cos((angle)), radius * math.sin((angle)));
     path.moveTo(firstPoint.dx+center.dx, center.dy+firstPoint.dy);
 

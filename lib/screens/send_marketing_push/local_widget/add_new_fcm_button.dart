@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/screens/send_marketing_push/add_custom_push.dart';
+import 'package:shoppingapp/screens/send_marketing_push/add_custom_push_page.dart';
 
 class AddNewFCMButton extends StatefulWidget{
   @override

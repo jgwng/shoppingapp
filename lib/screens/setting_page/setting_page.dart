@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/screens/setting_page/announcement_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/ask_question_page.dart';
 import 'package:shoppingapp/screens/setting_page/coupon_list_page.dart';
-import 'package:shoppingapp/screens/setting_page/faq.dart';
+import 'package:shoppingapp/screens/setting_page/faq_page.dart';
 import 'package:shoppingapp/screens/setting_page/grade_page.dart';
-import 'package:shoppingapp/screens/setting_page/term_of_use.dart';
+import 'package:shoppingapp/screens/setting_page/personal_info_page.dart';
+import 'package:shoppingapp/screens/setting_page/term_of_use_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 
 class SettingPage extends StatefulWidget{
@@ -24,12 +26,19 @@ class _SettingPageState extends State<SettingPage>{
   Widget build(BuildContext context) {
     // TODO: implement build
    return Scaffold(
-     body: SingleChildScrollView(
+     body: NotificationListener<OverscrollIndicatorNotification>(
+       onNotification: (OverscrollIndicatorNotification overScroll){
+     overScroll.disallowGlow();
+     return;
+   },child :
+     SingleChildScrollView(
+
        padding: EdgeInsets.symmetric(horizontal: 30),
        child: Column(
          children: [
+           SizedBox(height: widgetHeight(10),),
             GestureDetector(
-              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => CouponListPage())),
+              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => PersonalInfoPage())),
               child:Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -78,7 +87,6 @@ class _SettingPageState extends State<SettingPage>{
                   )
               ),
             ),
-           SizedBox(height: 10,),
            NotificationListener<OverscrollIndicatorNotification>(
              onNotification: (OverscrollIndicatorNotification overScroll){
                overScroll.disallowGlow();
@@ -92,13 +100,14 @@ class _SettingPageState extends State<SettingPage>{
                shrinkWrap: true,
                itemBuilder: (ctx,i) => listItem(i),),
            ),),
-           SizedBox(height: 20,),
+           SizedBox(height: 15,),
            Text("CopyRight to Gunny in Daejeon, All Rights Reserved",style: AppThemes.textTheme.bodyText2.copyWith(
              color: AppThemes.inActiveColor
-           ),)
+           ),),
+           SizedBox(height: 10,),
 
             ]
-           )),
+           ))),
 
        );
   }

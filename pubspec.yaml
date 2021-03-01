@@ -80,6 +80,12 @@ flutter:
 
   assets:
     - assets/images/set_fcm_page/advertising.png
+    - assets/images/category_icon/braces.png
+    - assets/images/category_icon/cap.png
+    - assets/images/category_icon/dress.png
+    - assets/images/category_icon/fragance.png
+    - assets/images/category_icon/hoodie.png
+    - assets/images/category_icon/sneakers.png
     - assets/images/grade_page/grade_1.png
     - assets/images/grade_page/grade_2.png
     - assets/images/grade_page/grade_3.png
