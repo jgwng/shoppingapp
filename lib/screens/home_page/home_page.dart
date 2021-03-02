@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage>{
   List<String> categoryList =AppText.categoryList;
-  List<SelectCategoryModel> categoryModel = List<SelectCategoryModel>();
+  List<SelectStringModel> categoryModel = List<SelectStringModel>();
 
   TextStyle priceStyle = AppThemes.textTheme.bodyText1.copyWith(fontSize: 14);
   
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    categoryModel = List.generate(categoryList.length,(i) => SelectCategoryModel(category: categoryList[i],isSelected:(i == 0)?true:false));
+    categoryModel = List.generate(categoryList.length,(i) => SelectStringModel(text: categoryList[i],isSelected:(i == 0)?true:false));
   }
 
 
@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage>{
     );
   }
   
-  Widget categoryListItem(SelectCategoryModel selectModel){
+  Widget categoryListItem(SelectStringModel selectModel){
     return GestureDetector(
       onTap: (){
         setState(() {
@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage>{
             padding: const EdgeInsets.all(5.0),
             child:Center(
               child : Text(
-                selectModel.category,textAlign: TextAlign.center,
+                selectModel.text,textAlign: TextAlign.center,
                 style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 16),
               ),
             )

@@ -48,11 +48,11 @@ class _OrderListState extends State<OrderList>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("주문 번호 입니다.",style: AppThemes.textTheme.bodyText1,),
+                  Text("주문 번호 입니다.",style: AppThemes.textTheme.subtitle1,),
                   Row(
                     children: [
                       Text("상세보기",style: AppThemes.textTheme.bodyText2.copyWith(color: AppThemes.inActiveColor),),
-                      Icon(Icons.arrow_forward_ios,color: AppThemes.inActiveColor,)
+                      Icon(Icons.arrow_forward_ios,color: AppThemes.inActiveColor,size: 15,)
 
                     ],
                   ),
@@ -76,7 +76,7 @@ class _OrderListState extends State<OrderList>{
                   ),
                   Column(
                     children: [
-                      SizedBox(height:40),
+                      SizedBox(height:50),
                       Container(
                         width: 65,
                         height: 25,
@@ -86,7 +86,8 @@ class _OrderListState extends State<OrderList>{
                             borderRadius: BorderRadius.circular(6.0)
                         ),
                         child: Text("배송 완료",style: TextStyle(color: Colors.white),),
-                      )
+                      ),
+                      SizedBox(height:5),
                     ],
                   )
                 ],
@@ -101,8 +102,8 @@ class _OrderListState extends State<OrderList>{
     return Row(
       children: [
         SizedBox(width: 70,
-          child: Text(title,style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 14),),),
-        Text(content,style: AppThemes.textTheme.bodyText2,)
+          child: Text(title,style: AppThemes.textTheme.bodyText1,),),
+        Text(content,style: AppThemes.textTheme.bodyText1.copyWith(fontSize:15),)
       ],
     );
   }

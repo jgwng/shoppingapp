@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/screens/order_check_page/order_refund_page.dart';
 import 'package:shoppingapp/screens/order_check_page/product_comment_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:flutter/services.dart';
@@ -237,11 +238,13 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
     return Expanded(
       child: Container(
         padding :EdgeInsets.symmetric(horizontal: 24),
-        height: 40,
+        height: 45,
         child: RaisedButton(
           elevation: 0,
+            color: Colors.white,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6.0)
+                borderRadius: BorderRadius.circular(6.0),
+              side: BorderSide(color: Colors.black, width: 2,),
             ),
             onPressed: function,
             child :Text(title,style: textStyle.copyWith(fontSize: 15),)
@@ -255,7 +258,7 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
   }
   void onPressedForRefund(){
 
-    // Navigator.push(context,MaterialPageRoute(builder:(c) => ProductCommentPage()));
+     Navigator.push(context,MaterialPageRoute(builder:(c) => OrderRefundPage()));
   }
 
 }

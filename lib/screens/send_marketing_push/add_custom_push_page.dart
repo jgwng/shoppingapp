@@ -16,7 +16,7 @@ class _AddMarketingPushState extends State<AddMarketingPush>{
   bool gender = false;
   int genderValue = -1;
   List<int> ageList = [1,2,3,4,5,6];
-  List<SelectAgeModel> standardAge = List<SelectAgeModel>();
+  List<SelectNumModel> standardAge = List<SelectNumModel>();
   List<int> selectedAge = List<int>();
   TextEditingController fcmTitleController = TextEditingController();
   TextEditingController fcmContentController = TextEditingController();
@@ -26,7 +26,7 @@ class _AddMarketingPushState extends State<AddMarketingPush>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    standardAge = List.generate(ageList.length,(i) => SelectAgeModel(age: ageList[i],isSelected: false));
+    standardAge = List.generate(ageList.length,(i) => SelectNumModel(data: ageList[i],isSelected: false));
   }
 
 
@@ -198,7 +198,7 @@ class _AddMarketingPushState extends State<AddMarketingPush>{
     );
   }
 
-  Widget ageSelectButton(SelectAgeModel selectModel,int index) {
+  Widget ageSelectButton(SelectNumModel selectModel,int index) {
     return GestureDetector(
         onTap: (){
           setState(() {
@@ -216,7 +216,7 @@ class _AddMarketingPushState extends State<AddMarketingPush>{
               padding: const EdgeInsets.all(5.0),
               child:Center(
                 child : Text(
-                  (selectModel.age*10).toString()+"대",textAlign: TextAlign.center,
+                  (selectModel.data*10).toString()+"대",textAlign: TextAlign.center,
                   style: textStyle.copyWith(fontSize: 16),
                 ),
               )

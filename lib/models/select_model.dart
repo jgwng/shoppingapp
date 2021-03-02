@@ -1,17 +1,15 @@
-class SelectAgeModel{
-  int age;
+class SelectNumModel{
+  num data;
   bool isSelected;
 
 
-  SelectAgeModel({this.age,this.isSelected});
+  SelectNumModel({this.data,this.isSelected});
 
 }
 
-class SelectCategoryModel{
-  String category;
+class SelectStringModel{
+  String text;
   bool isSelected;
-
-
-  SelectCategoryModel({this.category,this.isSelected});
-
+  SelectStringModel({this.text,this.isSelected});
 }
+

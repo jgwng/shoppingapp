@@ -45,7 +45,7 @@ class _SettingPageState extends State<SettingPage>{
                       side: BorderSide(width: 2, color: AppThemes.mainColor)),
                   child: Container(
                       width: 340,
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.only(left : 18,right: 15,top:22,bottom:15),
                       child: Column(
                         children: [
                           Row(
@@ -55,33 +55,21 @@ class _SettingPageState extends State<SettingPage>{
                                 child: Text("촉촉한 초코우유",style: AppThemes.textTheme.bodyText1,),
                               ),
                               SizedBox(
-                                width: 95,
+                                width: 110,
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text("개인정보 변경",style: AppThemes.textTheme.bodyText2.copyWith(color: Colors.grey,),),
-                                    Icon(Icons.arrow_forward_ios)
+
+                                    Text("개인정보 변경",style: AppThemes.textTheme.bodyText2.copyWith(color: Colors.grey,fontSize: 15),),
+                                    Icon(Icons.arrow_forward_ios,size: 15,color: AppThemes.inActiveColor,)
                                   ],
                                 ),
                               )
 
                             ],
                           ),
-                          SizedBox(height: 5,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("등급 ",style: AppThemes.textTheme.bodyText1),
-                              Text("레벨 1  ",style: AppThemes.textTheme.headline2.copyWith(fontSize: 22))
-                            ],
-                          ),
-                          SizedBox(height: 5,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("적립금",style: AppThemes.textTheme.bodyText1),
-                              Text("35000원  ",style: AppThemes.textTheme.headline2.copyWith(fontSize: 22))
-                            ],
-                          ),
+                          gradeNPointInfo("등급 ", "레벨 1  "),
+                          gradeNPointInfo("적립금", "35000원  "),
                         ],
                       )
                   )
@@ -125,7 +113,7 @@ class _SettingPageState extends State<SettingPage>{
               children: [
                 listItemIcon(index),
                 SizedBox(width: 20,),
-                Text(itemTitle[index],textAlign: TextAlign.center,style: AppThemes.textTheme.bodyText1,),
+                Text(itemTitle[index],textAlign: TextAlign.center,style: AppThemes.textTheme.subtitle1.copyWith(fontSize:17,fontWeight: FontWeight.w700,height: 1.55),),
               ],
             ),
 
@@ -135,6 +123,28 @@ class _SettingPageState extends State<SettingPage>{
       ),
     );
   }
+
+  Widget gradeNPointInfo(String title,String content){
+    return Column(
+      children: [
+        SizedBox(height: 10,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title,style: AppThemes.textTheme.bodyText1),
+            Text(content,style: AppThemes.textTheme.subtitle1)
+          ],
+        ),
+      ],
+    );
+  }
+
+
+
+
+
+
+
 
   Widget listItemIcon(int index){
     switch(index){
