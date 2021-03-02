@@ -61,36 +61,70 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
   Widget build(BuildContext context) {
    return Scaffold(
      appBar: TextTitleAppBar(title: "제품 후기 작성"),
-     body: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 40,),
-         Container(
-           alignment: Alignment.center,
-           child: Text("상품에 대해 만족하시나요?",style: AppThemes.textTheme.headline1.copyWith(fontWeight: FontWeight.w700),),
-         ),
-         SizedBox(height: 40,),
-         Container(
-           height: 50,
-           alignment : Alignment.center,
-           child: Center(
-             child : ListView.separated(
+     body:  NotificationListener<OverscrollIndicatorNotification>(
+         onNotification: (OverscrollIndicatorNotification overScroll) {
+         overScroll.disallowGlow();
+         return false;
+      },child: GestureDetector(
+       onTap : () => unFocus(),
+       child : SingleChildScrollView(
+            child: Column(
+         crossAxisAlignment: CrossAxisAlignment.start,
+           children: [
+             SizedBox(height: 30,),
+             Container(
+               alignment: Alignment.center,
+               child: Column(
+                 children: [
+                   Text("상품에 대해 만족하시나요?",style: AppThemes.textTheme.headline1.copyWith(fontWeight: FontWeight.w700),),
+                   SizedBox(height : 20),
+                   Text("작성중인 제품 - 챔피온 후드티(색상 : 보라색 / 사이즈 : XL(105))",style : AppThemes.textTheme.bodyText2.copyWith(
+                       color: AppThemes.inActiveColor,fontWeight: FontWeight.w700
+                   ))
+                 ],
+               ),
+             ),
+             SizedBox(height: 30,),
+             Container(
+               height: 50,
+               alignment : Alignment.center,
+               child: Center(
+                   child : ListView.separated(
 
-                shrinkWrap: true,
-               itemBuilder: (ctx,i) => starIcon(i),
-               separatorBuilder:(ctx,i) => SizedBox(width: 10,),
-               itemCount: 5,
-               scrollDirection: Axis.horizontal,)
-           ),
+                     shrinkWrap: true,
+                     itemBuilder: (ctx,i) => starIcon(i),
+                     separatorBuilder:(ctx,i) => SizedBox(width: 10,),
+                     itemCount: 5,
+                     scrollDirection: Axis.horizontal,)
+               ),
+             ),
+             SizedBox(height: 40,),
+             contentField(),
+             SizedBox(height: 30,),
+             addImage(),
+             SizedBox(height: 40,),
+             Align(
+               alignment : Alignment.center,
+               child: Container(
+                   width: size.width-40,
+                   height: 50,
+                   child: RaisedButton(
+                       color: AppThemes.mainColor,
+                       onPressed: (){
+                         Navigator.pop(context);
+                       },
+                       shape: RoundedRectangleBorder(
+                         side: BorderSide(color: AppThemes.mainColor, width: 2),
+                         borderRadius: BorderRadius.circular(10),
+                       ),
+                       child : Text("리뷰 저장하기!",style: AppThemes.textTheme.headline1.copyWith(color: Colors.white),)
+                   )
+               ),
+             ),
+             SizedBox(height: 40,)
+           ],
          ),
-          SizedBox(height: 40,),
-          contentField(),
-          SizedBox(height: 30,),
-          addImage(),
-        ],
-      ),
-     ),
+          )))
    );
   }
 
@@ -124,8 +158,7 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
         ), //내용부분 UI
         child: TextFormField(
           focusNode: contentFocusNode,
-          style: AppThemes.textTheme.subtitle1
-              .copyWith(height: 1.5, fontWeight: FontWeight.w400),
+          style: AppThemes.textTheme.bodyText1,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           minLines: 7, //
@@ -133,6 +166,7 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
           controller: contentController,
           decoration: InputDecoration(
               hintText: "리뷰를 입력해주세요!",
+              hintStyle: AppThemes.textTheme.bodyText1.copyWith(color:Colors.grey),
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
@@ -149,7 +183,19 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("사진 첨부",style: AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700),),
+          Row(
+            children: [
+              Text("사진 첨부 (선택)",style: AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700),),
+              SizedBox(width: 10,),
+              Container(
+                width: 100,
+                height: 20,
+                color: AppThemes.mainColor,
+                alignment: Alignment.center,
+                child: Text("추가 포인트 증정!",style: AppThemes.textTheme.bodyText1.copyWith(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
+              )
+            ],
+          ),
           SizedBox(height: 10,),
           Container(
             width: 80,
@@ -165,10 +211,25 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
                 borderRadius: BorderRadius.circular(6.0),
                 border: Border.all(color: Colors.black)
             ),
-          )
+          ),
+          SizedBox(height: 10,),
+          Text("해당 제품과 관련 없는 사진을 첨부하는 경우\n사전 경고 없이 포인트 회수와 함께 리뷰가 삭제 될 수 있습니다.",style: AppThemes.textTheme.bodyText2.copyWith(
+            color : AppThemes.inActiveColor
+          ),)
+
         ],
       ),
     );
   }
+
+  void unFocus() {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+
+    }
+  }
+
+
 
 }

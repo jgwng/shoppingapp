@@ -22,7 +22,11 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TextTitleAppBar(title: "주문 상세",),
-      body: SingleChildScrollView(
+      body: NotificationListener<OverscrollIndicatorNotification>(
+      onNotification: (OverscrollIndicatorNotification overScroll) {
+      overScroll.disallowGlow();
+      return false;
+        },child : SingleChildScrollView(
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -33,7 +37,7 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
             SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
             orderDetail(),
             SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
-            paymentItem(),
+            paymentList(),
             SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
             orderInformation(),
             SizedBox(height: 30,child: Container(color: Colors.grey[200],),),
@@ -64,13 +68,13 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
 
           ],
         ),
-      ),
-    );
+      )
+      ));
   }
 
   Widget orderSummary(){
     return Container(
-      padding: EdgeInsets.only(left: 24,top : 20),
+      padding: EdgeInsets.only(left: 24,top : 20,right: 24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,11 +83,14 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
           SizedBox(height : 10),
           Text("챔피온 후드티  외   1개",style: textStyle.copyWith(),),
           SizedBox(height: 20,),
+          // 운송장번호 조회 런쳐 연결 고민중
+          //https://tracking.sweettracker.co.kr/#ask - 한진 택배 추적 api 참고
+          //https://shlee0882.tistory.com/59 - 위의 sweettracker 사용 방법
           RichText(
-            text: TextSpan(text: '운송장 번호 : ',style : textStyle.copyWith(
+            text: TextSpan(text: '운송장 번호 :  ',style : textStyle.copyWith(
                 color: Colors.grey,
             ),children:[
-              TextSpan(text: '123456789112',
+              TextSpan(text: '123456789112(한진택배)',
                   recognizer: TapGestureRecognizer()..onTap =(){
                     Clipboard.setData(new ClipboardData(text: "123456789112"));
                   },
@@ -153,44 +160,34 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
     );
   }
 
-  Widget paymentItem(){
+  Widget paymentList(){
     return Container(
         padding: EdgeInsets.only(left: 24,top : 20,right: 24),
         child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("총 주문 금액",style: paymentStyle,),
-            Text("40000원",style: paymentStyle)
-          ],),
-        SizedBox(height: 10,),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("배송비",style: paymentStyle),
-            Text("2000원",style: paymentStyle)
-          ],),
-        SizedBox(height: 30,),
-        Divider(height: 2,thickness: 1,color: Colors.grey,),
-        SizedBox(height: 30,),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("총 결제 금액",style: paymentStyle.copyWith(fontSize: 20)),
-            Text("42000원",style: paymentStyle.copyWith(fontSize: 20))
-          ],),
-        SizedBox(height: 10,),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("결제방법",style: paymentStyle.copyWith(fontSize: 20)),
-            Text("계좌이체",style: paymentStyle.copyWith(fontSize: 20))
-          ],),
-        SizedBox(height: 20,),
+
+          paymentListItem("총 주문 금액","75000원"),
+          SizedBox(height: 10,),
+          paymentListItem("배송비","2000원"),
+          SizedBox(height: 30,),
+          Divider(height: 2,thickness: 1,color: Colors.grey,),
+          SizedBox(height: 30,),
+          paymentListItem("총 결제 금액","77000원"),
+          SizedBox(height: 10,),
+          paymentListItem("결제방법","계좌이체"),
+          SizedBox(height: 20,),
       ],
         ));
   }
-
+  Widget paymentListItem(String firstText, String secondText){
+    return  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(firstText,style: paymentStyle),
+        Text(secondText,style: paymentStyle)
+      ],);
+  }
 
   Widget orderInformation(){
     return Container(
@@ -200,10 +197,11 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text("배송지 정보",style: textStyle.copyWith(fontWeight: FontWeight.w700,fontSize: 18),),
-      SizedBox(height: 40,),
+      SizedBox(height: 30,),
       orderInfoItem("받는분"),
       orderInfoItem("연락처"),
       orderInfoItem("배송지"),
+      SizedBox(height: 10,),
     ],
     ));
   }
@@ -241,6 +239,7 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
         padding :EdgeInsets.symmetric(horizontal: 24),
         height: 40,
         child: RaisedButton(
+          elevation: 0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.0)
             ),
@@ -252,10 +251,11 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
   }
 
   void onPressedForDelete(){
-
+      Navigator.pop(context);
   }
   void onPressedForRefund(){
 
+    // Navigator.push(context,MaterialPageRoute(builder:(c) => ProductCommentPage()));
   }
 
 }
