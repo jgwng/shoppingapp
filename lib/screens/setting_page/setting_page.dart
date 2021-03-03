@@ -39,48 +39,66 @@ class _SettingPageState extends State<SettingPage>{
            SizedBox(height: widgetHeight(10),),
             GestureDetector(
               onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => PersonalInfoPage())),
-              child:Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(width: 2, color: AppThemes.mainColor)),
-                  child: Container(
-                      width: 340,
-                      padding: EdgeInsets.only(left : 18,right: 15,top:22,bottom:15),
-                      child: Column(
+              child: Container(
+                height: 160,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          Expanded(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 15,),
+                                SizedBox(width: 100,height: 100,
+                                child:Image.asset("assets/images/setting_page/boy.png") ,),
+                                SizedBox(height: 15,),
+                                Text("촉촉한초코우유",style: AppThemes.textTheme.headline1,),
+
+                              ],
+                            ),
+                          ),
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Text("촉촉한 초코우유",style: AppThemes.textTheme.bodyText1,),
-                              ),
-                              SizedBox(
-                                width: 110,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                              SizedBox(height: 30,),
+                              Row(mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-
-                                    Text("개인정보 변경",style: AppThemes.textTheme.bodyText2.copyWith(color: Colors.grey,fontSize: 15),),
-                                    Icon(Icons.arrow_forward_ios,size: 15,color: AppThemes.inActiveColor,)
-                                  ],
-                                ),
-                              )
-
+                                SizedBox(width: 30,height: 30,child: Image.asset("assets/images/setting_page/quality.png"),),
+                                SizedBox(width: 10,),
+                                Text("레벨 1",style: AppThemes.textTheme.subtitle1,)
+                              ]),
+                              SizedBox(height: 30,),
+                              Row(mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(width: 30,height: 30,child: Image.asset("assets/images/setting_page/coins.png")),
+                                    SizedBox(width: 10,),
+                                    Text("14,000원",style: AppThemes.textTheme.subtitle1,)
+                                  ]),
                             ],
                           ),
-                          gradeNPointInfo("등급 ", "레벨 1  "),
-                          gradeNPointInfo("적립금", "35000원  "),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            children: [
+                              SizedBox(height: 65,),
+                              Icon(Icons.arrow_forward_ios,size: 18,)
+                            ],
+                          )
+
+
                         ],
                       )
                   )
               ),
-            ),
+            SizedBox(height: 20,),
+            Divider(color: AppThemes.mainColor,height: 1,),
            NotificationListener<OverscrollIndicatorNotification>(
              onNotification: (OverscrollIndicatorNotification overScroll){
                overScroll.disallowGlow();
                return;
              },child: Container(
-             height: 440,
+             height: 420,
              child: ListView.separated(
                separatorBuilder:(ctx,i) => Divider(height: 2,color: AppThemes.mainColor,thickness:1,),
                itemCount: itemTitle.length,
@@ -103,7 +121,7 @@ class _SettingPageState extends State<SettingPage>{
     return  GestureDetector(
       onTap: () => onTap(index),
       child: Container(
-        height: 75,
+        height: 68,
         width: double.infinity,
         alignment: Alignment.center,
         child: Row(
