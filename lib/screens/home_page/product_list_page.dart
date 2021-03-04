@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
+import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
+import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/search_bar.dart';
 
@@ -98,14 +100,21 @@ class _ProductListPageState extends State<ProductListPage>{
     }
   }
 
-  void filterTouched(){
-      print("aaaa");
+  void filterTouched() async{
+      int result = await onSortStandardPickerBottomSheet(context,0);
+      if(result != null){
+        print(result);
+      }
+
   }
 
 
 
   Widget productItem(){
-    return Container(
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen()));
+      },child: Container(
       height: widgetHeight(200),
       width: 160,
       padding: EdgeInsets.only(left: 20),
@@ -151,6 +160,7 @@ class _ProductListPageState extends State<ProductListPage>{
           )
         ],
       ),
+    ),
     );
   }
 }

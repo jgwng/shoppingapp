@@ -1,68 +1,69 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/utils/bottom_sheet.dart';
+import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/widgets/animation_coupon.dart';
-import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 
-class CouponListPage extends StatefulWidget{
+class AddCouponBottomSheet extends StatefulWidget{
   @override
-  _CouponListPageState createState() => _CouponListPageState();
+  _AddCouponBottomSheetState createState() => _AddCouponBottomSheetState();
 }
 
-class _CouponListPageState extends State<CouponListPage>{
+class _AddCouponBottomSheetState extends State<AddCouponBottomSheet>{
   TextStyle boldStyle = AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700,fontSize: 14);
   List<String> couponNoticeList = ["최소 15,000원 이상 주문시 사용가능합니다.","다른 쿠폰과 중복 사용하실 수 없습니다.","쿠폰은 다른 계정으로 양도할 수 없습니다."];
+  bool buttonClicked = false;
+
+  Alignment alignment = Alignment.bottomCenter;
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: TextTitleAppBar(title: "쿠폰함",),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(children: [
-            SizedBox(width: 20,),
-            Text("보유쿠폰 1장", style: AppThemes.textTheme.bodyText2.copyWith(
-            color: AppThemes.inActiveColor
-            )),
-            GestureDetector(
-              onTap: () async{
-                String result = await addNewCouponBottomSheet(context);
-                print(result);
-              },child:Container(
-                width: 100,
-              height :40,
-              color: AppThemes.mainColor,
-            ),
-            )
-          ],),
+    return Stack(
+      children: [
+        _buildBody(),
+        AnimatedAlign(
+          alignment: alignment,
+          duration: Duration(milliseconds: 300),
+          child:  Container(
+              alignment: alignment,
+              child: GunnyCoupon(
+                width: double.infinity,
+                height: 187.0,
 
-        SizedBox(height: 10,),
-        Center(child:
-         GunnyCoupon(
-           width: double.infinity,
-           height: 187.0,
+                frontCoupon: frontCoupon(),
+                backCoupon: backCoupon(),
+              )
+          ),
+        )
 
-           frontCoupon: frontCoupon(),
-           backCoupon: backCoupon(),
-         ),)
-      ],
-    ),
+
+
+       ],
     );
   }
 
-
-
-  Widget couponInfo(String title, String value){
-    return RichText(
-        textAlign: TextAlign.left,
-        text: TextSpan(
-            children: [
-              TextSpan(text : title,style: AppThemes.textTheme.bodyText2.copyWith(fontSize: 14)),
-              TextSpan(text : value,style: boldStyle),
-            ]));
+  Widget _buildBody(){
+    return Container(
+      height: buttonClicked ? size.height : 300,
+      child: Column(
+        children: [
+          Container(
+            height: 40,
+            width: 100,
+            child: RaisedButton(
+              onPressed: (){
+                setState(() {
+                  alignment = Alignment.topCenter;
+                  buttonClicked  = true;
+                });
+              },
+            ),
+          )
+        ],
+      ),
+    );
   }
-
   Widget frontCoupon(){
     return Stack(
       children: [
@@ -113,14 +114,6 @@ class _CouponListPageState extends State<CouponListPage>{
     );
   }
 
-
-
-
-
-
-
-
-
   Widget backCoupon(){
     return Container(
       width: double.infinity,
@@ -163,10 +156,13 @@ class _CouponListPageState extends State<CouponListPage>{
       ],
     );
   }
-
-
-
-
-
-
+  Widget couponInfo(String title, String value){
+    return RichText(
+        textAlign: TextAlign.left,
+        text: TextSpan(
+            children: [
+              TextSpan(text : title,style: AppThemes.textTheme.bodyText2.copyWith(fontSize: 14)),
+              TextSpan(text : value,style: boldStyle),
+            ]));
+  }
 }

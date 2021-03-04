@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hexagon/hexagon.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/app_text_list.dart';
+import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/screens/home_page/product_list_page.dart';
 import 'package:shoppingapp/widgets/category_item.dart';
 
@@ -16,92 +18,80 @@ class _CategoryListState extends State<CategoryList>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Container(
-        alignment: Alignment.center,
+      body:SingleChildScrollView(
+
         child: Stack(
           children: [
-            //가운데(2,2) - 2번째줄 2번째 Item
-            GestureDetector(
-              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => ProductListPage(category: "title",))),
-              child: Container(
-                alignment: Alignment(0.32,0.093),
-                child: categoryItem("카테고리",""),
+            Container(
+             padding: EdgeInsets.only(top: 95),
+              child: Row(
+                children: [
+                  SizedBox(width: 65,),
+                  categoryItem("유니섹스","hoodie"),
+                  categoryItem("가방잡화","cap"),
+                ],
               ),
             ),
-            //(2,1)
             Container(
-              alignment: Alignment(-0.515,0.093),
-              child: categoryItem("남성","braces"),
+              padding: EdgeInsets.only(top:210),
+              child: Row(
+                children: [
+                  categoryItem("남성","braces"),
+                  categoryItem("카테고리",""),
+                  categoryItem("여성","dress"),
+                ],
+              ),
             ),
-            //(2,3)
             Container(
-              alignment: Alignment(1.15,0.093),
-              child: categoryItem("여성","dress"),
-            ),
-            //(3,1)
-            Container(
-              alignment: Alignment(-0.098,0.52),
-              child: categoryItem("슈즈","sneakers"),
-            ),
-            //(3,2)
-            Container(
-              alignment: Alignment(0.745,0.515),
-              child: categoryItem("뷰티","fragance"),
-            ),
-            //(1,1)
-            Container(
-              alignment: Alignment(-0.098,-0.33),
-              child: categoryItem("유니섹스","hoodie"),
-            ),
-            //(1,2)
-            Container(
-              alignment: Alignment(0.73,-0.335),
-              child: categoryItem("가방잡화","cap"),
+              padding: EdgeInsets.only(top: 325),
+              child: Row(
+                children: [
+                  SizedBox(width: 65,),
+                  categoryItem("슈즈","sneakers"),
+                  categoryItem("뷰티","fragance"),
+                ],
+              ),
             ),
           ],
         ),
       ),
-      );
+    );
   }
 
   Widget categoryItem(String title,String imageName){
-    return Stack(
-          overflow: Overflow.visible,
-          children: [
-            //CustomPainter로 교체하기
-
-            Container(
-                width: 100,
-                height: 100,
-                child: HexagonPaint(Offset(0,0),70)
-            ),
-           Positioned(
-                right: 72,
-                bottom: 50,
-                child: GestureDetector(
-                  onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductListPage(category: "title",))),
-                  child: Column(
-                   children: [
-                    Container(
+    return GestureDetector(
+        onTap: () {
+          if(title != "카테고리")
+          Navigator.push(context,MaterialPageRoute(builder:(c) => ProductListPage(category: title,)));
+        },
+        child:
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: HexagonWidget.pointy(
+            height: widgetHeight(150),
+            cornerRadius: 12.0,
+            color: Colors.brown[200],
+            child: Container(
+              padding: EdgeInsets.only(top: 20,right: 5),
+              child: Column(
+                children: [
+                  Container(
                       width: 65,
                       height: 60,
-                      padding: EdgeInsets.only(left: 5),
                       child: (imageName == "") ? Image.asset("assets/logo/grocery-cart.png") : Image.asset("assets/images/category_icon/$imageName.png")
-                    ),
-                    SizedBox(height: 10,),
-                    Container(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Text(title,style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 15),textAlign: TextAlign.center,),
-                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Container(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text(title,style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 15),textAlign: TextAlign.center,),
+                  ),
 
-                    ],
-                    ),
-                )
-                ),
-
-
-          ],
-        );
+                ],
+              ),
+            )
+            ,
+          ),
+        ));
   }
 
 

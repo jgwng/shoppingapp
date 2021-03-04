@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
+import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'dart:math' as math;
 class ProductDetailScreen extends StatefulWidget{
@@ -18,6 +19,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: TextTitleAppBar(title : "제품 상세"),
         body: ListView(
           children: [
           Column(
@@ -78,6 +80,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
     },
       child: Container(
         width: (size.width)/3,
+        height: 60,
         padding: EdgeInsets.only(bottom: 5,top: 20,left: 15,right: 15),
 
         child: Column(
