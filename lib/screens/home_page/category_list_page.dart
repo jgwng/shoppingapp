@@ -21,9 +21,12 @@ class _CategoryListState extends State<CategoryList>{
         child: Stack(
           children: [
             //가운데(2,2) - 2번째줄 2번째 Item
-            Container(
-              alignment: Alignment(0.32,0.093),
-              child: categoryItem("카테고리",""),
+            GestureDetector(
+              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => ProductListPage(category: "title",))),
+              child: Container(
+                alignment: Alignment(0.32,0.093),
+                child: categoryItem("카테고리",""),
+              ),
             ),
             //(2,1)
             Container(
@@ -62,32 +65,28 @@ class _CategoryListState extends State<CategoryList>{
   }
 
   Widget categoryItem(String title,String imageName){
-    return GestureDetector(
-      onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => ProductListPage(category: title,))),
-      child: Container(
-        width: 100,
-        height: 100,
-        child: Stack(
+    return Stack(
           overflow: Overflow.visible,
           children: [
+            //CustomPainter로 교체하기
+
             Container(
                 width: 100,
                 height: 100,
                 child: HexagonPaint(Offset(0,0),70)
             ),
-            Positioned(
-              right: 72,
-              bottom: 50,
-              child:Container(
-
-
-                child: Column(
-                  children: [
+           Positioned(
+                right: 72,
+                bottom: 50,
+                child: GestureDetector(
+                  onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductListPage(category: "title",))),
+                  child: Column(
+                   children: [
                     Container(
-                        width: 65,
-                        height: 60,
-                        padding: EdgeInsets.only(left: 5),
-                        child: (imageName == "") ? Image.asset("assets/logo/grocery-cart.png") : Image.asset("assets/images/category_icon/$imageName.png")
+                      width: 65,
+                      height: 60,
+                      padding: EdgeInsets.only(left: 5),
+                      child: (imageName == "") ? Image.asset("assets/logo/grocery-cart.png") : Image.asset("assets/images/category_icon/$imageName.png")
                     ),
                     SizedBox(height: 10,),
                     Container(
@@ -95,15 +94,14 @@ class _CategoryListState extends State<CategoryList>{
                       child: Text(title,style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 15),textAlign: TextAlign.center,),
                     ),
 
-                  ],
+                    ],
+                    ),
+                )
                 ),
-              ),
-            ),
+
 
           ],
-        ),
-      ),
-    );
+        );
   }
 
 

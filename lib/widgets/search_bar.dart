@@ -14,9 +14,7 @@ class SearchBar extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Container(
+    return  Container(
           height: 36,
           // padding: EdgeInsets.all(24),
           child : TextField(
@@ -27,7 +25,7 @@ class SearchBar extends StatelessWidget{
             focusNode: focusNode,
             decoration: InputDecoration(
                 hintStyle: AppThemes.textTheme.subtitle1.copyWith(
-                  fontWeight: FontWeight.w400, color: Color.fromRGBO(102, 102, 102, 1.0)
+                    fontWeight: FontWeight.w400, color: Color.fromRGBO(102, 102, 102, 1.0)
                 ),
                 hintText: hintText,
                 prefixIcon: Icon(Icons.search),
@@ -49,9 +47,7 @@ class SearchBar extends StatelessWidget{
             controller: controller,
             onChanged: onChange,
           )
-      ),
-    );
+      );
+
   }
 }
-
-

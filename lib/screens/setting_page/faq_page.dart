@@ -84,8 +84,11 @@ class _FAQState extends State<FAQ>{
               child: Column(
                 children: <Widget>[
                   SizedBox(height:widgetHeight(32.48)),
-                  SearchBar(onChange: onChange,controller: faqSearchController,onTap: onTap,
-                    hintText: "질문을 검색해주세요.",),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    child: SearchBar(onChange: onChange,controller: faqSearchController,onTap: onTap,
+                      hintText: "질문을 검색해주세요.",),
+                  ),
                   SizedBox(height:widgetHeight(24.36)),
                   ListView.separated(
                     shrinkWrap: true,
