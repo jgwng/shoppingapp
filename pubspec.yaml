@@ -97,6 +97,11 @@ flutter:
     - assets/images/setting_page/woman.png
     - assets/images/setting_page/coins.png
     - assets/images/setting_page/quality.png
+    - assets/images/data_none_page/box.png
+    - assets/images/data_none_page/deadline.png
+    - assets/images/data_none_page/message.png
+    - assets/images/data_none_page/no-alarm.png
+    - assets/images/data_none_page/unicorn.png
     - assets/logo/grocery-cart.png
   # To add assets to your application, add an assets section, like this:
   # assets:

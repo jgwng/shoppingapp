@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
-import 'package:shoppingapp/screens/setting_page/announcement_list_page.dart';
+import 'package:shoppingapp/screens/order_cart_page/order_cart_page.dart';
+import 'package:shoppingapp/screens/setting_page/announcement_page/announcement_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/ask_question_page.dart';
 import 'package:shoppingapp/screens/setting_page/coupon_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/faq_page.dart';
@@ -36,9 +37,9 @@ class _SettingPageState extends State<SettingPage>{
        padding: EdgeInsets.symmetric(horizontal: 30),
        child: Column(
          children: [
-           SizedBox(height: widgetHeight(10),),
             GestureDetector(
-              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => PersonalInfoPage())),
+              behavior: HitTestBehavior.opaque,
+              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderCartPage())),
               child: Container(
                 height: 160,
                       child: Row(
@@ -48,7 +49,7 @@ class _SettingPageState extends State<SettingPage>{
                             child: Column(
                               children: [
                                 SizedBox(height: 15,),
-                                SizedBox(width: 100,height: 100,
+                                SizedBox(width: 80,height: 80,
                                 child:Image.asset("assets/images/setting_page/boy.png") ,),
                                 SizedBox(height: 15,),
                                 Text("촉촉한초코우유",style: AppThemes.textTheme.headline1,),
@@ -77,11 +78,11 @@ class _SettingPageState extends State<SettingPage>{
                             ],
                           ),
                           SizedBox(
-                            width: 20,
+                            width: 40,
                           ),
                           Column(
                             children: [
-                              SizedBox(height: 65,),
+                              SizedBox(height: 60,),
                               Icon(Icons.arrow_forward_ios,size: 18,)
                             ],
                           )
@@ -91,8 +92,7 @@ class _SettingPageState extends State<SettingPage>{
                       )
                   )
               ),
-            SizedBox(height: 20,),
-            Divider(color: AppThemes.mainColor,height: 1,),
+            Divider(color: AppThemes.mainColor,height: 1,thickness: 1,),
            NotificationListener<OverscrollIndicatorNotification>(
              onNotification: (OverscrollIndicatorNotification overScroll){
                overScroll.disallowGlow();
@@ -104,7 +104,11 @@ class _SettingPageState extends State<SettingPage>{
                itemCount: itemTitle.length,
                physics: NeverScrollableScrollPhysics(),
                shrinkWrap: true,
-               itemBuilder: (ctx,i) => listItem(i),),
+               itemBuilder: (ctx,i) =>
+                   GestureDetector(
+                       behavior: HitTestBehavior.opaque,
+                     onTap: () => onTap(i),
+                   child: listItem(i))),
            ),),
            SizedBox(height: 15,),
            Text("CopyRight to Gunny in Daejeon, All Rights Reserved",style: AppThemes.textTheme.bodyText2.copyWith(
@@ -118,9 +122,7 @@ class _SettingPageState extends State<SettingPage>{
        );
   }
   Widget listItem(int index){
-    return  GestureDetector(
-      onTap: () => onTap(index),
-      child: Container(
+    return  Container(
         height: 68,
         width: double.infinity,
         alignment: Alignment.center,
@@ -138,8 +140,7 @@ class _SettingPageState extends State<SettingPage>{
             Icon(Icons.arrow_right_rounded,size: 30,)
           ],
         ),
-      ),
-    );
+      );
   }
 
   Widget gradeNPointInfo(String title,String content){

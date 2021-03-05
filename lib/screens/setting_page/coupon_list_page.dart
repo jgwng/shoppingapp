@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/screens/setting_page/local_widget/add_coupon_bottom_sheet.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:shoppingapp/widgets/animation_coupon.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
@@ -12,44 +13,136 @@ class CouponListPage extends StatefulWidget{
 class _CouponListPageState extends State<CouponListPage>{
   TextStyle boldStyle = AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700,fontSize: 14);
   List<String> couponNoticeList = ["최소 15,000원 이상 주문시 사용가능합니다.","다른 쿠폰과 중복 사용하실 수 없습니다.","쿠폰은 다른 계정으로 양도할 수 없습니다."];
+  TextEditingController couponController = TextEditingController();
+  bool isFocused = false;
+  FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+
+    super.initState();
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TextTitleAppBar(title: "쿠폰함",),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(children: [
-            SizedBox(width: 20,),
-            Text("보유쿠폰 1장", style: AppThemes.textTheme.bodyText2.copyWith(
-            color: AppThemes.inActiveColor
-            )),
-            GestureDetector(
-              onTap: () async{
-                String result = await addNewCouponBottomSheet(context);
-                print(result);
-              },child:Container(
-                width: 100,
-              height :40,
-              color: AppThemes.mainColor,
-            ),
-            )
-          ],),
+      body: GestureDetector(
+        onTap: () => unFocus(),
+        child:SingleChildScrollView(
 
-        SizedBox(height: 10,),
-        Center(child:
-         GunnyCoupon(
-           width: double.infinity,
-           height: 187.0,
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.only(left:30),
+                child: Text("쿠폰 등록",style: AppThemes.textTheme.subtitle1,),
+              ),
+              SizedBox(height: 20,),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                          height: 50,
+                          padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(6.0)
+                          ),
+                          child:TextField(
+                            style: AppThemes.textTheme.bodyText1,
+                            controller: couponController,
+                            decoration: InputDecoration(
 
-           frontCoupon: frontCoupon(),
-           backCoupon: backCoupon(),
-         ),)
-      ],
-    ),
+                              contentPadding: EdgeInsets.only(top: 0),
+                              hintText: "쿠폰번호를 입력하세요.",
+                              hintStyle: AppThemes.textTheme.bodyText1.copyWith(color: Colors.grey),
+                              border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.transparent)),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.transparent)),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.transparent)),
+                            ),
+                          ),
+                        )),
+                    SizedBox(width: 20,),
+                    Container(width: 80,height : 50,
+                      child: RaisedButton(
+                        onPressed: (){
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context){
+                                return CheckCouponDialog();
+                              }
+                          );
+                        },
+                        color: AppThemes.mainColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6.0),
+                        ),
+                        child: Text("입력",textAlign: TextAlign.center,style: AppThemes.textTheme.bodyText1.copyWith(color: Colors.white),),
+                      ),)
+                  ],
+                ),
+              ),
+              SizedBox(height:20),
+              Divider(height: 1,thickness: 1,color: AppThemes.mainColor,),
+              SizedBox(height: 20,),
+              Row(children: [
+                SizedBox(width: 20,),
+              RichText(
+
+                text: TextSpan(
+                    children: [
+                      TextSpan(text : "보유쿠폰 ",style:AppThemes.textTheme.bodyText1.copyWith(
+                          color: AppThemes.inActiveColor
+                      )),
+                      TextSpan(text : "1",style: AppThemes.textTheme.subtitle1.copyWith(
+                          color: AppThemes.pointColor
+                      )),
+                      TextSpan(text : "장",style: AppThemes.textTheme.bodyText1.copyWith(
+                          color: AppThemes.inActiveColor
+                      )),
+                    ])),
+
+
+
+
+              ],),
+
+              SizedBox(height: 10,),
+              Center(child:
+              GunnyCoupon(
+                width: double.infinity,
+                height: 187.0,
+
+                frontCoupon: frontCoupon(),
+                backCoupon: backCoupon(),
+              ),)
+            ],
+          ),
+        ),
+      ),
     );
   }
+
+
+  void unFocus() {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+
 
 
 
@@ -69,7 +162,7 @@ class _CouponListPageState extends State<CouponListPage>{
         Container(
 
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 30),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child:Card(
 
             shape: RoundedRectangleBorder(
@@ -83,7 +176,7 @@ class _CouponListPageState extends State<CouponListPage>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("10000원",style:  AppThemes.textTheme.subtitle1.copyWith(fontSize: 40),),
+                      Text("5000원",style:  AppThemes.textTheme.subtitle1.copyWith(fontSize: 40),),
                       Text("유의사항 확인 > ",style: AppThemes.textTheme.bodyText2.copyWith(color : Colors.grey),),
 
                     ],
