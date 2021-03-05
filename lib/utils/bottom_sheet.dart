@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/GWJUNG/shoppingapp_0224/lib/screens/setting_page/local_widget/add_coupon_bottom_sheet.dart';
 
 import 'package:shoppingapp/widgets/modal_bottom_sheet/birthday_choice_bottom_sheet.dart';
 import 'package:shoppingapp/widgets/modal_bottom_sheet/sort_standard_bottom_sheet.dart';
