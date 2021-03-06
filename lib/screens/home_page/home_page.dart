@@ -4,6 +4,7 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
+import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 
 class HomePage extends StatefulWidget{
   @override
@@ -96,38 +97,42 @@ class _HomePageState extends State<HomePage>{
 
 
   Widget bestProductListItem(){
-    return Container(
-      height: 120,
-      width: 250,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6.0),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen())),
+      child: Container(
+        height: 120,
+        width: 250,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6.0),
             border: Border.all(color: AppThemes.mainColor)
-      ),
-      child: Row(
+        ),
+        child: Row(
 
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: 15),
-              child : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10,),
-                  Text("상품평수 1위!",style: AppThemes.textTheme.subtitle1,),
-                  SizedBox(height: 40,),
-                  Text("챔피온 티셔츠",style: AppThemes.textTheme.bodyText1),
-                  Text("15000원",style: priceStyle)
-                ],
-              )
-          ),
-          SizedBox(width: 25,),
-          SizedBox(
-            width: 95,
-            height: 95,
-            child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.cover,),),
+          children: [
+            Container(
+                padding: EdgeInsets.only(left: 15),
+                child : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10,),
+                    Text("상품평수 1위!",style: AppThemes.textTheme.subtitle1,),
+                    SizedBox(height: 40,),
+                    Text("챔피온 티셔츠",style: AppThemes.textTheme.bodyText1),
+                    Text("15000원",style: priceStyle)
+                  ],
+                )
+            ),
+            SizedBox(width: 25,),
+            SizedBox(
+              width: 95,
+              height: 95,
+              child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.cover,),),
 
 
 
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -164,7 +169,10 @@ class _HomePageState extends State<HomePage>{
   }
 
   Widget discountListItem(){
-    return Container(
+    return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen())),
+        child: Container(
       height: widgetHeight(200),
       width: 140,
       padding: EdgeInsets.only(left: 20,top: 15),
@@ -216,7 +224,7 @@ class _HomePageState extends State<HomePage>{
           SizedBox(height: 6,),
         ],
       ),
-    );
+    ));
   }
 
 

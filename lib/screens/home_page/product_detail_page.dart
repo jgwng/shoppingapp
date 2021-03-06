@@ -11,6 +11,7 @@ class ProductDetailScreen extends StatefulWidget{
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTickerProviderStateMixin{
   int widgetIndex = 0;
+  bool isFavorite = false;
   @override
   void initState() {
     super.initState();
@@ -22,30 +23,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
       appBar: TextTitleAppBar(title : "제품 상세"),
         body: ListView(
           children: [
-          Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 350,
-              child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.contain),
-            ),
-            SizedBox(height: 20,),
-            Text("제품 이름이 들어갈 공간입니다.",style: AppThemes.textTheme.subtitle1,),
-            SizedBox(height: 10),
-            Text("할인율",style: AppThemes.textTheme.bodyText1,),
-            SizedBox(height: 10),
-            Divider(height: 2,thickness: 1,color: AppThemes.mainColor,),
-            SizedBox(height: 15,),
-            Text("적립 포인트 : 100개",style: AppThemes.textTheme.bodyText1,),
-            SizedBox(height: 5,),
-            Text("배송비 : 없음(무료 배송!)",style: AppThemes.textTheme.bodyText1,),
-            SizedBox(height: 5,),
-            Text("예상 출고일 : 2월 18일",style: AppThemes.textTheme.bodyText1),
-            SizedBox(height: 15),
-
-          ],
-        ),
-                  StickyHeader(
+            productInfo(),
+            StickyHeader(
                   header: Container(
                   height: 60.0,
                     color: Colors.white,
@@ -66,7 +45,49 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
             color: Colors.white
           )
           ],
-        )
+        ),
+        bottomNavigationBar: Container(
+        height: 80,
+        padding: EdgeInsets.only(left: 24,right: 24,bottom: 20),
+        child: Row(
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: (){
+                setState(() {
+                  isFavorite = !isFavorite;
+                });
+              },
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.0),
+                    border: Border.all(color: Colors.grey)
+                ),
+                child: isFavorite ? Icon(Icons.favorite,size: 30,) : Icon(Icons.favorite_outline_outlined,size: 30),
+              ),
+            ),
+            SizedBox(width: 30,),
+            Expanded(
+              child: Container(
+                height: 60,
+                child: RaisedButton(
+                  onPressed: (){
+
+                  },
+                  color: AppThemes.mainColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0)
+                  ),
+                  child: Text("구매하기",style:AppThemes.textTheme.headline1.copyWith(color:Colors.white)),
+                ),
+              ),
+            )
+
+          ],
+        ),  
+    ),
        );
 
   }
@@ -113,5 +134,74 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
       }
       return Container();
     }
+
+
+    Widget productInfo(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 350,
+          width: 350,
+          alignment: Alignment.center,
+
+          child: SizedBox(
+            width: 300,
+            height: 300,
+            child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.fitWidth),
+          ),
+        ),
+        SizedBox(height: 20,),
+        Container(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("제품 이름이 들어갈 공간입니다.",style: AppThemes.textTheme.headline2,),
+                SizedBox(height: 10),
+                Text("가격",style: AppThemes.textTheme.headline2,),
+              ],
+            )
+        ),
+        SizedBox(height: 20),
+        Divider(height: 2,thickness: 1,color: AppThemes.mainColor,),
+        SizedBox(height: 25,),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              productPriceInfo("적립금","100원"),
+              SizedBox(height: 10,),
+              productPriceInfo("배송비","2000원"),
+              SizedBox(height: 10,),
+              productPriceInfo("예상 출고","3월 9일"),
+              SizedBox(height: 10,),
+            ],
+          ),
+        )
+
+      ],
+    );
+    }
+
+
+
+
+
+    Widget productPriceInfo(String label,String content){
+    return Row(children: [
+      SizedBox(
+        width: 80,
+        child: Text(label,style: AppThemes.textTheme.bodyText1.copyWith(color:Colors.grey)),
+      ),
+      SizedBox(width: 20,),
+      Text(content,style: AppThemes.textTheme.bodyText1)
+    ],);
+    }
+
+
+
+
 
   }
