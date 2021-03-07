@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/screens/order_check_page/order_info_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_checkbox.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -215,9 +216,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                         width: double.infinity,
                         child: RaisedButton(
                           elevation: 0,
-                          onPressed: (){
-
-                          },
+                          onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage())),
                           color: AppThemes.mainColor,
                           child: Text("바로 주문",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
                         ),
@@ -276,7 +275,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                         mainAxisAlignment:MainAxisAlignment.spaceBetween,
                         children: [
                           Text("예상 적립금",style: AppThemes.textTheme.subtitle1.copyWith(color: Colors.grey)),
-                          Text("${((itemCount*45000+2000)*0.1).toStringAsFixed(0)}원", style: AppThemes.textTheme.subtitle1)
+                          Text("${((itemCount*45000+2000)*0.01).toStringAsFixed(0)}원", style: AppThemes.textTheme.subtitle1)
                         ],
                       ),
                     ),
@@ -297,9 +296,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
-          onPressed: (){
-
-          },
+          onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage())),
           child: Text("${itemCount*45000+2000}원 주문하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
         ),
       ),

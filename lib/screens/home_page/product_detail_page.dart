@@ -48,7 +48,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
         ),
         bottomNavigationBar: Container(
         height: 80,
-        padding: EdgeInsets.only(left: 24,right: 24,bottom: 20),
+        padding: EdgeInsets.symmetric(horizontal: 24,vertical: 15),
         child: Row(
           children: [
             GestureDetector(
