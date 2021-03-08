@@ -88,7 +88,7 @@ class _SettingPageState extends State<SettingPage>{
                 couponNPointInfo("적립금","13000원"),
               ],
             ),
-
+            SizedBox(height: 15,),
             Divider(color: AppThemes.mainColor,height: 1,thickness: 1,),
            NotificationListener<OverscrollIndicatorNotification>(
              onNotification: (OverscrollIndicatorNotification overScroll){
@@ -167,7 +167,13 @@ class _SettingPageState extends State<SettingPage>{
         onTap: () => tapForPointOrCoupon(title),
         child:Container(
           height: 80,
+          padding: EdgeInsets.symmetric(vertical: 10),
           alignment: Alignment.center,
+          decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(color: (title == "쿠폰") ? AppThemes.inActiveColor : Colors.transparent,width:1),
+              )
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment : CrossAxisAlignment.center,

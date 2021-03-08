@@ -247,7 +247,7 @@ class _RenderRadio extends RenderToggleable {
     hasFocus: hasFocus,
     hovering: hovering,
   );
-   final Color backgroundColor;
+  final Color backgroundColor;
   @override
   void paint(PaintingContext context, Offset offset) {
     final Canvas canvas = context.canvas;
