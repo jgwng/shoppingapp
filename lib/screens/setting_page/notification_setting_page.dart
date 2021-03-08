@@ -1,8 +1,9 @@
-import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:system_settings/system_settings.dart';
 
 
 class NotificationSettingPage extends StatefulWidget{
@@ -118,7 +119,7 @@ class _NotificationSettingPageState extends State<NotificationSettingPage>{
             width: double.infinity,
             height: 50,
             child: RaisedButton(
-              onPressed: AppSettings.openLocationSettings,
+              onPressed: aaa,
               color: AppThemes.mainColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.0)
@@ -130,5 +131,12 @@ class _NotificationSettingPageState extends State<NotificationSettingPage>{
         ],
       ),
     );
+  }
+  void aaa() async{
+    var status = await Permission.notification.status;
+    print(status);
+    var qqqq = await Permission.camera.status;
+    print(qqqq);
+
   }
 }
