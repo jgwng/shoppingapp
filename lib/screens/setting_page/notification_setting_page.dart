@@ -9,7 +9,7 @@ class NotificationSettingPage extends StatefulWidget{
   @override
   _NotificationSettingPageState createState() => _NotificationSettingPageState();
 }
-
+ 
 class _NotificationSettingPageState extends State<NotificationSettingPage>{
   @override
   Widget build(BuildContext context) {
