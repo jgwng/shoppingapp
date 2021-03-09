@@ -20,7 +20,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
       leading: InkWell(
           onTap:()=> Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FavoriteListPage()),
+            MaterialPageRoute(builder: (context) => NoticeListPage()),
           ),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),

@@ -9,6 +9,7 @@ class TextTitleAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
    return  AppBar(
+
        automaticallyImplyLeading: false,
        titleSpacing: 0,
        leading:Theme(
@@ -21,7 +22,7 @@ class TextTitleAppBar extends StatelessWidget implements PreferredSizeWidget{
            },
              icon: Icon(Icons.arrow_back_ios_outlined,color: Colors.black,),
            )),
-       backgroundColor: Colors.transparent,
+       backgroundColor: Colors.white,
        elevation: 0,
        centerTitle: true,
        title:  Text(title,style: AppThemes.textTheme.headline1),
