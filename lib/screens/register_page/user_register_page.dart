@@ -38,7 +38,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   String firstAddress = '검색을 통해 주소를 입력하세요';
   bool gender = false;
   int genderValue = -1;
-  TextStyle textStyle =  GoogleFonts.notoSans(fontWeight: FontWeight.w500,fontSize: 15,
+  TextStyle textStyle =  AppThemes.textTheme.bodyText1.copyWith(fontSize: 15,
       color: Color.fromRGBO(
           42, 42, 42, 1.0));
 
@@ -353,14 +353,6 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
       ],
     );
   }
-
-
-
-
-
-
-
-
 
 
   Widget _selectGender(){

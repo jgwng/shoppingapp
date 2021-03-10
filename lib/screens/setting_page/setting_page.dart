@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/screens/order_cart_page/order_cart_page.dart';
 import 'package:shoppingapp/screens/qr_code_scanner/qr_code_checkin.dart';
+import 'package:shoppingapp/screens/setting_page/personal_info_page.dart';
 import 'package:shoppingapp/screens/setting_page/announcement_page/announcement_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/ask_question_page.dart';
 import 'package:shoppingapp/screens/setting_page/coupon_list_page.dart';
@@ -38,7 +39,7 @@ class _SettingPageState extends State<SettingPage>{
          children: [
             GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => QRCodeCheckIn())),
+              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => PersonalInfoPage())),
               child: Container(
                 height: 120,
                       child: Row(

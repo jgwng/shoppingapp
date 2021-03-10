@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-
-import 'package:shoppingapp/constants/size.dart';
-import 'package:shoppingapp/models/user.dart';
-import 'package:shoppingapp/screens/main_page.dart';
-import 'package:shoppingapp/utils/validators.dart';
-import 'package:kopo/kopo.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
-import 'package:shoppingapp/widgets/custom_radio.dart';
-
+import 'package:shoppingapp/utils/validators.dart';
+import 'package:shoppingapp/utils/bottom_sheet.dart';
+import 'package:intl/intl.dart';
 
 class PersonalInfoPage extends StatefulWidget{
   @override
@@ -19,32 +12,19 @@ class PersonalInfoPage extends StatefulWidget{
 }
 
 class _PersonalInfoPageState extends State<PersonalInfoPage>{
-
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController secondAddressController = TextEditingController();
-  TextEditingController adminVerifyNumberController = TextEditingController();
-  TextEditingController birthdayController = TextEditingController();
 
-  FocusNode nameFocusNode = FocusNode();
-  FocusNode phoneNumberFocusNode = FocusNode();
-  FocusNode secondAddressFocusNode = FocusNode();
-  FocusNode adminVerifyNumberFocusNode = FocusNode();
-
-  String postNumber = '우편번호';
-  String firstAddress = '검색을 통해 주소를 입력하세요';
-  bool searchAddress = false;
-  bool gender = false;
-  int genderValue = -1;
-  TextStyle textStyle =  AppThemes.textTheme.bodyText1.copyWith(fontSize: 15, color: Color.fromRGBO(
-      42, 42, 42, 1.0));
 
   DateTime age;
   num birthYear;
   String birthMD;
-  String birthday = "생년월일을 입력해주세요.";
-  User user = User();
-  bool verifyAdmin = false;
+  String birthday = "생년월일을 입력하세요.";
+  FocusNode nameFocusNode = FocusNode();
+  FocusNode phoneNumberFocusNode = FocusNode();
+  TextStyle textStyle =  AppThemes.textTheme.bodyText1.copyWith(fontSize: 16,
+      color: Color.fromRGBO(
+          42, 42, 42, 1.0));
 
   @override
   Widget build(BuildContext context) {
@@ -59,101 +39,131 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
           }
         },child: SingleChildScrollView(
 
-        padding: EdgeInsets.symmetric(horizontal: 24),
         child: Center(
-
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment:MainAxisAlignment.start,
             children: [
-              SizedBox(height: widgetHeight(25),),
-              infoField(nameController,nameFocusNode,"닉네임(최대 10자)",validateName,0),
-              SizedBox(height:widgetHeight(35)),
-              infoField(phoneNumberController,phoneNumberFocusNode,"(-)제외",validatePhoneNumber,1),
-              SizedBox(height:widgetHeight(45)),
-              _inputBirthDay(),
-              SizedBox(height:widgetHeight(50)),
-              Container(
-                  child: Row(
-                    children: [
-                      Text(postNumber,style : textStyle),
-                      SizedBox(width: 10,),
-                      RaisedButton(
-                        onPressed: () async {
-                          FocusManager.instance.primaryFocus.unfocus();
-                          KopoModel model = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Kopo(),
-                              ));
-
-                          if (model != null) {
-                            setState(() {
-                              postNumber = model.zonecode;
-                              firstAddress = model.address;
-                              FocusScope.of(context).requestFocus(secondAddressFocusNode);
-                              searchAddress = true;
-                            });
-                          }
-                        },
-                        child: Text("주소 검색"),
-                      )
-                    ],
-                  )
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () => showOverLay(context),
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.grey[300],
+                      child: Center(
+                        child : SizedBox(
+                          width: 80,
+                          height: 80,
+                          child: Image.asset("assets/images/setting_page/boy.png"),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    width: 160,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      border: Border.all(color: Colors.black)
+                    ),
+                    child: TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: 10,right: 10,bottom:10),
+                        border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.transparent)),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.transparent)),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.transparent)),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15,),
+                  Text("*캐릭터를 눌러서 이미지를 변경해 보아요!",style: AppThemes.textTheme.subtitle2.copyWith(color:Colors.grey),),
+                  SizedBox(height:15),
+                ],
               ),
-              SizedBox(height: widgetHeight(20)),
-              Container(
-                width: size.width,
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.grey[700],width: 1)
+              SizedBox(height:20,child: Container(color: Colors.grey[200],),),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  children: [
+                    SizedBox(height:30),
+                    upperInfoField(phoneNumberController,phoneNumberFocusNode,"(-) 없이",validatePhoneNumber,true,"휴대폰"),
+                    SizedBox(height:30),
+                    _inputBirthDay(),
+                    SizedBox(height: 40,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("자주 쓰는 배송지 관리",style: textStyle,),
+                        Icon(Icons.arrow_right,size: 25,)
+                      ],
+                    ),
+                    SizedBox(height: 40,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("기본 환불 계좌 설정",style: textStyle,),
+                        Icon(Icons.arrow_right,size: 25,)
+                      ],
+                    ),
+                  ],
                 ),
-                alignment : Alignment.centerLeft,
-                padding: EdgeInsets.only(left: 20),
-                child: Text(firstAddress,style: textStyle,textAlign: TextAlign.left,),
               ),
-              SizedBox(height: widgetHeight(20)),
-              infoField(secondAddressController,secondAddressFocusNode,"나머지 주소를 입력해주세요",validatePhoneNumber,2),
-              SizedBox(height: widgetHeight(20)),
+
             ],
           ),
         ),
       ),
       ),
       bottomNavigationBar: Container(
-        width: 80,
-        height: 80,
-        padding: EdgeInsets.only(bottom: 30,left: 30,right: 30),
-        child:RaisedButton(
-          onPressed: () async{
+        child: Row(
+          children: [
+          bottomNavigationButton("로그 아웃"),
+          bottomNavigationButton("회원 탈퇴"),
+          ],
 
-          },
-          child: Text("정보 입력"),
         ),
       ),
+
     );
   }
-  Widget infoField(TextEditingController textEditingController,
-      FocusNode focusNode,String hintText,Function(String number) function,int index){
-    return Column(
-      children: [
-        Container(
-            height: 50,
-            padding: EdgeInsets.symmetric(horizontal: 5),
 
-            //이름
-            child: TextFormField(
+  Widget upperInfoField(TextEditingController textEditingController,
+      FocusNode focusNode,String hintText,Function(String number) function,bool verification,String label){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 80,
+          child: Text(label,style: textStyle),
+        ),
+        SizedBox(width: 20,),
+        Expanded(child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6.0),
+                border: Border.all(color:Colors.grey)
+            ),
+            child : TextFormField(
                 controller: textEditingController,
                 focusNode: focusNode,
                 validator: function,
-                readOnly: (index ==2) && !searchAddress ? true : false,
                 style:TextStyle(color: Colors.black),
-                keyboardType: (index == 1) ? TextInputType.number : TextInputType.text,
+                keyboardType: (verification) ? TextInputType.number : TextInputType.text,
                 decoration: InputDecoration(
+                  suffixIconConstraints: BoxConstraints(
+                    minWidth: 2,
+                    minHeight: 2,
+                  ),
 
-                  prefixIcon: selectIcon(index),
-                  suffixIcon: ((index == 1) | (index == 3)) ? GestureDetector(
+                  suffixIcon: (verification) ? GestureDetector(
                     onTap :(){
                       print("aaa");
                     },
@@ -161,110 +171,119 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
                       width: 100,
                       alignment: Alignment.centerRight,
                       padding: EdgeInsets.only(right:10),
-                      child: Text(index == 1 ? "인증번호 전송" : "번호 인증",style: textStyle,),
+                      child: Text(hintText == "관리자 번호" ? "번호 인증" : "번호 변경",style: textStyle,),
                     ),
                   ) : null,
+
+                  contentPadding: EdgeInsets.only(left:20,bottom:3),
                   hintText: hintText,
                   hintStyle: TextStyle(color: Colors.black45),
                   border: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: AppThemes.mainColor)),
+                          color: Colors.transparent)),
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: AppThemes.mainColor)),
+                          color: Colors.transparent)),
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                          color: AppThemes.mainColor)),
+                          color: Colors.transparent)),
                 )
             )
-        ),
-        SizedBox(height: 10,),
+        ),),
+
       ],
     );
   }
 
   Widget _inputBirthDay(){
-    return Container(
-      height: 50,
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-                child:Container(
-                  height: 50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: AppThemes.mainColor))),
-                  child: Text(birthday,textAlign: TextAlign.center,style: (birthday != "생년월일을 입력해주세요") ? textStyle.copyWith(color: Colors.black,fontSize: 14) :
-                  textStyle),
-                )
-            ),
-            SizedBox(
-              width: 130,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    child:  genderTile(1,"남"),
-                  ),
-                  SizedBox(
-                    child:  genderTile(2,"여"),
-                  ),
-                ],
-              ),
-            ),
-          ]
-      ),
-    );
-  }
-
-
-  Row genderTile(int value, String genderText) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        CustomRadio(
-            value: value,
-            groupValue: genderValue,
-            onChanged: (newValue) {
-              setState(() {
-                genderValue = newValue;
-              });
-            },
-            activeColor: AppThemes.mainColor,
-            backgroundColor: Colors.white,
-            inactiveColor:Colors.grey
-        ),
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+              width: 80,
+              child:  Text("생년월일",style: textStyle,)),
+          SizedBox(width: 20,),
+          Expanded(
 
-        Text(
-          genderText,
-          style:TextStyle( color: Color.fromRGBO(42, 42, 42, 1.0)
+              child: GestureDetector(
+                onTap: () async {
+                  age = await onBirthdayPickerBottomSheet(context);
+                  if(age !=null){
+                    setState(() {
+                      birthYear = age.year;
+                      String month = age.month.toString().padLeft(2, '0');
+                      String day = age.day.toString().padLeft(2,'0');
+                      birthMD = month + day;
+                      birthday = DateFormat('yyyy년 MM월 dd일').format(age);
+                    });
+                  }
+
+                },
+                child: Container(
+                  height: 50,
+
+                  padding: EdgeInsets.only(left:20),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      border: Border.all(color: Colors.grey)),
+                  child: Text(birthday,textAlign: TextAlign.center,style: (birthday != "생년월일을 입력하세요.") ? textStyle.copyWith(color: Colors.black,fontSize: 14) :
+                  textStyle.copyWith(color:Colors.grey)),
+                ),
+              )
           ),
-        )
-      ],
+        ]
     );
   }
 
+  Expanded bottomNavigationButton(String text){
+    return Expanded(
+        child: Container(
+          height: 80,
+          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              decoration: BoxDecoration(
 
-  Widget selectIcon(int index){
-    switch(index){
-      case 0:
-        return Icon(Icons.account_circle_rounded);
-        break;
-      case 1:
-        return Icon(Icons.call);
-        break;
-      case 2:
-        return Icon(Icons.room_rounded);
-        break;
-      case 3:
-        return Icon(Icons.supervisor_account);
-        break;
-
-    }
-    return Container();
+                  borderRadius: BorderRadius.circular(6.0)
+              ),
+              child: RaisedButton(
+                color: AppThemes.mainColor,
+                onPressed: (){},
+                child: Text(text,style: AppThemes.textTheme.bodyText1.copyWith(color:Colors.white),),
+              ),
+    ));
   }
 
+  void showOverLay(BuildContext context) async {
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry topOverlay = OverlayEntry(
+        maintainState: false  ,
+        builder: (context) {
+          return Positioned(
+              top: 100.0,
+              right: 0.0,
+              child: Material(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.lightGreenAccent,
+                        boxShadow: [BoxShadow(blurRadius: 5.0)]),
+                    height: 50.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: FlatButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Show page")),
+                    ),
+                  )));
+        });
+    overlayState.insert(topOverlay);
+    await Future.delayed(Duration(seconds: 2));
+    topOverlay.remove();
+  }
+  //Overlay data 전달 관련
+  //https://medium.com/@saiaparna.kunala/flutter-overlay-for-filtering-7000e3ac4f16
+//https://github.com/flutter/flutter/issues/50961
 
 
 }
