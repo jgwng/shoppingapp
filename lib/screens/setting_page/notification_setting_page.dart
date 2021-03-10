@@ -15,6 +15,7 @@ class _NotificationSettingPageState extends State<NotificationSettingPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar : TextTitleAppBar(title: "알림 설정"),
       body: SingleChildScrollView(
         child: Column(

@@ -8,6 +8,7 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/screens/main_page.dart';
+import 'package:shoppingapp/screens/register_page/admin_notice_dialog.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
@@ -51,8 +52,13 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: TextTitleAppBar(title:"회원 가입"),
-     body: GestureDetector(
+     body:NotificationListener<OverscrollIndicatorNotification>(
+         onNotification: (OverscrollIndicatorNotification overScroll){
+         overScroll.disallowGlow();
+         return;
+        },child : GestureDetector(
        onTap: (){
          FocusScopeNode currentFocus = FocusScope.of(context);
          if(!currentFocus.hasPrimaryFocus){
@@ -79,12 +85,25 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
              inputAddress(),
              SizedBox(height:20),
              GestureDetector(
-               onTap: () {
-                 //관리자 코드 입력 주의에 대한 다이얼로그 띄우고 확인 버튼 누르면 밑에 보이기
-                 setState(() {
-                   verifyAdmin = !verifyAdmin;
-
-                 });
+               behavior : HitTestBehavior.opaque,
+               onTap: () async{
+                 if(!verifyAdmin){
+                   bool result = await showDialog(
+                       context: context,
+                       builder: (BuildContext context){
+                         return AdminNoticeDialog();
+                       }
+                   );
+                   if(result){
+                     setState(() {
+                       verifyAdmin = !verifyAdmin;
+                     });
+                   }
+                 }else{
+                   setState(() {
+                     verifyAdmin = !verifyAdmin;
+                   });
+                 }
                },
                child:  Row(
                  children: [
@@ -103,7 +122,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
          ),
        ),
      ),
-     ),
+     )),
       bottomNavigationBar: Container(
         width: 80,
         height: 80,
@@ -198,7 +217,12 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                 style:TextStyle(color: Colors.black),
                 keyboardType: (verification) ? TextInputType.number : TextInputType.text,
                 decoration: InputDecoration(
-                  suffix: (verification) ? GestureDetector(
+                  suffixIconConstraints: BoxConstraints(
+                    minWidth: 2,
+                    minHeight: 2,
+                  ),
+
+                  suffixIcon: (verification) ? GestureDetector(
                               onTap :(){
                                 print("aaa");
                               },
@@ -210,7 +234,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                               ),
                             ) : null,
 
-                  contentPadding: EdgeInsets.only(left:20,bottom:0),
+                  contentPadding: EdgeInsets.only(left:20,bottom:3),
                   hintText: hintText,
                   hintStyle: TextStyle(color: Colors.black45),
                   border: UnderlineInputBorder(
@@ -325,7 +349,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         ),
         SizedBox(height: 10),
         lowerInfoField(secondAddressController,secondAddressFocusNode,"나머지 주소",validatePhoneNumber,2),
-        Text("*해당 주소는 기본 배송지로 설정됩니다.",textAlign: TextAlign.left,style: textStyle.copyWith(color:AppThemes.mainColor,fontSize: 12),)
+        Text("* 해당 주소는 기본 배송지로 설정됩니다.",textAlign: TextAlign.left,style: textStyle.copyWith(color:AppThemes.mainColor,fontSize: 12),)
       ],
     );
   }
@@ -397,24 +421,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   }
 
 
-  Widget selectIcon(int index){
-    switch(index){
-      case 0:
-        return Icon(Icons.account_circle_rounded);
-        break;
-      case 1:
-        return Icon(Icons.call);
-        break;
-      case 2:
-        return Icon(Icons.room_rounded);
-        break;
-      case 3:
-        return Icon(Icons.supervisor_account);
-        break;
 
-    }
-    return Container();
-  }
 
 
 

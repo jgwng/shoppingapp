@@ -31,6 +31,7 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title : "찜"),
       body: SingleChildScrollView(
         child: Column(

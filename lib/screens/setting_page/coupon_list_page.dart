@@ -31,6 +31,7 @@ class _CouponListPageState extends State<CouponListPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title: "쿠폰함",),
       body: GestureDetector(
         onTap: () => unFocus(),

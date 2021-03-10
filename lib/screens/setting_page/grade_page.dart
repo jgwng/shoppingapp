@@ -16,6 +16,7 @@ class _GradeDetailState extends State<GradeDetail>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title: "등급 안내",),
       body:  NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overScroll) {

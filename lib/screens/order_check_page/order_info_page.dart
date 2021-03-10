@@ -40,6 +40,7 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
   String postNumber = "우편번호";
   String firstAddress = '검색을 통해 주소를 입력하세요';
 
+  bool isDefault = false;
   @override
   void initState() {
     super.initState();
@@ -48,6 +49,7 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title: "주문 정보 입력",),
       body: GestureDetector(
         onTap: () => unFocus(),
@@ -250,7 +252,38 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
                         }
                       },
                       child: Text("주소 검색"),
-                    )
+                    ),
+                    SizedBox(width: 10,),
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          setState(() {
+                            isDefault =!isDefault;
+                          });
+                      },
+                        child:Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 15,height: 15,
+                            child: CustomCheckBox(
+                              radius: Radius.circular(3),
+                              borderColor: AppThemes.mainColor,
+                              value: isDefault,
+                              checkColor: Colors.white,
+                              activeColor: AppThemes.mainColor,
+                              onChanged: (value) {
+                                setState(() {
+                                  isDefault =!isDefault;
+                                });
+                              }, //체크시 개인정보 수집 및 이용 동의
+                            ),),
+                          SizedBox(width: 10,),
+                          Text("기본 배송지",style: AppThemes.textTheme.bodyText1,)
+                        ],
+                      )
+                    ),
+                    
                   ],
                 )
             ),
@@ -295,6 +328,8 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
               ),
             ),
             SizedBox(height: 20),
+           
+
           ],
         ),
       ],

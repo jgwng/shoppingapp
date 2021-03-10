@@ -15,6 +15,7 @@ class _PointInfoPageState extends State<PointInfoPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title: "적립금",),
       body: SingleChildScrollView(
         child: Column(

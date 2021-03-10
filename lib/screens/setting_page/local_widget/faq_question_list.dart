@@ -58,5 +58,3 @@ List<FAQListItem> faqList(BuildContext context){
 
   return faqQuestionList;
 }
-
-

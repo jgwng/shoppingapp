@@ -9,6 +9,7 @@ class AnnouncementDetailPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: TextTitleAppBar(title: "공지사항",),
         body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 30),

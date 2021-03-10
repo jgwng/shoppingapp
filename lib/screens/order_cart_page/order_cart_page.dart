@@ -20,6 +20,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title:"장바구니"),
       body: SingleChildScrollView(
 
@@ -76,7 +77,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                 SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
                 //물품 관련 위젯
                 Container(
-                  height: 340,
+                  height: 350,
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
@@ -98,22 +99,22 @@ class _OrderCartPageState extends State<OrderCartPage>{
                             }, //체크시 개인정보 수집 및 이용 동의
                           ),),
                           SizedBox(width:10),
-                          SizedBox(width: 80,height: 80,
+                          Container(width: 80,height: 90,padding: EdgeInsets.only(top:10),
                             child: Image.asset("assets/images/data_none_page/unicorn.png",fit: BoxFit.cover,),),
                           SizedBox(width:10),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 10,),
-                              Text("상품명이 아주 긴 경우\n\n40000원",style: AppThemes.textTheme.headline1),
+                              SizedBox(height: 20,),
+                              Text("상품명이 아주 긴 경우\n40000원",style: AppThemes.textTheme.headline1),
 
 //                      Text("가격이 들어간다",style: AppThemes.textTheme.subtitle2.copyWith(fontWeight: FontWeight.w400))
                             ],
                           ),
-                          SizedBox(width:20),
+                          SizedBox(width:30),
                           Container(
-                              padding: EdgeInsets.only(top:10),
+                              padding: EdgeInsets.only(top:20),
                               child : Icon(Icons.clear)
 
                           )

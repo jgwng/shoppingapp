@@ -14,6 +14,7 @@ class _AnnouncementListPageState extends State<AnnouncementListPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: TextTitleAppBar(title: "공지사항"),
         body: SingleChildScrollView(
 

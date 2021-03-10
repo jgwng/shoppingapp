@@ -44,6 +44,7 @@ class _OrderRefundPageState extends State<OrderRefundPage>{
   @override
   Widget build(BuildContext context) {
    return Scaffold(
+     backgroundColor: Colors.white,
     appBar: TextTitleAppBar(title : "환불 신청"),
      body: NotificationListener<OverscrollIndicatorNotification>(
          onNotification: (OverscrollIndicatorNotification overScroll) {

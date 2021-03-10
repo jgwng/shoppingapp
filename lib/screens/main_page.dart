@@ -55,6 +55,7 @@ class _MainPageState extends State<MainPage>{
   @override
   Widget build(BuildContext context) {
    return Scaffold(
+     backgroundColor: Colors.white,
      appBar: MainAppBar(title: _titleList[_currentIndex],),
      body: PageView(
        children: _pageList,

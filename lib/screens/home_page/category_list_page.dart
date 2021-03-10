@@ -18,6 +18,7 @@ class _CategoryListState extends State<CategoryList>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body:SingleChildScrollView(
 
         child: Stack(

@@ -45,7 +45,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   hexagon: ^0.1.0
   system_settings: 1.0.1
-
+  korean_words: ^1.0.3
   permission_handler: ^5.1.0+2
   sticky_headers: ^0.1.8+1
 

@@ -64,6 +64,7 @@ class _FAQState extends State<FAQ>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: TextTitleAppBar(title: "자주하는 질문",),
 
         body: NotificationListener<OverscrollIndicatorNotification>(

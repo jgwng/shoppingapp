@@ -15,6 +15,7 @@ class _CustomPushListState extends State<CustomPushList>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title:"푸시메세지 설정"),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 24),

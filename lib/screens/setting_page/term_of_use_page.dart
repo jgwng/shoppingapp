@@ -33,8 +33,9 @@ class _TermsOfUseState extends State<TermsOfUse> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: TextTitleAppBar(
-         title: "이용약관"
+            title: "이용약관"
         ),
         body: DefaultTabController(
           length: 3,

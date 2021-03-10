@@ -33,6 +33,7 @@ class _ProductListPageState extends State<ProductListPage>{
   @override
   Widget build(BuildContext context) {
   return Scaffold(
+      backgroundColor: Colors.white,
     appBar: TextTitleAppBar(title : widget.category),
     body: NotificationListener<OverscrollIndicatorNotification>(
     onNotification: (OverscrollIndicatorNotification overScroll) {

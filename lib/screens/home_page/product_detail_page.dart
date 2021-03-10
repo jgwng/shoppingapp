@@ -20,6 +20,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title : "제품 상세"),
         body: ListView(
           children: [

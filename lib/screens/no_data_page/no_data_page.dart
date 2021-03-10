@@ -14,6 +14,7 @@ class _DataNonePageState extends State<DataNonePage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title : "알림"),
       body : Center(
         child: Column(

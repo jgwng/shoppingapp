@@ -77,8 +77,9 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: TextTitleAppBar(
-        title: "1:1 문의하기"
+            title: "1:1 문의하기"
         ),
         body: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overScroll){
@@ -110,14 +111,14 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
                         height: 40,
                         child: RaisedButton(
                           onPressed: (){
-                                question.createdAt = DateTime.now();
-                                question.title = questionTitleController.text;
-                                question.content = questionContentController.text;
-                                question.replyState = 0;
+                            question.createdAt = DateTime.now();
+                            question.title = questionTitleController.text;
+                            question.content = questionContentController.text;
+                            question.replyState = 0;
 
-                                // question.uid = user.uid/ question.replytoken = user.token
+                            // question.uid = user.uid/ question.replytoken = user.token
 
-                                //FCM전송 & FirebaseDB 업데이트
+                            //FCM전송 & FirebaseDB 업데이트
                           },
                           child: Center(
                             child: Text("문의 전송",textAlign: TextAlign.center,style: textStyle,),
@@ -227,7 +228,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
           height: widgetHeight(120),
         ),
         Container(
-          width: size.width,
+            width: size.width,
             decoration: BoxDecoration(
                 border: Border.all(color: Color.fromRGBO(204, 204, 204, 1.0), width: 1),
                 borderRadius: BorderRadius.circular(5.0),
@@ -256,7 +257,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
       try {
         final result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-       }
+        }
         Navigator.pop(context,);
       } catch (e) {
         Navigator.pop(context);

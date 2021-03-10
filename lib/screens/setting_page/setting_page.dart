@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/screens/order_cart_page/order_cart_page.dart';
+import 'package:shoppingapp/screens/qr_code_scanner/qr_code_checkin.dart';
 import 'package:shoppingapp/screens/setting_page/announcement_page/announcement_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/ask_question_page.dart';
 import 'package:shoppingapp/screens/setting_page/coupon_list_page.dart';
@@ -24,6 +25,7 @@ class _SettingPageState extends State<SettingPage>{
   Widget build(BuildContext context) {
     // TODO: implement build
    return Scaffold(
+     backgroundColor: Colors.white,
      body: NotificationListener<OverscrollIndicatorNotification>(
        onNotification: (OverscrollIndicatorNotification overScroll){
      overScroll.disallowGlow();
@@ -36,7 +38,7 @@ class _SettingPageState extends State<SettingPage>{
          children: [
             GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderCartPage())),
+              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => QRCodeCheckIn())),
               child: Container(
                 height: 120,
                       child: Row(

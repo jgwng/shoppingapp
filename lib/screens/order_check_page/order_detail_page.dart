@@ -22,55 +22,56 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TextTitleAppBar(title: "주문 상세",),
-      body: NotificationListener<OverscrollIndicatorNotification>(
-      onNotification: (OverscrollIndicatorNotification overScroll) {
-      overScroll.disallowGlow();
-      return false;
-        },child : SingleChildScrollView(
+      backgroundColor: Colors.white,
+        appBar: TextTitleAppBar(title: "주문 상세",),
+        body: NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (OverscrollIndicatorNotification overScroll) {
+              overScroll.disallowGlow();
+              return false;
+            },child : SingleChildScrollView(
 
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
-            orderSummary(),
-            SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
-            orderDetail(),
-            SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
-            paymentList(),
-            SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
-            orderInformation(),
-            SizedBox(height: 30,child: Container(color: Colors.grey[200],),),
-            deleteOrRefund(),
-            SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height :30),
-                  RichText(
-                    text: TextSpan(text: '24시간 연중무휴 고객 센터  ',style : textStyle.copyWith(
-                      color: Colors.grey,fontSize: 14
-                    ),children:[
-                      TextSpan(text: '1234-5678',style : textStyle.copyWith(fontWeight: FontWeight.w700))
-                    ]),
-                  ),
-                  SizedBox(height: 8,),
-                  Text("CopyRight to Gunny in Daejeon, All Rights Reserved",style: AppThemes.textTheme.bodyText2.copyWith(
-                      color: AppThemes.inActiveColor
-                  ),textAlign: TextAlign.center),
-                  SizedBox(height :30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
+              orderSummary(),
+              SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
+              orderDetail(),
+              SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
+              paymentList(),
+              SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
+              orderInformation(),
+              SizedBox(height: 30,child: Container(color: Colors.grey[200],),),
+              deleteOrRefund(),
+              SizedBox(height: 20,child: Container(color: Colors.grey[200],),),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height :30),
+                    RichText(
+                      text: TextSpan(text: '24시간 연중무휴 고객 센터  ',style : textStyle.copyWith(
+                          color: Colors.grey,fontSize: 14
+                      ),children:[
+                        TextSpan(text: '1234-5678',style : textStyle.copyWith(fontWeight: FontWeight.w700))
+                      ]),
+                    ),
+                    SizedBox(height: 8,),
+                    Text("CopyRight to Gunny in Daejeon, All Rights Reserved",style: AppThemes.textTheme.bodyText2.copyWith(
+                        color: AppThemes.inActiveColor
+                    ),textAlign: TextAlign.center),
+                    SizedBox(height :30),
 
-                ],
-              ),
-            )
+                  ],
+                ),
+              )
 
-          ],
-        ),
-      )
-      ));
+            ],
+          ),
+        )
+        ));
   }
 
   Widget orderSummary(){
@@ -89,14 +90,14 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
           //https://shlee0882.tistory.com/59 - 위의 sweettracker 사용 방법
           RichText(
             text: TextSpan(text: '운송장 번호 :  ',style : textStyle.copyWith(
-                color: Colors.grey,
+              color: Colors.grey,
             ),children:[
               TextSpan(text: '123456789112(한진택배)',
                   recognizer: TapGestureRecognizer()..onTap =(){
                     Clipboard.setData(new ClipboardData(text: "123456789112"));
                   },
                   style : textStyle.copyWith(fontWeight: FontWeight.w700,
-                  decoration: TextDecoration.underline,decorationColor: AppThemes.mainColor,color: AppThemes.mainColor))
+                      decoration: TextDecoration.underline,decorationColor: AppThemes.mainColor,color: AppThemes.mainColor))
             ]),
           ),
           SizedBox(height: 10,),
@@ -114,18 +115,18 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
     return Container(
       height: 110*orderItemLength,
       padding: EdgeInsets.only(left: 24,top: 30,right: 24),
-     child: ListView.separated(
-       physics: NeverScrollableScrollPhysics(),
-       itemCount: orderItemLength.toInt(),
-       itemBuilder: (ctx, i) => orderDetailItem(),
-       separatorBuilder:  (ctx, i) => Column(
-         children: [
-           SizedBox(height : 25),
-           Divider(height: 1,thickness: 2,color: Colors.grey,),
-           SizedBox(height : 25),
-         ],
-       ),
-     ),
+      child: ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: orderItemLength.toInt(),
+        itemBuilder: (ctx, i) => orderDetailItem(),
+        separatorBuilder:  (ctx, i) => Column(
+          children: [
+            SizedBox(height : 25),
+            Divider(height: 1,thickness: 2,color: Colors.grey,),
+            SizedBox(height : 25),
+          ],
+        ),
+      ),
     );
   }
 
@@ -150,7 +151,7 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
               child: RaisedButton(onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => ProductCommentPage())),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0)
+                    borderRadius: BorderRadius.circular(6.0)
                 ),
                 child: Text("후기 작성",style: detailStyle,),
               ),
@@ -165,21 +166,21 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
     return Container(
         padding: EdgeInsets.only(left: 24,top : 20,right: 24),
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-          paymentListItem("총 주문 금액","75000원"),
-          SizedBox(height: 10,),
-          paymentListItem("배송비","2000원"),
-          SizedBox(height: 30,),
-          Divider(height: 2,thickness: 1,color: Colors.grey,),
-          SizedBox(height: 30,),
-          paymentListItem("총 결제 금액","77000원"),
-          SizedBox(height: 10,),
-          paymentListItem("결제방법","계좌이체"),
-          SizedBox(height: 20,),
-      ],
+            paymentListItem("총 주문 금액","75000원"),
+            SizedBox(height: 10,),
+            paymentListItem("배송비","2000원"),
+            SizedBox(height: 30,),
+            Divider(height: 2,thickness: 1,color: Colors.grey,),
+            SizedBox(height: 30,),
+            paymentListItem("총 결제 금액","77000원"),
+            SizedBox(height: 10,),
+            paymentListItem("결제방법","계좌이체"),
+            SizedBox(height: 20,),
+          ],
         ));
   }
   Widget paymentListItem(String firstText, String secondText){
@@ -193,37 +194,37 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
   Widget orderInformation(){
     return Container(
         padding: EdgeInsets.only(left: 24,top : 20,right: 24),
-    child: Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text("배송지 정보",style: textStyle.copyWith(fontWeight: FontWeight.w700,fontSize: 18),),
-      SizedBox(height: 30,),
-      orderInfoItem("받는분"),
-      orderInfoItem("연락처"),
-      orderInfoItem("배송지"),
-      SizedBox(height: 10,),
-    ],
-    ));
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("배송지 정보",style: textStyle.copyWith(fontWeight: FontWeight.w700,fontSize: 18),),
+            SizedBox(height: 30,),
+            orderInfoItem("받는분"),
+            orderInfoItem("연락처"),
+            orderInfoItem("배송지"),
+            SizedBox(height: 10,),
+          ],
+        ));
   }
 
   Widget orderInfoItem(String label){
     return Column(
-    children: [
-      Row(
-        children: [
-          Text(label,style: textStyle.copyWith(color: Colors.grey),),
-          SizedBox(width : 40),
-          Text("aaa",style : textStyle),
-        ],
-      ),SizedBox(height: 20,)
-    ],
+      children: [
+        Row(
+          children: [
+            Text(label,style: textStyle.copyWith(color: Colors.grey),),
+            SizedBox(width : 40),
+            Text("aaa",style : textStyle),
+          ],
+        ),SizedBox(height: 20,)
+      ],
     );
   }
 
   Widget deleteOrRefund(){
     return Container(
-      color: Colors.grey[200],
+        color: Colors.grey[200],
         child: Row(
           children: [
             delOrReButton("주문내역 삭제",onPressedForDelete),
@@ -240,10 +241,10 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
         padding :EdgeInsets.symmetric(horizontal: 24),
         height: 45,
         child: RaisedButton(
-          elevation: 0,
+            elevation: 0,
             color: Colors.white,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6.0),
+              borderRadius: BorderRadius.circular(6.0),
               side: BorderSide(color: Colors.black, width: 2,),
             ),
             onPressed: function,
@@ -254,11 +255,11 @@ class _OrderDetailPageState extends State<OrderDetailPage>{
   }
 
   void onPressedForDelete(){
-      Navigator.pop(context);
+    Navigator.pop(context);
   }
   void onPressedForRefund(){
 
-     Navigator.push(context,MaterialPageRoute(builder:(c) => OrderRefundPage()));
+    Navigator.push(context,MaterialPageRoute(builder:(c) => OrderRefundPage()));
   }
 
 }

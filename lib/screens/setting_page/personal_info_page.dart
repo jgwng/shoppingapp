@@ -37,7 +37,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
   bool gender = false;
   int genderValue = -1;
   TextStyle textStyle =  AppThemes.textTheme.bodyText1.copyWith(fontSize: 15, color: Color.fromRGBO(
-          42, 42, 42, 1.0));
+      42, 42, 42, 1.0));
 
   DateTime age;
   num birthYear;
@@ -49,6 +49,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title:"개인정보 변경"),
       body: GestureDetector(
         onTap: (){
@@ -226,9 +227,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
             value: value,
             groupValue: genderValue,
             onChanged: (newValue) {
-            setState(() {
-              genderValue = newValue;
-            });
+              setState(() {
+                genderValue = newValue;
+              });
             },
             activeColor: AppThemes.mainColor,
             backgroundColor: Colors.white,

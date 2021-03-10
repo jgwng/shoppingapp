@@ -36,6 +36,7 @@ class _AddMarketingPushState extends State<AddMarketingPush>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title:"푸시메세지 추가"),
       body: GestureDetector(
         onTap: () {
@@ -62,9 +63,9 @@ class _AddMarketingPushState extends State<AddMarketingPush>{
                       overScroll.disallowGlow();
                       return;
                     },child:  Container(
-                      height: 120,
-                      width: 300,
-                      child: GridView.count(
+                    height: 120,
+                    width: 300,
+                    child: GridView.count(
                       padding: EdgeInsets.only(left: 24,right: 24,top: 10),
                       crossAxisCount: 3,
                       shrinkWrap: true,
