@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:system_settings/system_settings.dart';
 
 
 class NotificationSettingPage extends StatefulWidget{
@@ -43,6 +42,7 @@ class _NotificationSettingPageState extends State<NotificationSettingPage>{
                         CupertinoSwitch(
                           activeColor: Color.fromRGBO(0, 204, 0, 1.0), // **ACTIVE STATE COLOR**
                           value: true,
+                          onChanged: (value){},
                         )
                       ],
                     ),
@@ -99,6 +99,7 @@ class _NotificationSettingPageState extends State<NotificationSettingPage>{
                           CupertinoSwitch(
                             activeColor: Color.fromRGBO(0, 204, 0, 1.0), // **ACTIVE STATE COLOR**
                             value: true,
+                              onChanged: (value){}
                           )
                         ],
                       ),

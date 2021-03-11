@@ -1,21 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/screens/setting_page/personal_info_page/address_book_page.dart';
+import 'package:shoppingapp/screens/setting_page/personal_info_page/set_refund_account_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:intl/intl.dart';
+import 'package:shoppingapp/main.dart';
+import 'package:shoppingapp/utils/keyboard_pop.dart';
+import 'package:flutter/services.dart';
 
 class PersonalInfoPage extends StatefulWidget{
   @override
   _PersonalInfoPageState createState() => _PersonalInfoPageState();
 }
 
-class _PersonalInfoPageState extends State<PersonalInfoPage>{
+class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
 
+  OverlayEntry _overlayEntry;
+  OverlayState _overlayState;
+
+  int text = 0;
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // routeObserver is the global variable we created before
+    routeObserver.subscribe(this, ModalRoute.of(context));
+    print("ChangeDependencies");
+  }
+
+  @override
+  void dispose() async{
+    super.dispose();
+
+    _overlayEntry?.remove();
+    routeObserver.unsubscribe(this);
+    print("AAAAA");
+
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+  }
+
+  @override
+  void didPush() async{
+    print("AAA");
+    if(_overlayEntry != null){
+
+
+      await keyboardDown(context);
+    }
+  }
+
+  @override
+  void didPopNext() {
+    print("AAAA");
+
+  }
+
+  int imageIndex = 0;
   DateTime age;
   num birthYear;
   String birthMD;
@@ -27,7 +74,18 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
           42, 42, 42, 1.0));
 
   @override
+  void initState(){
+    super.initState();
+    _overlayState = Overlay.of(context);
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
+    print("AAAAAAAA");
+
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title:"개인정보 변경"),
@@ -39,15 +97,19 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
           }
         },child: SingleChildScrollView(
 
-        child: Center(
-          child: Column(
+          child: Center(
+            child: Column(
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () => showOverLay(context),
+                    onTap: ()  {
+
+                      _overlayEntry = _createOverlayEntry();
+                      _overlayState.insert(_overlayEntry);
+                    },
                     child: CircleAvatar(
                       radius: 60,
                       backgroundColor: Colors.grey[300],
@@ -55,7 +117,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
                         child : SizedBox(
                           width: 80,
                           height: 80,
-                          child: Image.asset("assets/images/setting_page/boy.png"),
+                          child: Image.asset("assets/images/avatar_image/boy_$imageIndex.png"),
                         ),
                       ),
                     ),
@@ -95,25 +157,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
                 child: Column(
                   children: [
                     SizedBox(height:30),
-                    upperInfoField(phoneNumberController,phoneNumberFocusNode,"(-) 없이",validatePhoneNumber,true,"휴대폰"),
-                    SizedBox(height:30),
+                    infoField(phoneNumberController,phoneNumberFocusNode,"(-) 없이",validatePhoneNumber,true,"휴대폰"),
+                    SizedBox(height:40),
                     _inputBirthDay(),
-                    SizedBox(height: 40,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("자주 쓰는 배송지 관리",style: textStyle,),
-                        Icon(Icons.arrow_right,size: 25,)
-                      ],
-                    ),
-                    SizedBox(height: 40,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("기본 환불 계좌 설정",style: textStyle,),
-                        Icon(Icons.arrow_right,size: 25,)
-                      ],
-                    ),
+                    SizedBox(height: 30,),
+                    labelField("자주 쓰는 배송지 관리"),
+                    SizedBox(height: 10,),
+                    labelField("기본 환불 계좌 설정"),
                   ],
                 ),
               ),
@@ -136,7 +186,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
     );
   }
 
-  Widget upperInfoField(TextEditingController textEditingController,
+  Widget infoField(TextEditingController textEditingController,
       FocusNode focusNode,String hintText,Function(String number) function,bool verification,String label){
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -195,6 +245,51 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
     );
   }
 
+  OverlayEntry _createOverlayEntry(){
+    return OverlayEntry(maintainState: true,builder:(context) =>
+        Positioned(
+          top:220,left:50,
+          child: Container(
+              height: 70,
+             padding: EdgeInsets.symmetric(horizontal: 10),
+             decoration: BoxDecoration(
+               color: Colors.white,
+               borderRadius : BorderRadius.circular(6.0),
+               border: Border.all(color:Colors.black,width: 1)
+             ),
+              child: ListView.separated(
+                itemCount: 5,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (ctx,i) => avatarListItem(_overlayEntry,_overlayState,i),
+                separatorBuilder: (ctx,i) => SizedBox(width:10),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+              ),
+            ),
+          ),
+        );
+  }
+
+  Widget avatarListItem(OverlayEntry overlayEntry,OverlayState overlayState,int index){
+    return GestureDetector(
+      onTap: (){
+        overlayState.setState(() {
+          setState(() {
+            print("overlayState : ${index.toString()}");
+            imageIndex = index;
+          });
+        });
+        overlayEntry.remove();
+        _overlayEntry = null;
+
+      },
+      child: SizedBox(
+          width: 50,
+          height : 50,
+        child: Image.asset("assets/images/avatar_image/boy_$index.png"))
+    );
+  }
+
   Widget _inputBirthDay(){
     return Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -243,7 +338,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
               decoration: BoxDecoration(
 
-                  borderRadius: BorderRadius.circular(6.0)
+                  borderRadius: BorderRadius.circular(10.0)
               ),
               child: RaisedButton(
                 color: AppThemes.mainColor,
@@ -253,37 +348,28 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>{
     ));
   }
 
-  void showOverLay(BuildContext context) async {
-    OverlayState overlayState = Overlay.of(context);
-    OverlayEntry topOverlay = OverlayEntry(
-        maintainState: false  ,
-        builder: (context) {
-          return Positioned(
-              top: 100.0,
-              right: 0.0,
-              child: Material(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.lightGreenAccent,
-                        boxShadow: [BoxShadow(blurRadius: 5.0)]),
-                    height: 50.0,
-                    width: MediaQuery.of(context).size.width,
-                    child: Center(
-                      child: FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text("Show page")),
-                    ),
-                  )));
-        });
-    overlayState.insert(topOverlay);
-    await Future.delayed(Duration(seconds: 2));
-    topOverlay.remove();
+  Widget labelField(String text){
+    return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => (text == "기본 환불 계좌 설정") ? RefundAccountPage() : AddressBookPage() )),
+
+        child: Container(
+          height : 70,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(text,style: textStyle,),
+              Icon(Icons.arrow_right,size: 25,)
+            ],
+          ),
+        )
+    );
   }
+
+
   //Overlay data 전달 관련
   //https://medium.com/@saiaparna.kunala/flutter-overlay-for-filtering-7000e3ac4f16
-//https://github.com/flutter/flutter/issues/50961
+  //https://github.com/flutter/flutter/issues/50961
 
 
 }

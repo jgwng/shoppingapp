@@ -65,14 +65,6 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   fonts:
-    - family: Lato
-      fonts:
-        - asset: assets/fonts/Lato-Regular.ttf
-        - asset: assets/fonts/Lato-Bold.ttf
-          weight : 700
-    - family: Anton
-      fonts:
-        - asset: assets/fonts/Anton-Regular.ttf
     - family: SpoqaHanSansNeo
       fonts:
         - asset: assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeoRegular.otf
@@ -105,6 +97,16 @@ flutter:
     - assets/images/data_none_page/message.png
     - assets/images/data_none_page/no-alarm.png
     - assets/images/data_none_page/unicorn.png
+    - assets/images/avatar_image/boy_0.png
+    - assets/images/avatar_image/boy_1.png
+    - assets/images/avatar_image/boy_2.png
+    - assets/images/avatar_image/boy_3.png
+    - assets/images/avatar_image/boy_4.png
+    - assets/images/avatar_image/girl_0.png
+    - assets/images/avatar_image/girl_1.png
+    - assets/images/avatar_image/girl_2.png
+    - assets/images/avatar_image/girl_3.png
+    - assets/images/avatar_image/girl_4.png
     - assets/logo/grocery-cart.png
   # To add assets to your application, add an assets section, like this:
   # assets:

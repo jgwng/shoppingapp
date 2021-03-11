@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/screens/setting_page/announcement_page/announcement_detail_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 

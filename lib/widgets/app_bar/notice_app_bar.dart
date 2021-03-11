@@ -1,51 +1,34 @@
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/screens/notice_page/notice_list_page.dart';
+import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 
-class NoticeAppBar extends StatelessWidget implements PreferredSizeWidget{
-  final String title;
-  final VoidCallback onPressed;
-  NoticeAppBar({this.title,this.onPressed});
-
-
+class AnnouncementDetailPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return  AppBar(
-      automaticallyImplyLeading: false,
-      titleSpacing: 0,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      centerTitle: true,
-        leading:Theme(
-            data: ThemeData(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-            ),
-            child: IconButton(onPressed: (){
-              Navigator.pop(context);
-            },
-              icon: Icon(Icons.arrow_back_ios_outlined,color: Colors.black,),
-            )),
-      actions: [InkWell(
-          onTap:onPressed,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Icon(Icons.delete_outline_outlined,color: Colors.black,),
-          )
+    return Scaffold(
+        appBar: TextTitleAppBar(title: "공지사항",),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10,),
+              Text("Gunny의 서비스가 개시가 되었습니다!",style: AppThemes.textTheme.headline1,),
+              SizedBox(height: 5,),
+              Text("2021.02.10 ",style: AppThemes.textTheme.bodyText2.copyWith(
+                  color: AppThemes.inActiveColor
+              )),
 
-      )],
-      title:  Text(title,style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 23,color: Colors.black)),
+              SizedBox(height: 10,),
+              Divider(color: AppThemes.mainColor,height: 1,),
+              SizedBox(height: 10,),
+              Text("안녕하세요. (주)거니 입니다.\n\n여러분들 응원에 힘입어 거니의 서비스가 시작 되었습니다!\n앞으로 많은 이용 부탁드립니다.",
+                style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 14),)
+            ],
+          ),
+        )
     );
   }
-
-
-
-
-  @override
-  // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(60.0);
-
-
-
 }

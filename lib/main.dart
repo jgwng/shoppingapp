@@ -19,6 +19,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 );
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,10 +45,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+       primaryColor: Colors.black,
+        // primarySwatch: Colors.purple,
         accentColor: Colors.deepOrange,
-        fontFamily: 'Lato',
+
 
       ),
 

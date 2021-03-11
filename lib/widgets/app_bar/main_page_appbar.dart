@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/screens/no_data_page/no_data_page.dart';
 import 'package:shoppingapp/screens/notice_page/notice_list_page.dart';
 import 'package:shoppingapp/screens/order_cart_page/order_cart_page.dart';
-import 'package:shoppingapp/screens/favorite_list_page/favorite_list_page.dart';
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   final String title;
   MainAppBar({this.title});

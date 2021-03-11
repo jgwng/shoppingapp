@@ -6,8 +6,10 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
+import 'package:shoppingapp/screens/setting_page/personal_info_page/address_book_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_checkbox.dart';
+import 'package:shoppingapp/widgets/text_label_field.dart';
 
 class OrderInfoPage extends StatefulWidget{
   @override
@@ -31,11 +33,13 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
   TextEditingController phoneThirdController = TextEditingController();
   TextEditingController secondAddressController = TextEditingController();
   TextEditingController pointController = TextEditingController();
+  TextEditingController recipientController = TextEditingController();
 
   FocusNode phoneFirstFocusNode = FocusNode();
   FocusNode phoneSecondFocusNode = FocusNode();
   FocusNode phoneThirdFocusNode = FocusNode();
   FocusNode secondAddressFocusNode = FocusNode();
+  FocusNode recipientFocusNode = FocusNode();
 
   String postNumber = "우편번호";
   String firstAddress = '검색을 통해 주소를 입력하세요';
@@ -207,28 +211,41 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
         SizedBox(height: 10,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("배송지 정보",style: AppThemes.textTheme.subtitle1,),
-            Container(
-              height: 40,
-              child:GestureDetector(
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
                 onTap: (){
-                  setState(() {
-                    userAddressSelect = ! userAddressSelect;
-                  });
-                },
-                child: Icon(userAddressSelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
-              ),
-            ),
+              setState(() {
+                userAddressSelect = ! userAddressSelect;
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("배송 정보",style: AppThemes.textTheme.subtitle1,),
+                Container(
+                  height: 40,
+                  child: Icon(userAddressSelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
+                ),
 
-          ],
-        ),
+
+              ],
+            )),
           SizedBox(height: 10,),
         if(userAddressSelect)
         Column(
           children: [
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) =>  AddressBookPage() )),
+              child: Container(
+                height:40,alignment: Alignment.centerRight,child: Text("주소록 확인하기",style: AppThemes.textTheme.subtitle1,textAlign: TextAlign.right,),),
+
+            ),
+
+            
+            SizedBox(height: 10,),
+            TextLabelField(controller: recipientController,focusNode: recipientFocusNode,label: "받는 사람",hintText: "수령인",isNumber: false,),
+            SizedBox(height: 20,),
             Container(
                 child: Row(
                   children: [
@@ -254,36 +271,7 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
                       child: Text("주소 검색"),
                     ),
                     SizedBox(width: 10,),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          setState(() {
-                            isDefault =!isDefault;
-                          });
-                      },
-                        child:Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 15,height: 15,
-                            child: CustomCheckBox(
-                              radius: Radius.circular(3),
-                              borderColor: AppThemes.mainColor,
-                              value: isDefault,
-                              checkColor: Colors.white,
-                              activeColor: AppThemes.mainColor,
-                              onChanged: (value) {
-                                setState(() {
-                                  isDefault =!isDefault;
-                                });
-                              }, //체크시 개인정보 수집 및 이용 동의
-                            ),),
-                          SizedBox(width: 10,),
-                          Text("기본 배송지",style: AppThemes.textTheme.bodyText1,)
-                        ],
-                      )
-                    ),
-                    
+
                   ],
                 )
             ),

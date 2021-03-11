@@ -4,7 +4,6 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/app_text_list.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/screens/home_page/product_list_page.dart';
-import 'package:shoppingapp/widgets/category_item.dart';
 
 class CategoryList extends StatefulWidget{
   @override

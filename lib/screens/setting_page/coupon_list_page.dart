@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/check_coupon_info_dialog.dart';
-import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:shoppingapp/widgets/animation_coupon.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 

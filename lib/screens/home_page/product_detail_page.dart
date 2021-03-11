@@ -3,7 +3,6 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'dart:math' as math;
 class ProductDetailScreen extends StatefulWidget{
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();

@@ -12,4 +12,3 @@ class SelectStringModel{
   bool isSelected;
   SelectStringModel({this.text,this.isSelected});
 }
-

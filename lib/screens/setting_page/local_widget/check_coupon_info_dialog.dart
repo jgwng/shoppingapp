@@ -15,7 +15,7 @@ class _CheckCouponDialogState extends State<CheckCouponDialog>{
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+
     return AlertDialog(
       contentPadding: EdgeInsets.only(top: 10),
       title: Text("입력한 쿠폰 정보 확인",style:AppThemes.textTheme.bodyText1),

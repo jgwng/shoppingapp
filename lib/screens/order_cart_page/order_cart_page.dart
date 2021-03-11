@@ -290,7 +290,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
       bottomNavigationBar: Container(
         height :60,
 
-        padding: EdgeInsets.only(left: 24,right: 24,bottom:10,top:10),
+        padding: EdgeInsets.symmetric(horizontal: 24,vertical: 10),
         child: RaisedButton(
           elevation: 0,
           color: AppThemes.mainColor,

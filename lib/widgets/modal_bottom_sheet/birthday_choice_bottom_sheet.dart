@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/widgets/custom_text_button.dart';
 import 'package:intl/intl.dart';
 class BirthdayChoiceBottomSheet extends StatefulWidget {
@@ -15,7 +16,7 @@ class _BirthdayChoiceBottomSheetState extends State<BirthdayChoiceBottomSheet>{
   final initDate = DateFormat('yyyy-MM-dd').parse('2000-01-01');
 
 
-  TextStyle textStyle =  GoogleFonts.notoSans(fontWeight: FontWeight.w500,fontSize: 15,
+  TextStyle textStyle =  AppThemes.textTheme.bodyText1.copyWith(fontSize: 15,
       color: Color.fromRGBO(
           42, 42, 42, 1.0));
 

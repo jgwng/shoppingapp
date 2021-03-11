@@ -14,7 +14,7 @@ class _AdminNoticeDialogState extends State<AdminNoticeDialog>{
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+
     return AlertDialog(
         contentPadding: EdgeInsets.only(top: 10),
         title: Text("관리자 번호 입력",style:AppThemes.textTheme.bodyText1),

@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/screens/order_cart_page/order_cart_page.dart';
-import 'package:shoppingapp/screens/qr_code_scanner/qr_code_checkin.dart';
-import 'package:shoppingapp/screens/setting_page/personal_info_page.dart';
+import 'package:shoppingapp/screens/setting_page/personal_info_page/personal_info_page.dart';
 import 'package:shoppingapp/screens/setting_page/announcement_page/announcement_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/ask_question_page.dart';
 import 'package:shoppingapp/screens/setting_page/coupon_list_page.dart';
@@ -257,22 +255,6 @@ class _SettingPageState extends State<SettingPage>{
         break;
     }
   }
-  //avatar 이미지 선정시 사용 - 프로필 이미지 위에 겹친 상태로 있음
-  void showOverLay(BuildContext context) async {
-    OverlayState overlayState = Overlay.of(context);
-    OverlayEntry overlayEntry = OverlayEntry(
-        builder: (context) =>
-            Positioned(
-              top: 200.0, left: 95.0,
-              child: CircleAvatar(
-                radius: 10.0,
-                backgroundColor: Colors.red,
-                child: Text("1"),
-              ),
-            ));
-    overlayState.insert(overlayEntry);
-    await Future.delayed(Duration(seconds: 2));
-    overlayEntry.remove();
-  }
+
 
 }
