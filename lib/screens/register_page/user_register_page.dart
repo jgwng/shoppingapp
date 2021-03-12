@@ -3,9 +3,11 @@ import 'package:flutter/widgets.dart';
 
 import 'package:intl/intl.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-
+import 'package:flutter_riverpod/all.dart';
 import 'package:shoppingapp/constants/size.dart';
+import 'package:shoppingapp/landing_page.dart';
 import 'package:shoppingapp/models/user.dart';
+import 'package:shoppingapp/providers/register_state_provider.dart';
 import 'package:shoppingapp/screens/main_page.dart';
 import 'package:shoppingapp/screens/register_page/admin_notice_dialog.dart';
 import 'package:shoppingapp/utils/validators.dart';
@@ -135,7 +137,29 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
           ),
           onPressed: () async{
             // user.userToken = await FirebaseMessaging.instance.getToken();
-            Navigator.push(context,MaterialPageRoute(builder:(c) => MainPage()));
+            user.name = nameController.text;
+            user.userState = 2;
+
+            await context.read(nowStateProvider).registerUserData(user);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    LandingPage()), (route) => false);
+
+
+
+
+
+
+
+
+
+            // Navigator.push(context,MaterialPageRoute(builder:(c) => MainPage()));
+
+
+
+
+
+
           },
           child: Text("정보 입력",style: textStyle.copyWith(color: Colors.white,fontSize: 18),),
         ),

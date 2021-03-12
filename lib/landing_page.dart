@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,40 +35,40 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-                future: init,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    size = MediaQuery.of(context).size;
-                    paddingTop = MediaQuery.of(context).padding.top;
-                    paddingBottom = MediaQuery.of(context).padding.bottom;
-                    availableHeight =
-                        size.height - paddingTop - paddingBottom;
-                    sharedPreferencesServiceProvider.overrideWithValue(
-                        SharedPreferencesService(snapshot.data));
-                    return Consumer(
-                      builder: (context, watch, child) {
-                        final authStateChanges = watch(
-                            authStateChangesProvider);
-                        return authStateChanges.when(
-                            data: (user) {
-                              return  data(context, user);
-                            },
-                            loading: () => IntroPage(),
-                            error: (error, stackTrace) {
-                              print(error.toString());
-                              print(stackTrace);
-                              return Container();
-                            });
-                      },
+        body: FutureBuilder(
+            future: init,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                size = MediaQuery.of(context).size;
+                paddingTop = MediaQuery.of(context).padding.top;
+                paddingBottom = MediaQuery.of(context).padding.bottom;
+                availableHeight =
+                    size.height - paddingTop - paddingBottom;
+                sharedPreferencesServiceProvider.overrideWithValue(
+                    SharedPreferencesService(snapshot.data));
+                return Consumer(
+                  builder: (context, watch, child) {
+                    final authStateChanges = watch(
+                        authStateChangesProvider);
+                    return authStateChanges.when(
+                        data: (user) {
+                          return  data(context, user);
+                        },
+                        loading: () => IntroPage(),
+                        error: (error, stackTrace) {
+                          print(error.toString());
+                          print(stackTrace);
+                          return Container();
+                        });
+                  },
 
-                    ); // 로그인 화면
-                  }
+                ); // 로그인 화면
+              }
 
-                  return IntroPage();
-                }
-      )
-      );
+              return IntroPage();
+            }
+        )
+    );
   }
   Widget data(context, user){
     if(user != null)
