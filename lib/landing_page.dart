@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/providers/firebase_auth_provider.dart';
 import 'package:shoppingapp/providers/shared_preferences_provider.dart';
+import 'package:shoppingapp/screens/auth_page/auth_page.dart';
 import 'package:shoppingapp/screens/register_page/register_page.dart';
 import 'package:shoppingapp/screens/intro_page/Intro_page.dart';
 class LandingPage extends StatefulWidget{
@@ -74,6 +75,6 @@ class _LandingPageState extends State<LandingPage> {
   Widget data(context, user){
     if(user != null)
       return RegisterPage();
-    return RegisterPage();
+    return AuthPage();
   }
 }

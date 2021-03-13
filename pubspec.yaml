@@ -40,6 +40,9 @@ dependencies:
   qr_flutter: ^3.2.0
   flutter_local_notifications: ^3.0.1+6
   url_launcher: ^5.7.10
+  device_info: ^1.0.0
+  google_sign_in: ^4.5.6
+  kakao_flutter_sdk: ^0.6.0-beta.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
@@ -75,6 +78,10 @@ flutter:
           weight: 700
 
   assets:
+    - assets/images/auth_page/callback.png
+    - assets/images/auth_page/google.png
+    - assets/images/auth_page/kakaotalk.png
+    - assets/images/auth_page/supermarket.png
     - assets/images/set_fcm_page/advertising.png
     - assets/images/category_icon/braces.png
     - assets/images/category_icon/cap.png

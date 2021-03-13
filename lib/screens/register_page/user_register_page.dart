@@ -13,7 +13,7 @@ import 'package:kopo/kopo.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_radio.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
-
+import 'package:shoppingapp/screens/auth_page/auth_page.dart';
 
 class UserRegisterPage extends StatefulWidget{
   @override
@@ -135,7 +135,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
           ),
           onPressed: () async{
             // user.userToken = await FirebaseMessaging.instance.getToken();
-            Navigator.push(context,MaterialPageRoute(builder:(c) => MainPage()));
+            Navigator.push(context,MaterialPageRoute(builder:(c) => AuthPage()));
           },
           child: Text("정보 입력",style: textStyle.copyWith(color: Colors.white,fontSize: 18),),
         ),
