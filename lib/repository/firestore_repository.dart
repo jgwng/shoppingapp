@@ -12,10 +12,10 @@ class FirestoreRepository {
   String get uid => read(firebaseAuthProvider).currentUser.uid;
   FirestoreRepository({this.read});
 
-  Future<bool> getUserState() async {
+  Future<int> getUserState() async {
     DocumentReference userRef = firestore.doc(FirestorePath.user(uid));
     DocumentSnapshot userSnapshot = await userRef.get();
-    if (userSnapshot.data() == null) return false;
+    if (userSnapshot.data() == null) return 0;
     return userSnapshot.data()['userState'];
   }
 
@@ -33,8 +33,12 @@ class FirestoreRepository {
 
 
   Future<void> setUserData(User user) async {
+
     Map<String, dynamic> userInfo = user.toJson();
-    await firestore.collection('user').doc(uid).set(userInfo);
+    print(userInfo);
+    // print("uid : $uid");
+    await firestore.collection('user').doc(user.name).set(userInfo);
+    print("data update");
   }
 
-  }
+}

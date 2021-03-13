@@ -9,13 +9,13 @@ final registerStateProvider = Provider<RegisterState>((ref) {
 
 class RegisterState {
   final bool loading;
-  final bool userState;
+  final int userState;
   final String error;
 
 
   RegisterState({this.loading, this.userState, this.error});
 
-  RegisterState copyWith({bool loading, bool userState, String error}) {
+  RegisterState copyWith({bool loading, int userState, String error}) {
     return RegisterState(
         loading: loading ?? this.loading,
         userState: userState ?? this.userState,
@@ -36,7 +36,7 @@ class NowState extends StateNotifier<RegisterState>{
   Future<void> fetchUserState() async{
     state = state.copyWith(loading: true, error: '');
     try{
-      final bool userState = await read(firestoreProvider).getUserState();
+      final int userState = await read(firestoreProvider).getUserState();
 
       state = state.copyWith(loading: false, userState: userState,error: '');
     }catch(e){

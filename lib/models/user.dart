@@ -4,11 +4,11 @@ class User{
   String phoneNumber;
   String firstAddress;
   String secondAddress;
-  bool userState;
+  int userState;
   bool isAdmin;
   String userToken;
   User({this.userUID, this.name,this.phoneNumber,this.firstAddress,
-    this.secondAddress,this.userState : false,this.isAdmin :false,this.userToken});
+    this.secondAddress,this.userState : 0,this.isAdmin :false,this.userToken});
 
 
 
@@ -31,7 +31,7 @@ class User{
       phoneNumber: map['phoneNumber'] as String,
       firstAddress: map['firstAddress'] as String,
       secondAddress: map['secondAddress'] as String,
-      userState: map['userState'] as bool,
+      userState: map['userState'] as int,
       isAdmin: map['isAdmin'] as bool,
     );
   }
