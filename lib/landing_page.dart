@@ -32,7 +32,11 @@ class _LandingPageState extends State<LandingPage> {
     super.initState();
     init = initialize(context);
   }
+  @override
+  void dispose() {
+    super.dispose(); // always call super for dispose/initState
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

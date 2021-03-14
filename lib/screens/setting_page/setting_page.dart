@@ -10,7 +10,8 @@ import 'package:shoppingapp/screens/setting_page/grade_page.dart';
 import 'package:shoppingapp/screens/setting_page/notification_setting_page.dart';
 import 'package:shoppingapp/screens/setting_page/point_info_page.dart';
 import 'package:shoppingapp/screens/setting_page/term_of_use_page.dart';
-
+import 'package:shoppingapp/providers/user_state_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SettingPage extends StatefulWidget{
   @override
   _SettingPageState createState() => _SettingPageState();
@@ -25,21 +26,33 @@ class _SettingPageState extends State<SettingPage>{
     // TODO: implement build
    return Scaffold(
      backgroundColor: Colors.white,
-     body: NotificationListener<OverscrollIndicatorNotification>(
-       onNotification: (OverscrollIndicatorNotification overScroll){
-     overScroll.disallowGlow();
-     return;
-   },child :
-     SingleChildScrollView(
+     body: Consumer(builder : (context,watch,child){
+       return buildBody(context,watch(userStateProvider));
+     }),
 
-       padding: EdgeInsets.symmetric(horizontal: 30),
-       child: Column(
-         children: [
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => PersonalInfoPage())),
-              child: Container(
-                height: 120,
+       );
+  }
+
+
+
+
+
+  Widget buildBody(BuildContext context, UserState userState){
+    return NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (OverscrollIndicatorNotification overScroll){
+          overScroll.disallowGlow();
+          return;
+        },child :
+    SingleChildScrollView(
+
+        padding: EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+            children: [
+              GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => PersonalInfoPage())),
+                  child: Container(
+                      height: 120,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -48,7 +61,7 @@ class _SettingPageState extends State<SettingPage>{
                               children: [
                                 SizedBox(height: 20,),
                                 SizedBox(width: 80,height: 80,
-                                child:Image.asset("assets/images/setting_page/boy.png") ,),
+                                  child:Image.asset("assets/images/setting_page/boy.png") ,),
                               ],
                             ),
                           ),
@@ -57,14 +70,14 @@ class _SettingPageState extends State<SettingPage>{
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: 30,),
-                              Text("촉촉한초코우유",style: AppThemes.textTheme.headline1,),
+                              Text("${userState.currentUser.name}님",style: AppThemes.textTheme.headline1,),
                               SizedBox(height: 10,),
                               Row(mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                SizedBox(width: 30,height: 30,child: Image.asset("assets/images/setting_page/quality.png"),),
-                                SizedBox(width: 10,),
-                                Text("레벨 1",style: AppThemes.textTheme.subtitle1,)
-                              ]),
+                                    SizedBox(width: 30,height: 30,child: Image.asset("assets/images/setting_page/quality.png"),),
+                                    SizedBox(width: 10,),
+                                    Text("레벨 1",style: AppThemes.textTheme.subtitle1,)
+                                  ]),
 
                             ],
                           ),
@@ -83,31 +96,31 @@ class _SettingPageState extends State<SettingPage>{
                       )
                   )
               ),
-            Row(
-              children: [
-                couponNPointInfo("쿠폰","10개"),
-                couponNPointInfo("적립금","13000원"),
-              ],
-            ),
-            SizedBox(height: 15,),
-            Divider(color: AppThemes.mainColor,height: 1,thickness: 1,),
-           NotificationListener<OverscrollIndicatorNotification>(
-             onNotification: (OverscrollIndicatorNotification overScroll){
-               overScroll.disallowGlow();
-               return;
-             },child: Container(
-             height: 500,
-             child: ListView.separated(
-               separatorBuilder:(ctx,i) => Divider(height: 2,color: AppThemes.mainColor,thickness:1,),
-               itemCount: itemTitle.length,
-               physics: NeverScrollableScrollPhysics(),
-               shrinkWrap: true,
-               itemBuilder: (ctx,i) =>
-                   GestureDetector(
-                       behavior: HitTestBehavior.opaque,
-                     onTap: () => onTap(i),
-                   child: listItem(i))),
-           ),),
+              Row(
+                children: [
+                  couponNPointInfo("쿠폰","10개"),
+                  couponNPointInfo("적립금","13000원"),
+                ],
+              ),
+              SizedBox(height: 15,),
+              Divider(color: AppThemes.mainColor,height: 1,thickness: 1,),
+              NotificationListener<OverscrollIndicatorNotification>(
+                onNotification: (OverscrollIndicatorNotification overScroll){
+                  overScroll.disallowGlow();
+                  return;
+                },child: Container(
+                height: 500,
+                child: ListView.separated(
+                    separatorBuilder:(ctx,i) => Divider(height: 2,color: AppThemes.mainColor,thickness:1,),
+                    itemCount: itemTitle.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (ctx,i) =>
+                        GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () => onTap(i),
+                            child: listItem(i))),
+              ),),
 
 
 
@@ -115,37 +128,34 @@ class _SettingPageState extends State<SettingPage>{
 
 
 
-           //버전정보 Container 생성
-           SizedBox(height: 15,),
-           Center(
-             child: Column(
-               mainAxisAlignment: MainAxisAlignment.center,
-               crossAxisAlignment: CrossAxisAlignment.center,
-               children: [
-                 RichText(
-                   text: TextSpan(text: '24시간 연중무휴 고객 센터  ',style : textStyle.copyWith(
-                       color: Colors.grey,fontSize: 14
-                   ),children:[
-                     TextSpan(text: '1234-5678',style : textStyle.copyWith(fontWeight: FontWeight.w700))
-                   ]),
-                 ),
-                 SizedBox(height: 8,),
-                 Text("CopyRight to Gunny in Daejeon, All Rights Reserved",style: AppThemes.textTheme.bodyText2.copyWith(
-                     color: AppThemes.inActiveColor
-                 ),textAlign: TextAlign.center),
-                 SizedBox(height :30),
+              //버전정보 Container 생성
+              SizedBox(height: 15,),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    RichText(
+                      text: TextSpan(text: '24시간 연중무휴 고객 센터  ',style : textStyle.copyWith(
+                          color: Colors.grey,fontSize: 14
+                      ),children:[
+                        TextSpan(text: '1234-5678',style : textStyle.copyWith(fontWeight: FontWeight.w700))
+                      ]),
+                    ),
+                    SizedBox(height: 8,),
+                    Text("CopyRight to Gunny in Daejeon, All Rights Reserved",style: AppThemes.textTheme.bodyText2.copyWith(
+                        color: AppThemes.inActiveColor
+                    ),textAlign: TextAlign.center),
+                    SizedBox(height :30),
 
-               ],
-             ),
-           ),
-           SizedBox(height: 10,),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10,),
 
             ]
-           ))),
-
-       );
+        )));
   }
-
 
 
   Widget listItem(int index){

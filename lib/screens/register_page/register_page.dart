@@ -12,7 +12,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
+  final globalScaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -23,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: globalScaffoldKey,
         body: ProviderListener(
             provider: nowStateProvider,
             onChange: (context, userState) {
@@ -35,13 +36,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     });
               }},
             child: Consumer(builder: (context, watch, child){
-              return buildBody(watch(registerStateProvider), context);}
+              return buildBody(watch(registerStateProvider));}
             )
         ));
   }
 
-  Widget buildBody(RegisterState registerState, BuildContext context){
-
+  Widget buildBody(RegisterState registerState){
+//    print(registerState.userState);
     if (registerState == NowState.initialRegisterState)
       return Center(child: CircularProgressIndicator());
     if(registerState.loading)
@@ -50,8 +51,8 @@ class _RegisterPageState extends State<RegisterPage> {
       return Container();
     if(registerState.userState == 2)
       return MainPage();
-    if(registerState.userState == null)
+    if(registerState.userState == 0)
       return UserRegisterPage();
-    return Center(child: CircularProgressIndicator());
+    return Container();
   }
 }

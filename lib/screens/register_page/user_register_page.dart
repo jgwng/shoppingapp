@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/constants/size.dart';
-import 'package:shoppingapp/landing_page.dart';
+import 'package:shoppingapp/screens/main_page.dart';
 import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/providers/register_state_provider.dart';
-import 'package:shoppingapp/screens/main_page.dart';
+import 'package:shoppingapp/screens/register_page/register_page.dart';
 import 'package:shoppingapp/screens/register_page/admin_notice_dialog.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
@@ -51,8 +51,20 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   bool verifyAdmin = false;
 
   @override
+  void dispose() {
+    super.dispose(); // always call super for dispose/initState
+    nameController.dispose();
+    phoneNumberController.dispose();
+    secondAddressController.dispose();
+    adminVerifyNumberController.dispose();
+    birthdayController.dispose();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Colors.white,
         appBar: TextTitleAppBar(title:"회원 가입"),
      body:NotificationListener<OverscrollIndicatorNotification>(
@@ -135,32 +147,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
             borderRadius: BorderRadius.circular(6.0),
 
           ),
-          onPressed: () async{
-            // user.userToken = await FirebaseMessaging.instance.getToken();
-            user.name = nameController.text;
-            user.userState = 2;
-
-            await context.read(nowStateProvider).registerUserData(user);
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    LandingPage()), (route) => false);
-
-
-
-
-
-
-
-
-
-            // Navigator.push(context,MaterialPageRoute(builder:(c) => MainPage()));
-
-
-
-
-
-
-          },
+          onPressed: () => onPressed(),
           child: Text("정보 입력",style: textStyle.copyWith(color: Colors.white,fontSize: 18),),
         ),
       ),
@@ -433,6 +420,20 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         )
       ],
     );
+  }
+
+
+
+  void onPressed() async{
+    user.name = nameController.text;
+    user.userState = 2;
+
+    await context.read(nowStateProvider).registerUserData(user);
+    if(!mounted) return;
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+        builder: (BuildContext context) =>
+            MainPage()), (route) => true);
+
   }
 
 

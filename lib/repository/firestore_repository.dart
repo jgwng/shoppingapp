@@ -36,8 +36,8 @@ class FirestoreRepository {
 
     Map<String, dynamic> userInfo = user.toJson();
     print(userInfo);
-    // print("uid : $uid");
-    await firestore.collection('user').doc(user.name).set(userInfo);
+    print("uid : $uid");
+    await firestore.collection('user').doc(uid).set(userInfo);
     print("data update");
   }
 

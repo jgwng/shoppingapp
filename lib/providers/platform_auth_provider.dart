@@ -50,36 +50,36 @@ class SignInViewModel with ChangeNotifier {
     }
   }
 
-    // Future<void> signInWithNaver(BuildContext context)async{
-    // String naver_url = "http://plan20.naverlogin.com";
-    // String _nToken = await Navigator.of(context).push(
-    //   MaterialPageRoute(builder: (BuildContext context){
-    //     return WebView(
-    //       initialUrl: naver_url,
-    //       javascriptChannels: Set.from([JavascriptChannel(
-    //         name: "clay",
-    //         onMessageReceived: (JavascriptMessage result) async{
-    //           if(result.message != null) return Navigator.of(context).pop(result.message);
-    //           return Navigator.of(context).pop();
-    //         }
-    //       )]),
-    //     );
-    //   })
-    // );
-    //
-    // print(_nToken);
-    // NaverLogin naverLogin = NaverLogin();
-    // await naverLogin.login();
-    // await naverLogin.getToken();
-    // await NaverLogin().buttonLogoutPressed();
-    // HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "customAuth");
-    // HttpsCallableResult result =  await callable.call(<String,dynamic>{
-    //   "userId" : naverLogin.accesToken,
-    //   "provider" : 'NAVER'});
-    // print(result.data);
-    // auth.User user = await signInWithCustomToken(result.data);
-    // print(user.uid);
-    // }
+  Future<void> signInWithPhone() async{
+
+
+//https://www.youtube.com/watch?v=PEUUYOQ2Ixo&t=469s
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: '+82 010 4129 0741',
+      timeout: const Duration(seconds: 60),
+      verificationCompleted: (PhoneAuthCredential credential) async{
+        await auth.signInWithCredential(credential);
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        if (e.code == 'invalid-phone-number') {
+          print('The provided phone number is not valid.');
+        }
+        // Handle other errors
+      },
+      codeSent: (String verificationId, int resendToken) async {
+        // Update the UI - wait for the user to enter the SMS code
+        String smsCode = 'xxxx';
+
+        // Create a PhoneAuthCredential with the code
+        PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+
+        // Sign the user in (or link) with the credential
+        await auth.signInWithCredential(phoneAuthCredential);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
 
   Future<void> signInWithKakao() async{
     try {

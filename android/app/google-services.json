@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "973297503288-gjstq1dd25bsa0sssbhnagdd24he9vug.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gunwng.shoppingapp",
+            "certificate_hash": "ee7966b50ffc9a6987bdf6ea3fb5dee247827125"
+          }
+        },
+        {
           "client_id": "973297503288-u6q7q9k55s3dgpjkhk97d8js0g8i1cg6.apps.googleusercontent.com",
           "client_type": 3
         }

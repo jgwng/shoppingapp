@@ -5,7 +5,8 @@ import 'package:shoppingapp/screens/home_page/category_list_page.dart';
 import 'package:shoppingapp/screens/order_check_page/order_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shoppingapp/providers/user_state_provider.dart';
 
 class MainPage extends StatefulWidget{
   @override
@@ -49,7 +50,12 @@ class _MainPageState extends State<MainPage>{
   final List<String> _titleList = ["Gunny","전체 보기","배송 관리","앱 설정"];
 
 
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(seconds: 0),()=>context.read(currentUserProvider).getUserData());
+  }
 
   @override
   Widget build(BuildContext context) {
