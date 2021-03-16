@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,14 +7,14 @@ import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/screens/main_page.dart';
 import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/providers/register_state_provider.dart';
-import 'package:shoppingapp/screens/register_page/register_page.dart';
 import 'package:shoppingapp/screens/register_page/admin_notice_dialog.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_radio.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
-
+import 'package:flutter/services.dart';
+import 'package:shoppingapp/screens/register_page/phone_verification.dart';
 
 class UserRegisterPage extends StatefulWidget{
   @override
@@ -175,9 +174,6 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
 
                   prefixIcon: (index == 3) ? Icon(Icons.supervisor_account) : null,
                   suffixIcon: ((index == 3)) ? GestureDetector(
-                    onTap :(){
-                      print("aaa");
-                    },
                     child: Container(
                       width: 100,
                       alignment: Alignment.centerRight,
@@ -233,9 +229,15 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                   ),
 
                   suffixIcon: (verification) ? GestureDetector(
-                              onTap :(){
-                                print("aaa");
-                              },
+                          behavior: HitTestBehavior.opaque,
+                          onTap :() async {
+                            SystemChannels.textInput.invokeMethod('TextInput.hide');
+                            FocusScopeNode currentFocus = FocusScope.of(context);
+                            if(!currentFocus.hasPrimaryFocus){
+                              currentFocus.unfocus();
+                            }
+                            bool verified = await  Navigator.push(context,MaterialPageRoute(builder:(c) => PhoneVerification(phoneNumber: phoneNumberController.text,)));
+                          },
                               child: Container(
                                 width: 100,
                                 alignment: Alignment.centerRight,

@@ -114,6 +114,7 @@ flutter:
     - assets/images/avatar_image/girl_2.png
     - assets/images/avatar_image/girl_3.png
     - assets/images/avatar_image/girl_4.png
+    - assets/images/register_page/delete.png
     - assets/logo/grocery-cart.png
   # To add assets to your application, add an assets section, like this:
   # assets:
