@@ -2,19 +2,31 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'dart:math' as math;
-
+import 'package:flutter/gestures.dart';
 import 'package:shoppingapp/widgets/keypad.dart';
-
+import 'package:shoppingapp/widgets/count_down_timer.dart';
+import 'package:shoppingapp/service/send_SMS.dart';
 class PhoneVerification extends StatefulWidget{
-  PhoneVerification({Key key, this.phoneNumber}) : super(key: key);
+  PhoneVerification({Key key, this.phoneNumber,this.initOTP}) : super(key: key);
   final String phoneNumber;
+  final int initOTP;
   @override
   _PhoneVerificationState createState() => _PhoneVerificationState();
 }
 
-class _PhoneVerificationState extends State<PhoneVerification>{
-  String testNumber = "123456";
+class _PhoneVerificationState extends State<PhoneVerification> with TickerProviderStateMixin{
+  String otpNumber = "";
   String inputOTP  = '';
+
+  AnimationController animationController;
+  bool hasTimerStopped = false;
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(vsync: this,duration: Duration(seconds: 300));
+    otpNumber = widget.initOTP.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,15 +39,34 @@ class _PhoneVerificationState extends State<PhoneVerification>{
             Padding(
               padding: EdgeInsets.only(left: 30),
               child:RichText(
-                text: TextSpan(text: '01041290741',style : AppThemes.textTheme.bodyText1.copyWith(
-                    color: Colors.grey,fontSize: 14
+                text: TextSpan(text: '${widget.phoneNumber}',style : AppThemes.textTheme.bodyText1.copyWith(
+                    color: AppThemes.pointColor,fontSize: 25
                 ),children:[
-                  TextSpan(text: '으로 전송된 인증번호를\n입력해 주세요.',style : AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700))
+                  TextSpan(text: '으로 전송된\n인증번호를 입력해 주세요.',style : AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700,height: 1.5))
                 ]),
               ),
             ),
-            SizedBox(height: 150,),
-            Center(
+            SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(width:30),
+            Text("남은 시간",style : AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700)),
+            CountDownTimer(
+                controller :animationController,
+                whenTimeExpires: () {
+                  setState(() {
+                    print("AAAAAA");
+                    hasTimerStopped = true;
+                  });
+                },
+                secondsRemaining: 300,
+                countDownTimerStyle: AppThemes.textTheme.subtitle1.copyWith(
+                    color: AppThemes.pointColor)
+            )
+          ],),
+          SizedBox(height: 90,),
+          Center(
               child: Container(
                 height: 50,
                 alignment: Alignment.center,
@@ -49,7 +80,32 @@ class _PhoneVerificationState extends State<PhoneVerification>{
                 ),
               ),
             ),
-            SizedBox(height: 150,),
+            SizedBox(height: 75,),
+
+            Center(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(text: '인증번호가 도착하지 않았나요?   ',style : AppThemes.textTheme.bodyText1.copyWith(
+                    color: Colors.black,fontSize: 14
+                ),children:[
+                  TextSpan(text: '재전송하기.',style : AppThemes.textTheme.bodyText1.copyWith(color: AppThemes.pointColor),recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    setState(() {
+
+                      animationController.stop();
+                      animationController.dispose();
+                      animationController = new AnimationController(vsync: this,duration: Duration(seconds: 300));
+                      animationController.reverse(from: 300.0);
+                      int newOTPNumber = makeOTPNumber();
+                      sendSMS("01041290741",newOTPNumber);
+                      otpNumber = newOTPNumber.toString();
+
+                    });
+                  }),
+                ]),
+              ),
+            ),
+            SizedBox(height: 80,),
             KeyPad(onTap: onTap,),
           ],
         ),
@@ -67,8 +123,13 @@ class _PhoneVerificationState extends State<PhoneVerification>{
    setState(() {
     if(inputOTP.length == 6){
       if(inputOTP== testNumber){
+        animationController.stop();
+        animationController.dispose();
         Navigator.pop(context);
       }else{
+        setState(() {
+          inputOTP = "";
+        });
         print("failed");
       }
     }
