@@ -47,7 +47,7 @@ class KeyPad extends StatelessWidget {
     if(text.length==1){
       return Text(
         text,
-        style: AppThemes.textTheme.headline1,
+        style: AppThemes.textTheme.headline2,
       );
     }else{
       return Image.asset(text);

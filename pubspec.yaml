@@ -99,6 +99,8 @@ flutter:
     - assets/images/setting_page/woman.png
     - assets/images/setting_page/coins.png
     - assets/images/setting_page/quality.png
+    - assets/images/select_page/startup.png
+    - assets/images/select_page/store.png
     - assets/images/data_none_page/box.png
     - assets/images/data_none_page/deadline.png
     - assets/images/data_none_page/message.png

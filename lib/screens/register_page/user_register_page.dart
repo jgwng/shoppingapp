@@ -15,6 +15,7 @@ import 'package:shoppingapp/widgets/custom_radio.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:flutter/services.dart';
 import 'package:shoppingapp/screens/register_page/phone_verification.dart';
+import 'package:shoppingapp/screens/select_page/select_page.dart';
 
 class UserRegisterPage extends StatefulWidget{
   @override
@@ -427,14 +428,14 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
 
 
   void onPressed() async{
-    user.name = nameController.text;
-    user.userState = 2;
-
-    await context.read(nowStateProvider).registerUserData(user);
+//    user.name = nameController.text;
+//    user.userState = 2;
+//
+//    await context.read(nowStateProvider).registerUserData(user);
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (BuildContext context) =>
-            MainPage()), (route) => true);
+            SelectOnOrOff()), (route) => true);
 
   }
 

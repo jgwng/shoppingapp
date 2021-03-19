@@ -40,7 +40,7 @@ class _PhoneVerificationState extends State<PhoneVerification> with TickerProvid
               padding: EdgeInsets.only(left: 30),
               child:RichText(
                 text: TextSpan(text: '${widget.phoneNumber}',style : AppThemes.textTheme.bodyText1.copyWith(
-                    color: AppThemes.pointColor,fontSize: 25
+                    color: AppThemes.pointColor,fontSize: 30
                 ),children:[
                   TextSpan(text: '으로 전송된\n인증번호를 입력해 주세요.',style : AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700,height: 1.5))
                 ]),
@@ -122,7 +122,7 @@ class _PhoneVerificationState extends State<PhoneVerification> with TickerProvid
    }
    setState(() {
     if(inputOTP.length == 6){
-      if(inputOTP== testNumber){
+      if(inputOTP== otpNumber){
         animationController.stop();
         animationController.dispose();
         Navigator.pop(context);
