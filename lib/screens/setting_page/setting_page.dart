@@ -10,7 +10,7 @@ import 'package:shoppingapp/screens/setting_page/grade_page.dart';
 import 'package:shoppingapp/screens/setting_page/notification_setting_page.dart';
 import 'package:shoppingapp/screens/setting_page/point_info_page.dart';
 import 'package:shoppingapp/screens/setting_page/term_of_use_page.dart';
-import 'package:shoppingapp/providers/user_state_provider.dart';
+import 'file:///C:/Users/gwjun/AndroidStudioProjects/shopping_app/lib/providers/user_provider/user_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SettingPage extends StatefulWidget{
   @override

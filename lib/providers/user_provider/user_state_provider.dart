@@ -36,23 +36,6 @@ class CurrentUserState extends StateNotifier<UserState> {
     state = state.copyWith(error: '',currentUser: user);
   }
 
-
-
-
-
-
-
-  Future<void> fetchUser(User myUser) async{
-    try{
-      read(nowLoadingStateProvider).onLoading("user");
-      state = state.copyWith(currentUser: myUser, error: '');
-      read(nowLoadingStateProvider).offLoading("user");
-    }catch(e){
-      state = state.copyWith(error: e.toString());
-      read(nowLoadingStateProvider).offLoading("user");
-    }
-  }
-
   updatePhoneNumber(String phoneNumber) async{
     read(nowLoadingStateProvider).onLoading("user");
     Map<String, dynamic> updateData = {

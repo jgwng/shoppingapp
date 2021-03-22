@@ -20,4 +20,26 @@ class Product with ChangeNotifier{
     isFavorite = !isFavorite;
     notifyListeners();
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': this.id,
+      'title': this.title,
+      'description': this.description,
+      'price': this.price,
+      'imageUrl': this.imageUrl,
+      'isFavorite': this.isFavorite,
+    };
+  }
+
+  factory Product.fromJson(Map<String, dynamic> map) {
+    return new Product(
+      id: map['id'] as String,
+      title: map['title'] as String,
+      description: map['description'] as String,
+      price: map['price'] as double,
+      imageUrl: map['imageUrl'] as String,
+      isFavorite: map['isFavorite'] as bool,
+    );
+  }
 }

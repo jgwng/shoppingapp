@@ -8,7 +8,6 @@ import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
 import 'package:shoppingapp/screens/setting_page/personal_info_page/address_book_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
-import 'package:shoppingapp/widgets/custom_checkbox.dart';
 import 'package:shoppingapp/widgets/text_label_field.dart';
 
 class OrderInfoPage extends StatefulWidget{

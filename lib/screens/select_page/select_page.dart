@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
-import 'package:shoppingapp/providers/user_state_provider.dart';
+import 'file:///C:/Users/gwjun/AndroidStudioProjects/shopping_app/lib/providers/user_provider/user_state_provider.dart';
 import 'package:shoppingapp/screens/main_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,22 +32,20 @@ class _SelectOnOrOffState extends State<SelectOnOrOff> {
                     Text("어디서 쇼핑하시나요?", style: AppThemes.textTheme.headline1.copyWith(color: Color.fromRGBO(75, 75, 75, 1.0),
                     fontSize: 26)),
                     SizedBox(height: widgetHeight(60)),
-                    _selectPetButton("온라인","startup"),
+                    _selectButton("온라인","startup"),
                     SizedBox(height: widgetHeight(60)),
-                    _selectPetButton("오프라인","store"),
+                    _selectButton("오프라인","store"),
                   ])
           ),
         ),
       );
   }
 
-  Widget _selectPetButton(String selectText,
+  Widget _selectButton(String selectText,
       String imageName) {
     return GestureDetector(
       onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => (selectText == "온라인") ? MainPage() : MainPage())),
-      child: Container(
-
-        child: Column(
+      child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -69,8 +67,7 @@ class _SelectOnOrOffState extends State<SelectOnOrOff> {
               Text(selectText,
                 style: AppThemes.textTheme.headline2.copyWith(color: Color.fromRGBO(75, 75, 75, 1.0)),),
             ]
-        ),
-      ),
+        )
     );
   }
 

@@ -10,7 +10,6 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/providers/firebase_auth_provider.dart';
 import 'package:shoppingapp/providers/platform_auth_provider.dart';
-import 'package:shoppingapp/screens/main_page.dart';
 class AuthPage extends ConsumerWidget {
 
   final signInModelProvider = ChangeNotifierProvider<SignInViewModel>(
