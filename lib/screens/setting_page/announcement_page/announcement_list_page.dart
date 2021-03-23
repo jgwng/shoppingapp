@@ -18,16 +18,19 @@ class _AnnouncementListPageState extends State<AnnouncementListPage>{
         body: SingleChildScrollView(
 
           child:  Container(
-             height: itemHeight*3+10,
+             height: itemHeight*3+50,
              width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: EdgeInsets.symmetric(horizontal: 24),
              child: ListView.separated(
                  itemBuilder: (ctx,i) => GestureDetector(
                    behavior: HitTestBehavior.opaque,
                    onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => AnnouncementDetailPage())),
                    child: announcementListItem("title", "createdAt"),
                  ),
-                 separatorBuilder: (ctx, i) => Divider(height: 1,thickness: 1,color: AppThemes.mainColor,),
+                 separatorBuilder: (ctx, i) => Padding(
+                   padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Divider(height: 1,thickness: 1,color: AppThemes.mainColor,),
+                 ),
                  itemCount: 3),
            ),
           ),

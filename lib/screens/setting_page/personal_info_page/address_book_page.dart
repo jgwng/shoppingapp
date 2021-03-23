@@ -59,6 +59,20 @@ class _AddressBookPageState extends State<AddressBookPage>{
            ],
         )
       ),
+      bottomNavigationBar: Container(
+        height :60,
+
+        padding: EdgeInsets.symmetric(horizontal: 24,vertical: 10),
+        child: RaisedButton(
+          elevation: 0,
+          color: AppThemes.mainColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6.0),
+          ),
+          onPressed: () => Navigator.pop(context),
+          child: Text("배송지 선택 완료",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
+        ),
+      ),
 
     );
   }

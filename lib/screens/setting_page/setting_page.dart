@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
 import 'package:shoppingapp/screens/setting_page/personal_info_page/personal_info_page.dart';
 import 'package:shoppingapp/screens/setting_page/announcement_page/announcement_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/ask_question_page.dart';
@@ -8,9 +9,8 @@ import 'package:shoppingapp/screens/setting_page/coupon_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/faq_page.dart';
 import 'package:shoppingapp/screens/setting_page/grade_page.dart';
 import 'package:shoppingapp/screens/setting_page/notification_setting_page.dart';
-import 'package:shoppingapp/screens/setting_page/point_info_page.dart';
+import 'package:shoppingapp/screens/setting_page/point_info_page/point_info_page.dart';
 import 'package:shoppingapp/screens/setting_page/term_of_use_page.dart';
-import 'file:///C:/Users/gwjun/AndroidStudioProjects/shopping_app/lib/providers/user_provider/user_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SettingPage extends StatefulWidget{
   @override
@@ -61,7 +61,7 @@ class _SettingPageState extends State<SettingPage>{
                               children: [
                                 SizedBox(height: 20,),
                                 SizedBox(width: 80,height: 80,
-                                  child:Image.asset("assets/images/setting_page/boy.png") ,),
+                                  child:Image.asset("assets/images/avatar_image/boy_0.png") ,),
                               ],
                             ),
                           ),

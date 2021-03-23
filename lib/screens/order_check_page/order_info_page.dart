@@ -74,6 +74,20 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+        height :60,
+
+        padding: EdgeInsets.symmetric(horizontal: 24,vertical: 10),
+        child: RaisedButton(
+          elevation: 0,
+          color: AppThemes.mainColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6.0),
+          ),
+          onPressed: () => Navigator.pop(context),
+          child: Text("45000원 주문하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
+        ),
+      ),
     );
   }
 
@@ -87,26 +101,25 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("주문자 정보",style: AppThemes.textTheme.subtitle1,),
-              Container(
+              GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: (){
+                  setState(() {
+                    userInfoSelect = ! userInfoSelect;
+                  });
+                },
+                  child:Container(
                 height: 40,
                 child: Row(
                   children: [
                     Text("aaaaaaaa | 010-4434-5151",style: AppThemes.textTheme.subtitle2,),
 
-                    GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          userInfoSelect = ! userInfoSelect;
-                        });
-                      },
-                      child: Icon(userInfoSelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
-                    )],
+                    Icon(userInfoSelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
+                  ],
                 ),
-              ),
-
+              )),
             ],
           ),
-
           SizedBox(height: 10,),
           if(userInfoSelect)
           Column(
@@ -235,7 +248,9 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
           children: [
             GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) =>  AddressBookPage() )),
+              onTap: () async {
+                List<String> addressList = await Navigator.push(context,MaterialPageRoute(builder:(c) =>  AddressBookPage()));
+              },
               child: Container(
                 height:40,alignment: Alignment.centerRight,child: Text("주소록 확인하기",style: AppThemes.textTheme.subtitle1,textAlign: TextAlign.right,),),
 
@@ -248,8 +263,11 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
             Container(
                 child: Row(
                   children: [
-                    Text(postNumber,style : AppThemes.textTheme.bodyText1),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 80,
+                      child: Text(postNumber,style : AppThemes.textTheme.bodyText1.copyWith(fontSize: 15,
+                          color: Color.fromRGBO(
+                              42, 42, 42, 1.0))),),
+                    SizedBox(width: 20,),
                     RaisedButton(
                       onPressed: () async {
                         FocusManager.instance.primaryFocus.unfocus();
@@ -507,7 +525,7 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
               SizedBox(height:10),
               amountListItem("상품 할인","0원"),
               SizedBox(height:10),
-               amountListItem("쿠폰/포인트 할인","${ pointController.text}원"),
+               amountListItem("쿠폰/포인트 할인","${ (pointController.text == "") ? 0 : pointController.text}원"),
               SizedBox(height:10),
               amountListItem("배송비","2000원"),
               SizedBox(height:20),

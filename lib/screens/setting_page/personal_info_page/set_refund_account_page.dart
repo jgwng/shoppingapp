@@ -86,7 +86,7 @@ class _RefundAccountPageState extends State<RefundAccountPage>{
             borderRadius: BorderRadius.circular(6.0),
           ),
           onPressed: () => Navigator.pop(context),
-          child: Text("배송지 수정하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
+          child: Text("환불 계좌 저장하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
         ),
       ),
 

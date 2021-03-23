@@ -11,4 +11,6 @@ class FirestorePath{
   static String favoriteItem(String userUid,String product) => 'user/$userUid/favorite/$product';
 
   static String coupon(String userUid) => 'user/$userUid/coupon';
+
+
 }

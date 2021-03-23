@@ -32,7 +32,7 @@ class _AccountBankChoiceBottomSheetState extends State<AccountBankChoiceBottomSh
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350,
+      height: 360,
       child: _buildBody(context),
     );
   }
@@ -44,7 +44,7 @@ class _AccountBankChoiceBottomSheetState extends State<AccountBankChoiceBottomSh
       child: Column(
         children: [
           SizedBox(
-            height: 12,
+            height: 22,
           ),
           Text.rich(
             TextSpan(children: [
@@ -56,12 +56,11 @@ class _AccountBankChoiceBottomSheetState extends State<AccountBankChoiceBottomSh
             ]),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height:10),
+          SizedBox(height:5),
           _buildButtons(context),
           Container(
             height: 260,
             child: CupertinoPicker(
-
               magnification: 1,
               backgroundColor: Colors.white,
               children: accountBankList,
@@ -80,7 +79,7 @@ class _AccountBankChoiceBottomSheetState extends State<AccountBankChoiceBottomSh
   Widget _buildButtons(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.only(left: 40, right: 40),
+      padding: EdgeInsets.symmetric(horizontal: 40),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

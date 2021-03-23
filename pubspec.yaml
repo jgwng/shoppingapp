@@ -95,8 +95,6 @@ flutter:
     - assets/images/grade_page/grade_4.png
     - assets/images/grade_page/grade_5.png
     - assets/images/coupon_list_page/checkmark.png
-    - assets/images/setting_page/boy.png
-    - assets/images/setting_page/woman.png
     - assets/images/setting_page/coins.png
     - assets/images/setting_page/quality.png
     - assets/images/select_page/startup.png

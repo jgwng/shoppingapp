@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:shoppingapp/constants/firestore_path.dart';
 import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/models/user.dart';
+import 'package:shoppingapp/models/announcement.dart';
 import 'package:shoppingapp/providers/firebase_auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,7 +24,7 @@ class FirestoreRepository {
   Future<User> fetchUserData() async {
     DocumentReference userRef = firestore.doc(FirestorePath.user(uid));
     DocumentSnapshot userSnapshot = await userRef.get();
-    User user = User.fromJson(userSnapshot.data(), userSnapshot.id);
+    User user = User.fromJson(userSnapshot.data());
     return user;
   }
 
@@ -75,6 +76,17 @@ class FirestoreRepository {
     }
     return cartList;
   }
+
+  Future<List<Announcement>> fetchAllAnnouncement() async{
+    Query announcementQuery = firestore.collection('announcement');
+    QuerySnapshot snapshots = await announcementQuery.get();
+    List<Announcement> announcementList = [];
+    if (snapshots.size != 0) {
+      announcementList = snapshots.docs.map((e) => Announcement.fromJson(e.data())).toList();
+    }
+    return announcementList;
+  }
+
 
   addFavoriteItem(Product product) async {
     Map<String,dynamic> newCartItem  = product.toJson();

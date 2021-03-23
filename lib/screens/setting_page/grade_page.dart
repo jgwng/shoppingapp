@@ -63,7 +63,8 @@ class _GradeDetailState extends State<GradeDetail>{
               ),
             ),
             SizedBox(height: 20,),
-            gradeNotice()
+            gradeNotice(),
+
           ],
         ),
       )),
@@ -139,7 +140,8 @@ class _GradeDetailState extends State<GradeDetail>{
         SizedBox(height: 10,),
         Text('- 결제 금액은 포인트/쿠폰 등 할인 금액을 제외한\n   실제 금액입니다.',style: noticeStyle),
         SizedBox(height: 10,),
-        Text('- 회원 등급별 혜택 및 산정 기준은 사전 통지 후\n   변경 될 수 있습니다.',style: noticeStyle,)
+        Text('- 회원 등급별 혜택 및 산정 기준은 사전 통지 후\n   변경 될 수 있습니다.',style: noticeStyle,),
+        SizedBox(height: 20,),
 
 
       ],

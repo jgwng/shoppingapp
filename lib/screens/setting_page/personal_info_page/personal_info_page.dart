@@ -104,6 +104,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 10),
                   GestureDetector(
                     onTap: ()  {
 

@@ -106,10 +106,15 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
                       //개인정보 수집 및 이용동의 체크 부분
                       checkPrivacyNNotice(),
                       SizedBox(height: widgetHeight(30),),
-                      SizedBox(
+                      Container(
                         width: 160,
                         height: 40,
+                        decoration: BoxDecoration(
+
+                          borderRadius: BorderRadius.circular(6.0)
+                        ),
                         child: RaisedButton(
+                          color:AppThemes.mainColor,
                           onPressed: (){
                             question.createdAt = DateTime.now();
                             question.title = questionTitleController.text;
@@ -121,7 +126,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
                             //FCM전송 & FirebaseDB 업데이트
                           },
                           child: Center(
-                            child: Text("문의 전송",textAlign: TextAlign.center,style: textStyle,),
+                            child: Text("문의 전송",textAlign: TextAlign.center,style: textStyle.copyWith(color: Colors.white),),
                           ),
                         ),
                       )
