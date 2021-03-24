@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/providers/user_provider/register_state_provider.dart';
 import 'package:shoppingapp/screens/register_page/user_register_page.dart';
 import 'package:shoppingapp/screens/main_page.dart';
+import 'package:shoppingapp/screens/select_page/select_page.dart';
 
 class RegisterPage extends StatefulWidget {
 
@@ -50,7 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if(registerState.userState == 1)
       return Container();
     if(registerState.userState == 2)
-      return MainPage();
+      return SelectOnOrOff();
     if(registerState.userState == 0)
       return UserRegisterPage();
     return Container();

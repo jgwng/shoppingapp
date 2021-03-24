@@ -5,6 +5,7 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/screens/register_page/admin_notice_dialog.dart';
+import 'package:shoppingapp/screens/register_page/register_page.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
@@ -434,7 +435,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (BuildContext context) =>
-            SelectOnOrOff()), (route) => true);
+            RegisterPage()), (route) => true);
 
   }
 

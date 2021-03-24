@@ -6,7 +6,7 @@ import 'package:shoppingapp/screens/order_check_page/order_list_page.dart';
 import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'file:///C:/Users/gwjun/AndroidStudioProjects/shopping_app/lib/providers/user_provider/user_state_provider.dart';
+import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
 
 class MainPage extends StatefulWidget{
   @override

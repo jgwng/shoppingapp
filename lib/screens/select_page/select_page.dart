@@ -12,12 +12,7 @@ class SelectOnOrOff extends StatefulWidget {
 
 class _SelectOnOrOffState extends State<SelectOnOrOff> {
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Future.delayed(Duration(seconds: 0),()=>context.read(currentUserProvider).getUserData());
-  }
+
 
   @override
   Widget build(BuildContext context) {

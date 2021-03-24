@@ -3,6 +3,9 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:sticky_headers/sticky_headers.dart';
+import 'package:intl/intl.dart';
+import 'package:shoppingapp/widgets/product_image_indicator.dart';
+
 class ProductDetailScreen extends StatefulWidget{
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -11,9 +14,11 @@ class ProductDetailScreen extends StatefulWidget{
 class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTickerProviderStateMixin{
   int widgetIndex = 0;
   bool isFavorite = false;
+  final PageController controller = PageController(initialPage: 0);
   @override
   void initState() {
     super.initState();
+
   }
 
   @override
@@ -65,7 +70,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                     borderRadius: BorderRadius.circular(6.0),
                     border: Border.all(color: Colors.grey)
                 ),
-                child: isFavorite ? Icon(Icons.favorite,size: 30,) : Icon(Icons.favorite_outline_outlined,size: 30),
+                child: Icon(isFavorite ? Icons.favorite : Icons.favorite_outline_outlined,size: 30,color: AppThemes.pointColor,),
               ),
             ),
             SizedBox(width: 30,),
@@ -135,29 +140,55 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
       return Container();
     }
 
-
+  void _pageChanged(int index) {
+    setState(() {});
+  }
     Widget productInfo(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: 350,
-          width: 350,
-          alignment: Alignment.center,
+        NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (OverscrollIndicatorNotification overScroll) {
+          overScroll.disallowGlow();
+          return false;
+        },child :
+          Column(
+            children: [
+            Container(
+                  height: 350,
+                  width: 350,
+                  alignment: Alignment.center,
 
-          child: SizedBox(
-            width: 300,
-            height: 300,
-            child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.fitWidth),
-          ),
+                  child:PageView.builder(
+                    onPageChanged: _pageChanged,
+                    controller: controller,
+
+                    physics: ClampingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        width: 300,
+                        height: 300,
+                        child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.fitWidth),
+                      );
+                    },
+                    itemCount: 5,
+                  ),
+                ),
+                Indicator(
+                controller: controller,
+                itemCount: 5,
+                )
+                ],
+      )
         ),
-        SizedBox(height: 20,),
+
+        SizedBox(height: 30,),
         Container(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("제품 이름이 들어갈 공간입니다.",style: AppThemes.textTheme.headline2,),
+                Text("제품 이름이 들어갈 공간입니다.",style: AppThemes.textTheme.headline2,overflow: TextOverflow.ellipsis,),
                 SizedBox(height: 10),
                 Text("가격",style: AppThemes.textTheme.headline2,),
               ],
@@ -175,7 +206,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
               SizedBox(height: 10,),
               productPriceInfo("배송비","2000원"),
               SizedBox(height: 10,),
-              productPriceInfo("예상 출고","3월 9일"),
+              productPriceInfo("예상 도착일",conversionDateTime(DateTime.now())),
               SizedBox(height: 10,),
             ],
           ),
@@ -185,7 +216,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
     );
     }
 
+  String conversionDateTime(DateTime dateTime){
+    DateTime arriveDate = DateTime(dateTime.year,dateTime.month,dateTime.day+2);
+    String newFormat = DateFormat("MM월 dd일").format(arriveDate);
 
+    return newFormat;
+  }
 
 
 
@@ -205,3 +241,4 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
 
 
   }
+//https://flutter-examples.com/set-text-overflow-ellipsis-text-in-flutter/

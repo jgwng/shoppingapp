@@ -5,6 +5,7 @@ import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
 import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
+import 'package:shoppingapp/widgets/product_item.dart';
 
 class HomePage extends StatefulWidget{
   @override
@@ -84,7 +85,7 @@ class _HomePageState extends State<HomePage>{
                   mainAxisSpacing: 20.0,
                   shrinkWrap: true,
                   children: List.generate(8, (index){
-                    return discountListItem();
+                    return ProductItem();
                   })
               ),
             )

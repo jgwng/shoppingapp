@@ -15,9 +15,11 @@ class PointInfoPage extends StatefulWidget{
   _PointInfoPageState createState() => _PointInfoPageState();
 }
 
-class _PointInfoPageState extends State<PointInfoPage>{
+class _PointInfoPageState extends State<PointInfoPage> with AutomaticKeepAliveClientMixin{
   int selectUsageValue = 0;
   List<PointLog> totalList = [];
+  List<PointLog> usePointList = [];
+  List<PointLog> addPointList = [];
   List<PointLog> displayList = [];
   @override
   void initState() {
@@ -73,6 +75,9 @@ class _PointInfoPageState extends State<PointInfoPage>{
           );
         }
         else{
+          totalList = snapshot.data[0];
+          usePointList = snapshot.data[1];
+          addPointList = snapshot.data[2];
           return buildBody();
         }
       }
@@ -119,9 +124,17 @@ class _PointInfoPageState extends State<PointInfoPage>{
             ),
           ),
           Divider(height: 1,thickness: 1,color: Colors.grey[200],),
-          pointUsageInfo("-879P"),
-          Divider(height: 1,thickness: 1,color: Colors.grey[200],),
-          pointUsageInfo("+879P"),
+          ListView.separated(
+            itemCount: displayList.length,
+            shrinkWrap: true,
+            itemBuilder: (ctx, i) => pointUsageInfo(displayList[i]),
+            separatorBuilder: (ctx,i)=> Divider(height: 1,thickness: 1,color: Colors.grey[200],),
+          ),
+
+
+
+
+
 
 
 
@@ -152,13 +165,13 @@ class _PointInfoPageState extends State<PointInfoPage>{
                   selectUsageValue = newValue;
                   switch(newValue){
                     case 0:
-                      displayList = [];
+                      displayList =totalList;
                       break;
                     case 1:
-                      displayList = [];
+                      displayList = addPointList;
                       break;
                     case 2:
-                      displayList = [];
+                      displayList = usePointList;
                       break;
                   }
                 });
@@ -177,8 +190,9 @@ class _PointInfoPageState extends State<PointInfoPage>{
     );
   }
   
-  Widget pointUsageInfo(String usePoint){
-    bool addOrUse = (usePoint.startsWith("+")) ? true : false;
+  Widget pointUsageInfo(PointLog pointLog){
+    bool addOrUse = (pointLog.usePoint) ? true : false;
+    String plusOrMinus = (pointLog.usePoint) ? "+" : "-";
     return Container(
       height: 100,
       padding: EdgeInsets.symmetric(horizontal: 24),
@@ -205,24 +219,26 @@ class _PointInfoPageState extends State<PointInfoPage>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("2021.01.03",style: AppThemes.textTheme.subtitle2.copyWith(color: Colors.grey),),
+                  Text(conversionDateTime(pointLog.createdAt),style: AppThemes.textTheme.subtitle2.copyWith(color: Colors.grey),),
                   SizedBox(height: 5,),
-                  Text("상품 결제",style: AppThemes.textTheme.bodyText1),
+                  Text(pointLog.useTitle,style: AppThemes.textTheme.bodyText1),
                   SizedBox(height: 8,),
-                  Text("상품 주문 : 챔피온 티셔츠 외 1개",style: AppThemes.textTheme.bodyText2.copyWith(color: Colors.black45))
+                  Text(pointLog.useSubtitle,style: AppThemes.textTheme.bodyText2.copyWith(color: Colors.black45))
                 ],
               )
             ],
           ),
-          Text("-879P",style: AppThemes.textTheme.headline1.copyWith(color: addOrUse ? Colors.blue[800] : Colors.red[800]))
+          Text(plusOrMinus+pointLog.useAmount.toString()+"P",style: AppThemes.textTheme.headline1.copyWith(color: addOrUse ? Colors.blue[800] : Colors.red[800]))
         ],
       ),
     );
   }
 
-  DateTime conversionTimeLog(DateTime dateTime){
-    DateFormat dateFormat = DateFormat("yyyy.MM.dd");
-    return dateFormat.parse(dateTime.toString());
+  String conversionDateTime(DateTime dateTime){
+
+    String newFormat = DateFormat("yyyy.MM.dd").format(dateTime);
+
+    return newFormat;
   }
 
   Future<List<dynamic>> getData(BuildContext context) async {
@@ -240,5 +256,9 @@ class _PointInfoPageState extends State<PointInfoPage>{
     print(result);
     return result;
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
 }

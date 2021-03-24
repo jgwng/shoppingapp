@@ -7,7 +7,7 @@ import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.da
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/search_bar.dart';
-
+import 'package:shoppingapp/widgets/product_item.dart';
 class ProductListPage extends StatefulWidget{
   ProductListPage({Key key, this.category}) : super(key: key);
   final String category;
@@ -78,7 +78,7 @@ class _ProductListPageState extends State<ProductListPage>{
                     mainAxisSpacing: 10.0,
                     shrinkWrap: true,
                     children: List.generate(8, (index){
-                      return productItem();
+                      return ProductItem();
                     })
                 ),
               )
@@ -111,57 +111,57 @@ class _ProductListPageState extends State<ProductListPage>{
 
 
 
-  Widget productItem(){
-    return GestureDetector(
-      onTap: (){
-        Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen()));
-      },child: Container(
-      height: widgetHeight(200),
-      width: 160,
-      padding: EdgeInsets.only(left: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Container(
-                width: 160,
-                height: 160,
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(6.0)
-                ),
-
-              ),
-
-              Positioned(
-                right: 3,
-                top: 3,
-                child: GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      selected = !selected;
-                    });
-                  },
-                  child: (selected) ? Icon(Icons.favorite,color: AppThemes.pointColor,size: 35,) : Icon(Icons.favorite_border_outlined,size: 35,color: Colors.white,
-                  ),
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: 10,),
-          Text("제품명"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text("할인율"),
-              SizedBox(width: 20,),
-              Text("가격")
-            ],
-          )
-        ],
-      ),
-    ),
-    );
-  }
+//  Widget productItem(){
+//    return GestureDetector(
+//      onTap: (){
+//        Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen()));
+//      },child: Container(
+//      height: widgetHeight(200),
+//      width: 160,
+//      padding: EdgeInsets.only(left: 20),
+//      child: Column(
+//        crossAxisAlignment: CrossAxisAlignment.start,
+//        children: [
+//          Stack(
+//            children: [
+//              Container(
+//                width: 160,
+//                height: 160,
+//                decoration: BoxDecoration(
+//                    color: Colors.grey,
+//                    borderRadius: BorderRadius.circular(6.0)
+//                ),
+//
+//              ),
+//
+//              Positioned(
+//                right: 3,
+//                top: 3,
+//                child: GestureDetector(
+//                  onTap: (){
+//                    setState(() {
+//                      selected = !selected;
+//                    });
+//                  },
+//                  child: (selected) ? Icon(Icons.favorite,color: AppThemes.pointColor,size: 35,) : Icon(Icons.favorite_border_outlined,size: 35,color: Colors.white,
+//                  ),
+//                ),
+//              )
+//            ],
+//          ),
+//          SizedBox(height: 10,),
+//          Text("제품명"),
+//          Row(
+//            mainAxisAlignment: MainAxisAlignment.start,
+//            children: [
+//              Text("할인율"),
+//              SizedBox(width: 20,),
+//              Text("가격")
+//            ],
+//          )
+//        ],
+//      ),
+//    ),
+//    );
+//  }
 }
