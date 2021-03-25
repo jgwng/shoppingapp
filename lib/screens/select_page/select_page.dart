@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
-import 'file:///C:/Users/gwjun/AndroidStudioProjects/shopping_app/lib/providers/user_provider/user_state_provider.dart';
 import 'package:shoppingapp/screens/main_page.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SelectOnOrOff extends StatefulWidget {
   @override

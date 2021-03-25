@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:shoppingapp/widgets/keypad.dart';
 import 'package:shoppingapp/widgets/count_down_timer.dart';

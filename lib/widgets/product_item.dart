@@ -2,8 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
-import 'package:shoppingapp/models/product.dart';
-import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 
 class ProductItem extends StatefulWidget{

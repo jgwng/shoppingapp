@@ -38,10 +38,12 @@ dependencies:
   firebase_messaging: ^8.0.0-dev.13
   qr_code_scanner: ^0.3.2
   qr_flutter: ^3.2.0
+  multi_image_picker: ^4.7.10
   flutter_local_notifications: ^3.0.1+6
   url_launcher: ^5.7.10
   device_info: ^1.0.0
   google_sign_in: ^4.5.6
+  flutter_absolute_path: ^1.0.6
   kakao_flutter_sdk: ^0.6.0-beta.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -49,7 +51,7 @@ dependencies:
   hexagon: ^0.1.0
   system_settings: 1.0.1
   korean_words: ^1.0.3
-  permission_handler: ^5.1.0+2
+  permission_handler: 5.1.0+2
   sticky_headers: ^0.1.8+1
 
 

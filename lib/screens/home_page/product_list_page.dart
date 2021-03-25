@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
-import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';

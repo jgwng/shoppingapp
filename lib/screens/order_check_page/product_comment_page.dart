@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'dart:math' as math;
-
+import 'package:shoppingapp/utils/permissions.dart';
+import 'package:shoppingapp/models/review.dart';
 class ProductCommentPage extends StatefulWidget{
     @override
     _ProductCommentPageState createState() => _ProductCommentPageState();
@@ -17,7 +20,9 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
     TextEditingController contentController = TextEditingController();
     double _inputHeight = 170;
     bool isFocused = false;
+    List<Asset> images = <Asset>[];
 
+    List<Asset> imageList = <Asset>[];
     @override
     void initState() {
         super.initState();
@@ -37,8 +42,7 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
             return;
         }
         if (count <= 5) {
-            // use a maximum height of 6 rows
-            // height values can be adapted based on the font size
+
             var newHeight = count == 0 ? 170.0 : 28.0 + (count * 28.0);
             setState(() {
                 _inputHeight = newHeight;
@@ -55,7 +59,36 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
 
 
 
+    Future<void> loadAssets() async {
+        List<Asset> result = <Asset>[];
+        bool permitted = await checkGalleryPermission();
 
+        if(permitted){
+            try {
+                result = await MultiImagePicker.pickImages(
+                    maxImages: 5-imageList.length,
+                    enableCamera: true,
+                    selectedAssets: images,
+                    cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+
+                );
+            } on Exception catch (e) {
+                print(e.toString());
+            }
+        }
+
+
+
+        if (!mounted) return;
+
+        print(result);
+        for(int i = 0;i<result.length;i++){
+            imageList.add(result[i]);
+        }
+        setState(() {
+
+        });
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -111,7 +144,19 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
                                     height: 50,
                                     child: RaisedButton(
                                         color: AppThemes.mainColor,
-                                        onPressed: (){
+                                        onPressed: () async{
+                                            Review review = Review();
+                                            review.starRate = starCount;
+                                            review.review = contentController.text;
+                                            for(int i =0; i<imageList.length;i++) {
+                                                var path = await FlutterAbsolutePath.getAbsolutePath(imageList[i].identifier);
+                                                review.attachedImage.add(path);
+                                            }
+
+
+
+
+
                                             Navigator.pop(context);
                                         },
                                         shape: RoundedRectangleBorder(
@@ -178,50 +223,93 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
     }
 
     Widget addImage(){
-        return Container(
-            padding: EdgeInsets.only(left:25),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+        return  Container(
+                padding: EdgeInsets.only(left:25),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                        Row(
+                            children: [
+                                Text("사진 첨부 (선택)",style: AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700),),
+                                SizedBox(width: 10,),
+                                Container(
+                                    width: 100,
+                                    height: 20,
+                                    color: AppThemes.mainColor,
+                                    alignment: Alignment.center,
+                                    child: Text("추가 포인트 증정!",style: AppThemes.textTheme.bodyText1.copyWith(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
+                                )
+                            ],
+                        ),
+                        SizedBox(height: 10,),
+                       Container(
+                           height  : 100,
+                           child: ListView.separated(
+                               padding: EdgeInsets.symmetric(vertical: 10),
+                               physics: ClampingScrollPhysics(),
+                               separatorBuilder: (ctx,i) =>SizedBox(width: 10,),
+                               itemBuilder: (ctx,i) => (i == imageList.length) ? addImageButton() : imageView(imageList[i]),
+                               shrinkWrap:  true,
+                               scrollDirection: Axis.horizontal,
+                               itemCount: (imageList.length !=5) ? imageList.length +1 : imageList.length,
+
+                           ),
+                       ),
+                        SizedBox(height: 10,),
+                        Text("해당 제품과 관련 없는 사진을 첨부하는 경우\n사전 경고 없이 포인트 회수와 함께 리뷰가 삭제 될 수 있습니다.",style: AppThemes.textTheme.bodyText2.copyWith(
+                            color : AppThemes.inActiveColor
+                        ),),
+                    ],
+                ),
+            );
+    }
+
+    Widget addImageButton(){
+        return GestureDetector(
+            onTap: loadAssets,
+            child: Container(
+                width: 80,
+                height: 80,
+                padding: EdgeInsets.only(left:3,bottom:3),
+
+                child:Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(math.pi),
+                    child: Icon(Icons.add_a_photo_rounded, size: 45,),
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.0),
+                    border: Border.all(color: Colors.black)
+                ),
+            ),
+        );
+    }
+
+    Widget imageView(Asset asset){
+        return GestureDetector(
+            onTap: (){},
+            child: Stack(
                 children: [
-                    Row(
-                        children: [
-                            Text("사진 첨부 (선택)",style: AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700),),
-                            SizedBox(width: 10,),
-                            Container(
-                                width: 100,
-                                height: 20,
-                                color: AppThemes.mainColor,
-                                alignment: Alignment.center,
-                                child: Text("추가 포인트 증정!",style: AppThemes.textTheme.bodyText1.copyWith(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
-                            )
-                        ],
-                    ),
-                    SizedBox(height: 10,),
-                    Container(
-                        width: 80,
-                        height: 80,
-                        padding: EdgeInsets.only(left:3,bottom:3),
-
-                        child:Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.rotationY(math.pi),
-                            child: Icon(Icons.add_a_photo_rounded, size: 45,),
+                    AssetThumb(asset: asset, width: 80, height: 80),
+                    Positioned(
+                        right: 3,
+                        top: 3,
+                        child: GestureDetector(
+                            onTap: (){
+                                setState(() {
+                                  imageList.remove(asset);
+                                });
+                                },
+                            child   :Icon(Icons.remove_circle_rounded)
                         ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.0),
-                            border: Border.all(color: Colors.black)
-                        ),
-                    ),
-                    SizedBox(height: 10,),
-                    Text("해당 제품과 관련 없는 사진을 첨부하는 경우\n사전 경고 없이 포인트 회수와 함께 리뷰가 삭제 될 수 있습니다.",style: AppThemes.textTheme.bodyText2.copyWith(
-                        color : AppThemes.inActiveColor
-                    ),)
-
+                    )
                 ],
             ),
         );
     }
+
+
 
     void unFocus() {
         FocusScopeNode currentFocus = FocusScope.of(context);

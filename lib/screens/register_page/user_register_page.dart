@@ -13,7 +13,6 @@ import 'package:shoppingapp/widgets/custom_radio.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:flutter/services.dart';
 import 'package:shoppingapp/screens/register_page/phone_verification.dart';
-import 'package:shoppingapp/screens/select_page/select_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/providers/user_provider/register_state_provider.dart';
 
