@@ -21,8 +21,8 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
     double _inputHeight = 170;
     bool isFocused = false;
     List<Asset> images = <Asset>[];
-
     List<Asset> imageList = <Asset>[];
+
     @override
     void initState() {
         super.initState();
@@ -42,7 +42,6 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
             return;
         }
         if (count <= 5) {
-
             var newHeight = count == 0 ? 170.0 : 28.0 + (count * 28.0);
             setState(() {
                 _inputHeight = newHeight;

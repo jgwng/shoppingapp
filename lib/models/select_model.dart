@@ -1,8 +1,6 @@
 class SelectNumModel{
   num data;
   bool isSelected;
-
-
   SelectNumModel({this.data,this.isSelected});
 
 }

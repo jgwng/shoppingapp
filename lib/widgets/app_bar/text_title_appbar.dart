@@ -31,7 +31,7 @@ class TextTitleAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(65.0);
+  Size get preferredSize => Size.fromHeight(50.0);
 
 
 

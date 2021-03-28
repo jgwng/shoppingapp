@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 import 'package:shoppingapp/constants/size.dart';
+import 'package:shoppingapp/constants/app_themes.dart';
 
 class ProductItem extends StatefulWidget{
 //  ProductItem({Key key, this.product}) : super(key: key);
@@ -38,13 +39,13 @@ class _ProductItemState extends State<ProductItem>{
             ],
           ),
           SizedBox(height: 10,),
-          Text("제품명",overflow: TextOverflow.ellipsis,),
+          Text("제품명",overflow: TextOverflow.ellipsis,style: AppThemes.textTheme.bodyText1,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("할인율"),
+              Text("할인율",style: AppThemes.textTheme.bodyText2,),
               SizedBox(width: 20,),
-              Text("가격")
+              Text("가격",style: AppThemes.textTheme.subtitle2,)
             ],
           )
         ],

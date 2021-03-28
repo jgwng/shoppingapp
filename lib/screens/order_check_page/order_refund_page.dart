@@ -100,7 +100,13 @@ class _OrderRefundPageState extends State<OrderRefundPage>{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20,),
-          Text("환불 계좌 입력",textAlign: TextAlign.left,style:AppThemes.textTheme.bodyText1),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("환불 계좌 입력",textAlign: TextAlign.left,style:AppThemes.textTheme.bodyText1),
+              Text('기본 환불 계좌 사용',style:AppThemes.textTheme.subtitle2)
+              ],
+          ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 8),
             child:  Divider(height: 1,color: AppThemes.mainColor,thickness: 1,),
@@ -173,9 +179,7 @@ class _OrderRefundPageState extends State<OrderRefundPage>{
                     minLines: 1,
                     maxLines: 1,
                     decoration: InputDecoration(
-
                       contentPadding: EdgeInsets.all(0),
-
                         hintStyle: AppThemes.textTheme.bodyText1.copyWith(
                             fontWeight: FontWeight.w400, color: Color.fromRGBO(102, 102, 102, 1.0)
                         ),
