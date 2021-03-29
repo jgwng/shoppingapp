@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:shoppingapp/constants/firestore_path.dart';
 import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/models/user.dart';
+import 'package:shoppingapp/models/coupon.dart';
 import 'package:shoppingapp/models/announcement.dart';
 import 'package:shoppingapp/providers/firebase_auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -103,4 +104,26 @@ class FirestoreRepository {
     DocumentReference userRef = firestore.doc(FirestorePath.favorite(uid));
     await userRef.delete();
   }
+
+  Future<dynamic> getCouponInfo(String couponCode) async{
+    var result;
+    Query cartQry = firestore.collection(FirestorePath.couponInfo(couponCode));
+    QuerySnapshot snapshots = await cartQry.get();
+    if(snapshots.size != 0){
+      result =  snapshots.docs.map((e) => Coupon.fromJson(e.data()));
+    }else{
+      result = -1;
+    }
+    return result;
+  }
+  Future<List<Coupon>> fetchAllCoupon() async{
+    Query cartQry = firestore.collection(FirestorePath.coupon(uid));
+    QuerySnapshot snapshots = await cartQry.get();
+    List<Coupon> couponList = [];
+    if (snapshots.size != 0) {
+      couponList = snapshots.docs.map((e) => Coupon.fromJson(e.data())).toList();
+    }
+    return couponList;
+  }
+
 }

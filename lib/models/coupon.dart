@@ -18,7 +18,7 @@ class Coupon{
     };
   }
 
-  factory Coupon.fromMap(Map<String, dynamic> map) {
+  factory Coupon.fromJson(Map<String, dynamic> map) {
     return new Coupon(
       couponTitle: map['couponTitle'] as String,
       discountAmount: map['discountAmount'] as num,

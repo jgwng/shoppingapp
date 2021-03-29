@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/models/coupon.dart';
+import 'package:intl/intl.dart';
 
 class CheckCouponDialog extends StatefulWidget{
+  CheckCouponDialog({Key key, this.coupon}) : super(key: key);
+  final Coupon coupon;
+
   @override
   _CheckCouponDialogState createState() => _CheckCouponDialogState();
 }
@@ -15,7 +20,7 @@ class _CheckCouponDialogState extends State<CheckCouponDialog>{
 
   @override
   Widget build(BuildContext context) {
-
+    Coupon couponInfo = widget.coupon;
     return AlertDialog(
       contentPadding: EdgeInsets.only(top: 10),
       title: Text("입력한 쿠폰 정보 확인",style:AppThemes.textTheme.bodyText1),
@@ -35,13 +40,13 @@ class _CheckCouponDialogState extends State<CheckCouponDialog>{
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
                    SizedBox(height:20),
-                   couponInfoItem("쿠폰 이름", "2월 정기 쿠폰"),
+                   couponInfoItem("쿠폰 이름", couponInfo.couponTitle),
                    SizedBox(height:10),
-                   couponInfoItem("유효기간", "21년 03월 31일"),
+                   couponInfoItem("유효기간", conversionDateTime(couponInfo.expiredDate)),
                    SizedBox(height:10),
-                   couponInfoItem("할인율(할인금액)", "1000원"),
+                   couponInfoItem("할인율(할인금액)", (couponInfo.discountAmount<1) ? "${couponInfo.discountAmount}%" :"${couponInfo.discountAmount}원" ),
                    SizedBox(height:10),
-                   couponInfoItem("최소 주문 금액", "15000원"),
+                   couponInfoItem("최소 주문 금액", "${couponInfo.minOrderAmount}원"),
                    SizedBox(height:30),
 
                  ],
@@ -91,7 +96,12 @@ class _CheckCouponDialogState extends State<CheckCouponDialog>{
         ),
       ));
   }
+  String conversionDateTime(DateTime dateTime){
+    DateTime arriveDate = DateTime(dateTime.year,dateTime.month,dateTime.day+2);
+    String newFormat = DateFormat("YY년 MM월 dd일").format(arriveDate);
 
+    return newFormat;
+  }
 
 
  void unFocus() {

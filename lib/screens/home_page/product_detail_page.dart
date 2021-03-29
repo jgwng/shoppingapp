@@ -6,6 +6,7 @@ import 'package:sticky_headers/sticky_headers.dart';
 import 'package:intl/intl.dart';
 import 'package:shoppingapp/widgets/product_image_indicator.dart';
 import 'package:shoppingapp/models/product_question.dart';
+import 'package:shoppingapp/utils/bottom_sheet.dart';
 class ProductDetailScreen extends StatefulWidget{
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -35,7 +36,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
   void initState() {
     super.initState();
     contentController.addListener(_checkInputHeight);
-    productQuestion = ProductQuestion(createdAt: DateTime.now(),question: "문의 질문 드립니다.", answer: "문의 답변 드립니다.");
+    productQuestion = ProductQuestion(createdAt: DateTime.now(),question: "문의 질문 드립니다.", answer: "문의 답변 드립니다.",isAnswered: false,isSelected: false);
 
   }
 
@@ -249,7 +250,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                Text("문의 내용 작성"),
                SizedBox(height :10),
                GestureDetector(
-                 onTap: (){},
+                 onTap: () async{
+                   String result =  await onInquiryCategoryPickerBottomSheet(context);
+                   if(result != null){
+                     setState(() {
+                       category = result;
+                     });
+                   }
+
+
+
+
+                 },
                  child: Container(
                    height : 40,
                    decoration: BoxDecoration(
@@ -495,7 +507,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 10),
             child: Divider(height: 1,thickness: 1,color: Colors.grey,),),
-          Container(
+
+          if(productQuestion.isAnswered && productQuestion.isSelected)
+            Container(
             width: double.infinity,
             padding: EdgeInsets.only(left: 20,top: 10,bottom: 10),
             decoration: BoxDecoration(

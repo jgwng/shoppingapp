@@ -3,7 +3,9 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/check_coupon_info_dialog.dart';
 import 'package:shoppingapp/widgets/animation_coupon.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
-
+import 'package:shoppingapp/models/coupon.dart';
+import 'package:shoppingapp/providers/firestore_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CouponListPage extends StatefulWidget{
   @override
   _CouponListPageState createState() => _CouponListPageState();
@@ -15,7 +17,7 @@ class _CouponListPageState extends State<CouponListPage>{
   TextEditingController couponController = TextEditingController();
   bool isFocused = false;
   FocusNode focusNode = FocusNode();
-
+  List<Coupon> couponList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -77,13 +79,19 @@ class _CouponListPageState extends State<CouponListPage>{
                     SizedBox(width: 20,),
                     Container(width: 80,height : 50,
                       child: RaisedButton(
-                        onPressed: (){
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context){
-                                return CheckCouponDialog();
-                              }
-                          );
+                        onPressed: () async{
+                          var couponInfo = await context.read(firestoreProvider).getCouponInfo(couponController.text);
+                          if(couponInfo != -1){
+                            Coupon coupon = couponInfo;
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context){
+                                  return CheckCouponDialog(coupon : coupon);
+                                }
+                            );
+                          }
+
+
                         },
                         color: AppThemes.mainColor,
                         shape: RoundedRectangleBorder(
@@ -94,9 +102,11 @@ class _CouponListPageState extends State<CouponListPage>{
                   ],
                 ),
               ),
-              SizedBox(height:20),
-              Divider(height: 1,thickness: 1,color: AppThemes.mainColor,),
-              SizedBox(height: 20,),
+              Padding(
+                padding : EdgeInsets.symmetric(vertical: 20),
+                child: Divider(height: 1,thickness: 1,color: AppThemes.mainColor,),
+              ),
+
               Row(children: [
                 SizedBox(width: 20,),
               RichText(
