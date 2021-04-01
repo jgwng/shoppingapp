@@ -4,9 +4,12 @@ import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:intl/intl.dart';
+import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
 import 'package:shoppingapp/widgets/product_image_indicator.dart';
 import 'package:shoppingapp/models/product_question.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
+import 'package:shoppingapp/widgets/product_item.dart';
+import 'package:shoppingapp/widgets/comment_image_dialog.dart';
 class ProductDetailScreen extends StatefulWidget{
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -14,9 +17,11 @@ class ProductDetailScreen extends StatefulWidget{
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTickerProviderStateMixin{
   int widgetIndex = 0;
+  int currentSelectedCommentIndex=0;
   bool isFavorite = false;
   bool isTouched = false;
   final PageController controller = PageController(initialPage: 0);
+  final PageController commentPageController = PageController(initialPage: 0);
   ScrollController scrollController = ScrollController();
 
   List<String> deliveryInfo = ["출고일정은 상품별 상세페이지에서 확인하실 수 있습니다.","도서산간 지역은 추가 배송비 입금 요청이 있을 수 있습니다."];
@@ -24,6 +29,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
     "상품 불량인 경우 배송비를 포함한 전액이 환불됩니다.","상품 수령일로부터 7일 이내 반품/환불 접수 가능합니다.","출고 이후 환불요청 시 상품 회수 후 처리됩니다."];
 
   String category = "질문유형을 선택해 주세요";
+
+
+  List<String> commentImageList = ['hoodie','cap','braces','dress','sneakers','fragance'];
+
+
+
+
+
+
+
+
+
+
 
 
   TextEditingController contentController = TextEditingController();
@@ -37,7 +55,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
     super.initState();
     contentController.addListener(_checkInputHeight);
     productQuestion = ProductQuestion(createdAt: DateTime.now(),question: "문의 질문 드립니다.", answer: "문의 답변 드립니다.",isAnswered: false,isSelected: false);
-
+    currentSelectedCommentIndex = 0;
   }
 
   @override
@@ -49,9 +67,60 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
         controller: scrollController,
         children: [
           productImage(),
+          SizedBox(height: 15,),
+          Container(
+            height :40,
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("유저들의 스타일링샷", style: AppThemes.textTheme.headline1,),
+              Icon(Icons.arrow_forward_ios,size: 15,)
+            ],
+          ),),
+          SizedBox(height: 15,),
+          Container(
+            height: 300,
+            width: 300,
+            alignment: Alignment.center,
+
+            child:PageView.builder(
+              onPageChanged: _pageChanged,
+              controller: commentPageController,
+
+              physics: ClampingScrollPhysics(),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: ()=> Navigator.of(context).push(PageRouteBuilder(
+                      opaque: false,
+                      pageBuilder: (BuildContext context, _, __) =>
+                          CommentImageDialog())),
+                  child: SizedBox(
+                    width: 180,
+                    height: 180,
+                    child: Image.asset("assets/images/category_icon/${commentImageList[index]}.png",fit: BoxFit.contain),
+                  ),
+                );
+              },
+              itemCount: commentImageList.length,
+            ),
+          ),
+          SizedBox(height: 20,),
+          Container(
+            height: 100,
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              separatorBuilder: (ctx,i) => SizedBox(width:20,),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (ctx,i) => commentListItem(i),
+              shrinkWrap: true,
+              itemCount: 5,
+            ),
+          ),
+          SizedBox(height:20),
           StickyHeader(
             header: Container(
-              height: 50.0,
+              height: 60.0,
               color: Colors.white,
 
               alignment: Alignment.centerLeft,
@@ -65,9 +134,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
             ),
             content: contentWidget(widgetIndex),
           ),
+          Padding(padding: EdgeInsets.only(left: 20),child: Text("이런 제품은 어때요?",style: AppThemes.textTheme.headline1),),
+          SizedBox(height:20),
+          ScrollConfiguration(
+            behavior: MyBehavior(),
+            child: GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.only(right: 18),
+                crossAxisCount:2,
+                //childAspectRatio : width/height
+                childAspectRatio: 150/180,
+
+                mainAxisSpacing: 5.0,
+                shrinkWrap: true,
+                children: List.generate(6, (index){
+                  return ProductItem();
+                })
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(left: 20,top: 30),child: Text("함께사면 배송비 절약!",style: AppThemes.textTheme.headline1),),
+          SizedBox(height:20),
           Container(
-              height: 700,
-              color: Colors.white
+            height: 230,
+            child: ListView.builder(
+              itemBuilder: (ctx,i)=> ProductItem(),
+              itemCount: 8,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+            ),
           )
         ],
       ),
@@ -113,6 +207,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          scrollController.jumpTo(0.0);
+        },
+        backgroundColor: Colors.white,
+        child: Icon(Icons.arrow_upward,size: 30,color:Colors.black,),
+      ),
     );
 
   }
@@ -124,7 +225,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
       setState(() {
         if(widgetIndex != index){
           widgetIndex = index;
-          scrollController.jumpTo(570.0);
+          scrollController.jumpTo(1090.0);
           print(widgetIndex);
         }
 
@@ -141,7 +242,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
           children: [
             Text(
               text,textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.black),
+              style: AppThemes.textTheme.subtitle2,
             ),
             SizedBox(height: 10,),
             Divider(color: (widgetIndex == index) ? Colors.black : Colors.transparent,height: 2,thickness: 1,)
@@ -150,7 +251,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
       ),);
   }
 
+  Widget commentListItem(int index){
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          currentSelectedCommentIndex = index;
+          commentPageController.jumpToPage(index);
+        });
 
+      },
+      child: Container(
+        width: 100, height: 100,
+        padding: EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6.0),
+          border: Border.all(color:currentSelectedCommentIndex == index ? AppThemes.mainColor: Colors.transparent,width: 4)
+        ),
+        child: Image.asset("assets/images/category_icon/${commentImageList[index]}.png",fit: BoxFit.scaleDown),
+      ),
+    );
+  }
 
 
   Widget contentWidget(int index){
@@ -213,7 +333,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
        //배송,교환,환불정보 관련 내용
       case 1:
         return Container(
-          height: 400,
+          height: 380,
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +367,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
              mainAxisAlignment: MainAxisAlignment.start,
              crossAxisAlignment: CrossAxisAlignment.start,
              children: [
-               Text("문의 내용 작성"),
+               Text("문의 내용 작성",style: AppThemes.textTheme.bodyText1,),
                SizedBox(height :10),
                GestureDetector(
                  onTap: () async{
@@ -257,10 +377,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                        category = result;
                      });
                    }
-
-
-
-
                  },
                  child: Container(
                    height : 40,
@@ -330,6 +446,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
           ),
             SizedBox(height:10),
             questionListItem(productQuestion),
+            SizedBox(height:20,child: Container(color: Colors.grey[200],),)
         ],
       )
     );
