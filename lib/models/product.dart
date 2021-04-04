@@ -8,11 +8,11 @@ class Product with ChangeNotifier{
   final String imageUrl;
   bool isFavorite;
 
-  Product({@required this.id,
-    @required this.title,
-    @required this.description,
-    @required this.price,
-    @required this.imageUrl,
+  Product({this.id = 'aaaa',
+     this.title = '제품 이름이 들어갈 공간입니다.',
+     this.description = 'aaaa',
+     this.price = 50000,
+     this.imageUrl,
     this.isFavorite = false});
 
 

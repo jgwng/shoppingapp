@@ -6,6 +6,7 @@ import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
 import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 import 'package:shoppingapp/widgets/product_item.dart';
+import 'package:shoppingapp/models/product.dart';
 
 class HomePage extends StatefulWidget{
   @override
@@ -101,7 +102,7 @@ class _HomePageState extends State<HomePage>{
   Widget bestProductListItem(){
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen())),
+      onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen(product: Product(),))),
       child: Container(
         height: 120,
         width: 250,
@@ -173,7 +174,7 @@ class _HomePageState extends State<HomePage>{
   Widget discountListItem(){
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen())),
+        onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen(product: Product()))),
         child: Container(
       height: widgetHeight(200),
       width: 140,

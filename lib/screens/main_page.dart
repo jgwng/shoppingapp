@@ -42,7 +42,7 @@ class _MainPageState extends State<MainPage>{
   final List<Widget> _pageList = [
     HomePage(),
     CategoryList(),
-    OrderList(),
+    OrderListPage(),
     SettingPage(),
   ];
 

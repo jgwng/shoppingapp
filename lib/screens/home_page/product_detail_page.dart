@@ -4,13 +4,20 @@ import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:intl/intl.dart';
+import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
 import 'package:shoppingapp/widgets/product_image_indicator.dart';
 import 'package:shoppingapp/models/product_question.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:shoppingapp/widgets/product_item.dart';
 import 'package:shoppingapp/widgets/comment_image_dialog.dart';
+import 'package:shoppingapp/screens/order_check_page/order_info_page.dart';
+import 'package:shoppingapp/screens/home_page/product_option_select_page.dart';
 class ProductDetailScreen extends StatefulWidget{
+  ProductDetailScreen({Key key, this.product}) : super(key: key);
+  final Product product;
+
+
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
 }
@@ -32,15 +39,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
 
 
   List<String> commentImageList = ['hoodie','cap','braces','dress','sneakers','fragance'];
-
-
-
-
-
-
-
-
-
 
 
 
@@ -192,9 +190,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
               child: Container(
                 height: 60,
                 child: RaisedButton(
-                  onPressed: (){
-
+                  onPressed: () async{
+                    await showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) {
+                      return FractionallySizedBox(
+                        heightFactor: 0.5,
+                        child: ProductOptionSelectPage(),
+                      );
+                    });
                   },
+                  //> Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [widget.product],)))
                   color: AppThemes.mainColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6.0)
@@ -553,9 +560,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
               child : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("제품 이름이 들어갈 공간입니다.",style: AppThemes.textTheme.headline2,overflow: TextOverflow.ellipsis,),
+                  Text("${widget.product.title}",style: AppThemes.textTheme.headline2,overflow: TextOverflow.ellipsis,),
                   SizedBox(height: 10),
-                  Text("가격",style: AppThemes.textTheme.headline2,),
+                  Text('${widget.product.price.toInt()}원',style: AppThemes.textTheme.headline2,),
                 ],
               )
           ),

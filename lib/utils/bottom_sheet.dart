@@ -5,7 +5,6 @@ import 'package:shoppingapp/widgets/modal_bottom_sheet/birthday_choice_bottom_sh
 import 'package:shoppingapp/widgets/modal_bottom_sheet/sort_standard_bottom_sheet.dart';
 import 'package:shoppingapp/widgets/modal_bottom_sheet/inquiry_category_choice_bottom_sheet.dart';
 
-
 Future<DateTime> onBirthdayPickerBottomSheet(BuildContext context)async {
   DateTime result = await showModalBottomSheet<DateTime>(
     backgroundColor: Colors.transparent,
@@ -57,3 +56,4 @@ Future<String> onInquiryCategoryPickerBottomSheet(BuildContext context) async{
   print("result : $result");
   return result;
 }
+

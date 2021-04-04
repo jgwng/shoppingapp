@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/screens/notice_page/notice_list_page.dart';
 import 'package:shoppingapp/screens/order_cart_page/order_cart_page.dart';
+
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
   final String title;
   MainAppBar({this.title});
@@ -31,15 +32,15 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
       actions: [InkWell(
           onTap:()=> Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => OrderCartPage()),
-          ),
+            MaterialPageRoute(builder: (context) => OrderCartPage(),
+          )),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.shopping_cart_outlined,color: Colors.black,size: 30,),
           )
           //알림 없을때는 - Icons.notification_none_outlined 있을때는 Icons.Notification_on_outlined
-
-      )],
+          ),
+      ],
       title:  Column(
         children: [
           SizedBox(height: 5,),

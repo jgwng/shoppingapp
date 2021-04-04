@@ -7,6 +7,7 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/app_text_list.dart';
 import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
+import 'package:shoppingapp/models/product.dart';
 
 class FavoriteListPage extends StatefulWidget{
   @override
@@ -108,7 +109,7 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
   Widget favoriteListItem(){
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen())),
+      onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen(product: Product()))),
       onLongPress: (){
         setState(() {
           isEditMode = true;

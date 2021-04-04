@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/models/product.dart';
 
 class ProductItem extends StatefulWidget{
 //  ProductItem({Key key, this.product}) : super(key: key);
@@ -18,7 +19,7 @@ class _ProductItemState extends State<ProductItem>{
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen()));
+        Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen(product: Product())));
       },child: Container(
       height: widgetHeight(200),
       width: 160,

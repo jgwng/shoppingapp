@@ -9,8 +9,10 @@ import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.da
 import 'package:shoppingapp/screens/setting_page/personal_info_page/address_book_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/text_label_field.dart';
-
+import 'package:shoppingapp/models/product.dart';
 class OrderInfoPage extends StatefulWidget{
+  OrderInfoPage({Key key, this.productList}) : super(key: key);
+  final List<Product> productList;
   @override
   _OrderInfoPageState createState() => _OrderInfoPageState();
 }
@@ -349,48 +351,65 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
           SizedBox(height:20),
           Text("주문 품목",style: AppThemes.textTheme.subtitle1,textAlign: TextAlign.left,),
           SizedBox(height : 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              SizedBox(width: 80,height: 80,
-                child: Image.asset("assets/images/data_none_page/unicorn.png",fit: BoxFit.cover,),),
-              SizedBox(width:10),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10,),
-                  Text("상품명이 아주 긴 경우\n\n45000원",style: AppThemes.textTheme.headline1),
-
-                ],
-              ),
-
-            ],
-          ),
-          SizedBox(height: 20,),
-          Row(
-            children: [
-
-              Expanded(
-                child: Container(
-                  height: 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(6.0)
-                  ),
-                  child:Text('XL / 퍼플',style : AppThemes.textTheme.subtitle2.copyWith(color: Colors.grey)),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height : 20)
+        ListView.builder(
+          itemBuilder: (ctx,i) => orderListItem(widget.productList[i]),
+          itemCount: widget.productList.length,
+          shrinkWrap: true,
+        )
         ],
       )
     );
   }
+
+  Widget orderListItem(Product product){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(width: 80,height: 80,
+              child: Image.asset("assets/images/data_none_page/unicorn.png",fit: BoxFit.cover,),),
+            SizedBox(width:10),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 10,),
+                Text("상품명이 아주 긴 경우\n\n45000원",style: AppThemes.textTheme.headline1),
+
+              ],
+            ),
+
+          ],
+        ),
+        SizedBox(height: 20,),
+        Row(
+          children: [
+
+            Expanded(
+              child: Container(
+                height: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(6.0)
+                ),
+                child:Text('XL / 퍼플',style : AppThemes.textTheme.subtitle2.copyWith(color: Colors.grey)),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height : 20)
+      ],
+    );
+  }
+
+
+
+
+
   Widget orderAmountField(){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24),

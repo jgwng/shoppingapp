@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/screens/order_check_page/order_info_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_checkbox.dart';
 import 'package:sticky_headers/sticky_headers.dart';
+import 'package:shoppingapp/screens/order_check_page/order_list_page.dart';
 
 class OrderCartPage extends StatefulWidget{
+
+
   @override
   _OrderCartPageState createState() => _OrderCartPageState();
 }
@@ -98,16 +102,16 @@ class _OrderCartPageState extends State<OrderCartPage>{
                               });
                             }, //체크시 개인정보 수집 및 이용 동의
                           ),),
-                          SizedBox(width:10),
+                          SizedBox(width:5),
                           Container(width: 80,height: 90,padding: EdgeInsets.only(top:10),
                             child: Image.asset("assets/images/data_none_page/unicorn.png",fit: BoxFit.cover,),),
-                          SizedBox(width:10),
+                          SizedBox(width:5),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: 20,),
-                              Text("상품명이 아주 긴 경우\n40000원",style: AppThemes.textTheme.headline1),
+                              Text("상품명이 아주 긴 경우\n40000원",style: AppThemes.textTheme.headline1,overflow: TextOverflow.ellipsis,),
 
 //                      Text("가격이 들어간다",style: AppThemes.textTheme.subtitle2.copyWith(fontWeight: FontWeight.w400))
                             ],
@@ -297,7 +301,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
-          onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage())),
+          onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [Product()],))),
           child: Text("${itemCount*45000+2000}원 주문하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
         ),
       ),
