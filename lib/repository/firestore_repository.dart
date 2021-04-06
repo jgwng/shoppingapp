@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:shoppingapp/constants/firestore_path.dart';
 import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/models/user.dart';
+import 'package:shoppingapp/models/cart.dart';
 import 'package:shoppingapp/models/coupon.dart';
 import 'package:shoppingapp/models/announcement.dart';
 import 'package:shoppingapp/providers/firebase_auth_provider.dart';
@@ -104,7 +105,11 @@ class FirestoreRepository {
     DocumentReference userRef = firestore.doc(FirestorePath.favorite(uid));
     await userRef.delete();
   }
-
+  Future<void> addCart(Cart cart ) async {
+    Map<String,dynamic> newCartItem  = cart.toMap();
+    DocumentReference userRef = firestore.doc(FirestorePath.cartItem(uid,cart.productName));
+    await userRef.set(newCartItem);
+  }
   Future<dynamic> getCouponInfo(String couponCode) async{
     var result;
     Query cartQry = firestore.collection(FirestorePath.couponInfo(couponCode));

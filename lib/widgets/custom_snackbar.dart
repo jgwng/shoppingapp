@@ -9,10 +9,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 
-const double _singleLineVerticalPadding = 14.0;
+const double _singleLineVerticalPadding = 5.0;
 
 const Duration _snackBarTransitionDuration = Duration(milliseconds: 250);
-const Duration _snackBarDisplayDuration = Duration(milliseconds: 5000);
+const Duration _snackBarDisplayDuration = Duration(milliseconds: 500);
 const Curve _snackBarHeightCurve = Curves.fastOutSlowIn;
 const Curve _snackBarFadeInCurve = Interval(0.45, 1.0, curve: Curves.fastOutSlowIn);
 const Curve _snackBarFadeOutCurve = Interval(0.72, 1.0, curve: Curves.fastOutSlowIn);
@@ -285,6 +285,10 @@ class _SnackBarState extends State<SnackBar> {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: _singleLineVerticalPadding),
+              decoration: BoxDecoration(
+                color: AppThemes.pointColor,
+                borderRadius: BorderRadius.circular(6.0)
+              ),
               child: DefaultTextStyle(
                 style: contentTextStyle,
                 child: widget.content,
@@ -332,7 +336,7 @@ class _SnackBarState extends State<SnackBar> {
 
     if (isFloatingSnackBar) {
       const double topMargin = 5.0;
-      const double bottomMargin = 10.0;
+      const double bottomMargin = 5.0;
       // If width is provided, do not include horizontal margins.
       if (widget.width != null) {
         snackBar = Container(

@@ -6,7 +6,7 @@ import 'package:shoppingapp/screens/order_check_page/order_info_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_checkbox.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:shoppingapp/screens/order_check_page/order_list_page.dart';
+import 'package:shoppingapp/screens/home_page/product_option_select_page.dart';
 
 class OrderCartPage extends StatefulWidget{
 
@@ -18,7 +18,7 @@ class OrderCartPage extends StatefulWidget{
 class _OrderCartPageState extends State<OrderCartPage>{
   bool isSelected = false;
   bool allSelected = false;
-
+  String option = 'XL / 퍼플';
   int itemCount = 1;
   int totalPrice = 0;
   @override
@@ -56,7 +56,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                             setState(() {
                               allSelected = !allSelected;
                             });
-                          }, //체크시 개인정보 수집 및 이용 동의
+                          },
                         ),),
                         SizedBox(width: 10,),
                         Container(
@@ -136,7 +136,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                                   color: Colors.grey[200],
                                   borderRadius: BorderRadius.circular(6.0)
                               ),
-                              child:Text('XL / 퍼플',style : AppThemes.textTheme.subtitle2.copyWith(color: Colors.grey)),
+                              child:Text(option,style : AppThemes.textTheme.subtitle2.copyWith(color: Colors.grey)),
                             ),
                           ),
                         ],
@@ -149,16 +149,35 @@ class _OrderCartPageState extends State<OrderCartPage>{
                           mainAxisAlignment:MainAxisAlignment.start,
                           children: [
                             SizedBox(width: 30,),
-                            Expanded(child: Container(
-                              height: 40,
-                              alignment: Alignment.center,
+                            Expanded(child: GestureDetector(
+                              onTap: () async{
+                                String result =  await showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      return FractionallySizedBox(
+                                        heightFactor: 0.35,
+                                        child: ProductOptionSelectPage(isCart: true,),
+                                      );
+                                    });
+                                if(result != null){
+                                  setState(() {
+                                    option = result;
+                                  });
+                                }
 
-                              padding: EdgeInsets.only(left:24,right:24,top:3),
-                              decoration: BoxDecoration(
-                                  borderRadius:BorderRadius.circular(12.0),
-                                  border: Border.all(color: AppThemes.mainColor)
+                              },
+                              child: Container(
+                                height: 40,
+                                alignment: Alignment.center,
+
+                                padding: EdgeInsets.only(left:24,right:24,top:3),
+                                decoration: BoxDecoration(
+                                    borderRadius:BorderRadius.circular(12.0),
+                                    border: Border.all(color: AppThemes.mainColor)
+                                ),
+                                child: Text("옵션 변경",style: AppThemes.textTheme.subtitle1),
                               ),
-                              child: Text("옵션 변경",style: AppThemes.textTheme.subtitle1),
                             ),),
                             SizedBox(width: 30,),
                             Expanded(child:Container(

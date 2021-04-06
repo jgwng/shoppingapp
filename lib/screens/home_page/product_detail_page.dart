@@ -11,7 +11,7 @@ import 'package:shoppingapp/models/product_question.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:shoppingapp/widgets/product_item.dart';
 import 'package:shoppingapp/widgets/comment_image_dialog.dart';
-import 'package:shoppingapp/screens/order_check_page/order_info_page.dart';
+import 'package:shoppingapp/widgets/custom_snackbar.dart';
 import 'package:shoppingapp/screens/home_page/product_option_select_page.dart';
 class ProductDetailScreen extends StatefulWidget{
   ProductDetailScreen({Key key, this.product}) : super(key: key);
@@ -46,7 +46,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
   double _inputHeight = 100.0;
   FocusNode contentFocusNode = FocusNode();
   ProductQuestion productQuestion;
-
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -59,6 +59,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title : "제품 상세"),
       body: ListView(
@@ -191,15 +192,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
                 height: 60,
                 child: RaisedButton(
                   onPressed: () async{
-                    await showModalBottomSheet(
+                   String result =  await showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         builder: (context) {
                       return FractionallySizedBox(
                         heightFactor: 0.5,
-                        child: ProductOptionSelectPage(),
+                        child: ProductOptionSelectPage(productName: "AAAAAA",),
                       );
                     });
+                   if(result != null){
+                     scaffoldKey.currentState.showSnackBar(CustomSnackBar(
+                       backgroundColor: AppThemes.mainColor,
+                       content: Text("장바구니에 추가 완료!",style: AppThemes.textTheme.subtitle2.copyWith(color: Colors.white),),));
+                   }
                   },
                   //> Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [widget.product],)))
                   color: AppThemes.mainColor,
