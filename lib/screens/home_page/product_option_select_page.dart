@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shoppingapp/models/cart.dart';
-import 'package:shoppingapp/utils/keyboard_pop.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/widgets/custom_snackbar.dart';
 import 'package:shoppingapp/providers/firestore_provider.dart';
@@ -210,7 +208,7 @@ class _ProductOptionSelectPageState extends State<ProductOptionSelectPage> {
             child: ListView.separated(
               itemCount: 5,
               padding: EdgeInsets.only(top: 5),
-              itemBuilder: (ctx,i) => avatarListItem(overlayEntry,overlayState,i),
+              itemBuilder: (ctx,i) => optionSelectListItem(overlayEntry,overlayState,i),
               separatorBuilder: (ctx,i) => Padding(padding:EdgeInsets.symmetric(vertical: 5),child: Divider(
                 color: AppThemes.mainColor,thickness: 1,height: 1,
               ),),
@@ -222,7 +220,7 @@ class _ProductOptionSelectPageState extends State<ProductOptionSelectPage> {
     );
   }
 
-  Widget avatarListItem(OverlayEntry overlayEntry,OverlayState overlayState,int index){
+  Widget optionSelectListItem(OverlayEntry overlayEntry,OverlayState overlayState,int index){
     return GestureDetector(
         onTap: (){
           overlayState.setState(() {
@@ -278,52 +276,40 @@ class _ProductOptionSelectPageState extends State<ProductOptionSelectPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6.0),
         ),
-        onPressed: (){
+        onPressed: () async{
           if((option1 !='옵션1 선택' ) & (option2 !='옵션2 선택')){
+
+            Cart cart = Cart(price: widget.productPrice,option: [option1,option2],productName: widget.productName);
+            await context.read(firestoreProvider).addCart(cart);
             Navigator.pop(context,option1 + "/" + option2);
+
           }else{
             scaffoldKey.currentState.showSnackBar(CustomSnackBar(
               backgroundColor: AppThemes.mainColor,
               content: Text("옵션을 변경해 주시기 바랍니다.",style: AppThemes.textTheme.subtitle2.copyWith(color: Colors.white),),));
           }
-
         },
         child: Text("옵션 변경하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
       ),
     );
   }
 
-
-
-
-
-
-
-
-
-
-
-
   @override
   void dispose() async{
     super.dispose();
-
     _overlayEntry?.remove();
     _overlayEntry1?.remove();
     print("AAAAA");
 
-    SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
-  @override
   void didPush() async{
     print("AAA");
     if((_overlayEntry != null) | (_overlayEntry1 != null)){
-      await keyboardDown(context);
+
     }
   }
 
-  @override
   void didPopNext() {
     print("AAAA");
 
