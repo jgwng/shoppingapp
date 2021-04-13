@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
-import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/app_text_list.dart';
 import 'package:shoppingapp/models/select_model.dart';
@@ -33,7 +32,6 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TextTitleAppBar(title : "찜"),
       body: SingleChildScrollView(
         child: Column(
             children: [

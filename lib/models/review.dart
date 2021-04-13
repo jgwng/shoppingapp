@@ -5,9 +5,10 @@ class Review{
   String product;
   String uid;
   List<String> productOpt;
-  Review({this.starRate,this.review,this.attachedImage,this.productOpt,this.product,this.uid});
+  DateTime createdAt;
+  Review({this.starRate,this.review,this.attachedImage,this.productOpt,this.product,this.uid,this.createdAt});
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'starRate': this.starRate,
       'review': this.review,
@@ -15,6 +16,7 @@ class Review{
       'product': this.product,
       'uid': this.uid,
       'productOpt': this.productOpt,
+      'createdAt': this.createdAt,
     };
   }
 
@@ -26,6 +28,7 @@ class Review{
       product: map['product'] as String,
       uid: map['uid'] as String,
       productOpt: map['productOpt'] as List<String>,
+      createdAt: map['createdAt'].toDate() as DateTime,
     );
   }
 

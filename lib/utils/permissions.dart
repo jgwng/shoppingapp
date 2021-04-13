@@ -31,30 +31,30 @@ Future<bool> checkGalleryPermission() async{
 
   return result;
 }
-//Future<bool> checkCameraPermission()async{
-//  List<Permission> androidPermissions = [Permission.camera, Permission.microphone, Permission.storage];
-//  List<Permission> iOSPermissions = [Permission.camera, Permission.microphone, Permission.photos];
-//  bool result = false;
-//  if(Platform.isAndroid){
-//    if(await Permission.camera.isUndetermined && await Permission.microphone.isUndetermined) {
-//      await androidPermissions.request();
-//      if(await Permission.camera.isGranted && await Permission.microphone.isGranted)
-//        result = true;
-//    }
-//    else if(await Permission.camera.isGranted && await Permission.microphone.isGranted)
-//      result = true;
-//    else
-//      await openAppSettings();
-//  }else if(Platform.isIOS){
-//    if(await Permission.camera.isUndetermined && await Permission.microphone.isUndetermined) {
-//      await iOSPermissions.request();
-//      if(await Permission.camera.isGranted && await Permission.microphone.isGranted)
-//        result = true;
-//    }
-//    else if(await Permission.camera.isGranted && await Permission.microphone.isGranted)
-//      result = true;
-//    else
-//      await openAppSettings();
-//  }
-//  return result;
-//}
+Future<bool> checkCameraPermission()async{
+  List<Permission> androidPermissions = [Permission.camera, Permission.microphone, Permission.storage];
+  List<Permission> iOSPermissions = [Permission.camera, Permission.microphone, Permission.photos];
+  bool result = false;
+  if(Platform.isAndroid){
+    if(await Permission.camera.isUndetermined && await Permission.microphone.isUndetermined) {
+      await androidPermissions.request();
+      if(await Permission.camera.isGranted && await Permission.microphone.isGranted)
+        result = true;
+    }
+    else if(await Permission.camera.isGranted && await Permission.microphone.isGranted)
+      result = true;
+    else
+      await openAppSettings();
+  }else if(Platform.isIOS){
+    if(await Permission.camera.isUndetermined && await Permission.microphone.isUndetermined) {
+      await iOSPermissions.request();
+      if(await Permission.camera.isGranted && await Permission.microphone.isGranted)
+        result = true;
+    }
+    else if(await Permission.camera.isGranted && await Permission.microphone.isGranted)
+      result = true;
+    else
+      await openAppSettings();
+  }
+  return result;
+}

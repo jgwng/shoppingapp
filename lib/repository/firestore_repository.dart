@@ -4,6 +4,7 @@ import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/models/cart.dart';
 import 'package:shoppingapp/models/coupon.dart';
+import 'package:shoppingapp/models/review.dart';
 import 'package:shoppingapp/models/announcement.dart';
 import 'package:shoppingapp/providers/firebase_auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -88,12 +89,17 @@ class FirestoreRepository {
     }
     return announcementList;
   }
-
+  addReview(Review review) async {
+    review.uid = uid;
+    Map<String,dynamic> newReview  = review.toJson();
+    DocumentReference userRef = firestore.doc(FirestorePath.review(review.product,uid));
+    await userRef.set(newReview);
+  }
 
   addFavoriteItem(Product product) async {
     Map<String,dynamic> newCartItem  = product.toJson();
     DocumentReference userRef = firestore.doc(FirestorePath.favorite(uid));
-    await userRef.update(newCartItem);
+    await userRef.set(newCartItem);
   }
 
   removeFavoriteItem(Product product) async {

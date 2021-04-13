@@ -4,10 +4,16 @@ import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
+import 'package:shoppingapp/providers/firestore_provider.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'dart:math' as math;
 import 'package:shoppingapp/utils/permissions.dart';
 import 'package:shoppingapp/models/review.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shoppingapp/utils/bottom_sheet.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
 class ProductCommentPage extends StatefulWidget{
     @override
     _ProductCommentPageState createState() => _ProductCommentPageState();
@@ -21,7 +27,7 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
     double _inputHeight = 170;
     bool isFocused = false;
     List<Asset> images = <Asset>[];
-    List<Asset> imageList = <Asset>[];
+    List<File> imageList = <File>[];
 
     @override
     void initState() {
@@ -58,10 +64,18 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
 
 
 
-    Future<void> loadAssets() async {
-        List<Asset> result = <Asset>[];
+    Future<void> loadAssets(BuildContext context) async {
+        bool result = await onImagePickerBottomSheet(context);
+        if(result !=null){
+            if(result){
+                bool permitted = await checkCameraPermission();
+                if(permitted){
+                   File _image = await _uploadImageToStorage(ImageSource.camera,context);
+                   imageList.add(_image);
+                }
+            }else{
+         List<Asset> result = <Asset>[];
         bool permitted = await checkGalleryPermission();
-
         if(permitted){
             try {
                 result = await MultiImagePicker.pickImages(
@@ -75,18 +89,25 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
                 print(e.toString());
             }
         }
-
-
-
         if (!mounted) return;
-
         print(result);
-        for(int i = 0;i<result.length;i++){
-            imageList.add(result[i]);
-        }
+         result.forEach((imageAsset) async {
+             final filePath = await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+
+             File tempFile = File(filePath);
+             if (tempFile.existsSync()) {
+                 imageList.add(tempFile);
+             }
+         });
         setState(() {
 
         });
+            }
+        }
+
+        bool permitted = await checkCameraPermission();
+        print(permitted);
+
     }
 
     @override
@@ -99,7 +120,7 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
                     overScroll.disallowGlow();
                     return false;
                 },child: GestureDetector(
-                onTap : () => unFocus(),
+                onTap : () => unFocus(context),
                 child : SingleChildScrollView(
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +155,7 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
                             SizedBox(height: 40,),
                             contentField(),
                             SizedBox(height: 30,),
-                            addImage(),
+                            addImage(context),
                             SizedBox(height: 40,),
                             Align(
                                 alignment : Alignment.center,
@@ -147,15 +168,16 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
                                             Review review = Review();
                                             review.starRate = starCount;
                                             review.review = contentController.text;
+                                            review.attachedImage = List<String>();
+                                            review.productOpt = List<String>();
+                                            review.product = "AAAAA";
+                                            review.createdAt = DateTime.now();
                                             for(int i =0; i<imageList.length;i++) {
-                                                var path = await FlutterAbsolutePath.getAbsolutePath(imageList[i].identifier);
-                                                review.attachedImage.add(path);
+                                                review.attachedImage.add(imageList[i].path);
                                             }
 
-
-
-
-
+                                            await context.read(storageProvider).uploadPicture(review);
+                                            await context.read(firestoreProvider).addReview(review);
                                             Navigator.pop(context);
                                         },
                                         shape: RoundedRectangleBorder(
@@ -221,7 +243,7 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
         );
     }
 
-    Widget addImage(){
+    Widget addImage(BuildContext context){
         return  Container(
                 padding: EdgeInsets.only(left:25),
                 child: Column(
@@ -248,7 +270,7 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
                                padding: EdgeInsets.symmetric(vertical: 10),
                                physics: ClampingScrollPhysics(),
                                separatorBuilder: (ctx,i) =>SizedBox(width: 10,),
-                               itemBuilder: (ctx,i) => (i == imageList.length) ? addImageButton() : imageView(imageList[i]),
+                               itemBuilder: (ctx,i) => (i == imageList.length) ? addImageButton(context) : imageView(imageList[i]),
                                shrinkWrap:  true,
                                scrollDirection: Axis.horizontal,
                                itemCount: (imageList.length !=5) ? imageList.length +1 : imageList.length,
@@ -264,9 +286,9 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
             );
     }
 
-    Widget addImageButton(){
+    Widget addImageButton(BuildContext context){
         return GestureDetector(
-            onTap: loadAssets,
+            onTap: () => loadAssets(context),
             child: Container(
                 width: 80,
                 height: 80,
@@ -285,19 +307,19 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
         );
     }
 
-    Widget imageView(Asset asset){
+    Widget imageView(File file){
         return GestureDetector(
             onTap: (){},
             child: Stack(
                 children: [
-                    AssetThumb(asset: asset, width: 80, height: 80),
+                    Container( width: 80, height: 80,child: Image.file(file),),
                     Positioned(
                         right: 3,
                         top: 3,
                         child: GestureDetector(
                             onTap: (){
                                 setState(() {
-                                  imageList.remove(asset);
+                                  imageList.remove(file);
                                 });
                                 },
                             child   :Icon(Icons.remove_circle_rounded)
@@ -310,7 +332,7 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
 
 
 
-    void unFocus() {
+    void unFocus(BuildContext context) {
         FocusScopeNode currentFocus = FocusScope.of(context);
         if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
@@ -318,6 +340,13 @@ class _ProductCommentPageState extends State<ProductCommentPage>{
         }
     }
 
-
+    Future<File> _uploadImageToStorage(ImageSource source, BuildContext context) async {
+        var picker = ImagePicker();
+        PickedFile image = await picker.getImage(source: source);
+        if(image != null)
+            return File(image.path);
+        else
+            return null;
+    }
 
 }

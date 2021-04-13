@@ -7,7 +7,7 @@ import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
-
+import 'package:shoppingapp/screens/favorite_list_page/favorite_list_page.dart';
 class MainPage extends StatefulWidget{
   @override
   _MainPageState createState() => _MainPageState();
@@ -22,32 +22,38 @@ class _MainPageState extends State<MainPage>{
     BottomNavigationBarItem(
       label: "",
       icon: Icon(Icons.home_outlined),
-      activeIcon: Icon(Icons.home_outlined),
+      activeIcon: Icon(Icons.home),
     ),
     BottomNavigationBarItem(
       label: "",
       icon:  Icon(Icons.shopping_bag_outlined),
-      activeIcon: Icon(Icons.shopping_bag_outlined),
+      activeIcon: Icon(Icons.shopping_bag),
+    ),
+    BottomNavigationBarItem(
+      label: "",
+      icon:  Icon(Icons.favorite_border_outlined),
+      activeIcon: Icon(Icons.favorite),
     ),
     BottomNavigationBarItem(
       label: "",
       icon: Icon(Icons.moped_outlined),
-      activeIcon: Icon(Icons.moped_outlined),
+      activeIcon: Icon(Icons.moped),
     ),
     BottomNavigationBarItem(
       label: "",
       icon: Icon(Icons.settings_outlined),
-      activeIcon: Icon(Icons.settings_outlined),)
+      activeIcon: Icon(Icons.settings),)
   ];
   final List<Widget> _pageList = [
     HomePage(),
     CategoryList(),
+    FavoriteListPage(),
     OrderListPage(),
     SettingPage(),
   ];
 
 
-  final List<String> _titleList = ["Gunny","전체 보기","배송 관리","앱 설정"];
+  final List<String> _titleList = ["Gunny","전체 보기","찜","배송 관리","앱 설정"];
 
 
   @override

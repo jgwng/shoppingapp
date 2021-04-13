@@ -13,4 +13,5 @@ class FirestorePath{
   static String coupon(String userUid) => 'user/$userUid/coupon';
   static String couponInfo(String couponCode) => 'coupon/$couponCode';
 
+  static String review(String userUid,String product) => 'product/$product/review/$userUid';
 }

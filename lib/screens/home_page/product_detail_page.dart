@@ -13,6 +13,9 @@ import 'package:shoppingapp/widgets/product_item.dart';
 import 'package:shoppingapp/widgets/comment_image_dialog.dart';
 import 'package:shoppingapp/widgets/custom_snackbar.dart';
 import 'package:shoppingapp/screens/home_page/product_option_select_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shoppingapp/providers/firestore_provider.dart';
+
 class ProductDetailScreen extends StatefulWidget{
   ProductDetailScreen({Key key, this.product}) : super(key: key);
   final Product product;
@@ -171,9 +174,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTi
           children: [
             GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: (){
+              onTap: () async{
+                (isFavorite) ? await context.read(firestoreProvider).removeFavoriteItem(widget.product) : context.read(firestoreProvider).addFavoriteItem(widget.product);
                 setState(() {
                   isFavorite = !isFavorite;
+
                 });
               },
               child: Container(

@@ -204,13 +204,6 @@ class _SettingPageState extends State<SettingPage>{
     );
   }
 
-
-
-
-
-
-
-
   Widget listItemIcon(int index){
     switch(index){
       case 0:
@@ -229,7 +222,7 @@ class _SettingPageState extends State<SettingPage>{
         return Icon(Icons.question_answer_outlined);
         break;
       case 5:
-        return Icon(Icons.info_outline);
+        return Icon(Icons.campaign_outlined);
         break;
       case 6:
         return Icon(Icons.info_outline);
