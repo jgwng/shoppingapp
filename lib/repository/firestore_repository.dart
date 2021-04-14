@@ -98,7 +98,8 @@ class FirestoreRepository {
 
   addFavoriteItem(Product product) async {
     Map<String,dynamic> newCartItem  = product.toJson();
-    DocumentReference userRef = firestore.doc(FirestorePath.favorite(uid));
+    print(newCartItem);
+    DocumentReference userRef = firestore.doc(FirestorePath.favoriteItem(uid,product.title));
     await userRef.set(newCartItem);
   }
 
@@ -111,6 +112,7 @@ class FirestoreRepository {
     DocumentReference userRef = firestore.doc(FirestorePath.favorite(uid));
     await userRef.delete();
   }
+
   Future<void> addCart(Cart cart ) async {
     Map<String,dynamic> newCartItem  = cart.toMap();
     DocumentReference userRef = firestore.doc(FirestorePath.cartItem(uid,cart.productName));

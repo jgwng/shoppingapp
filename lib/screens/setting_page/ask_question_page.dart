@@ -96,6 +96,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
                   key: _infoFormKey,
                   child: Column(
                     children: <Widget>[
+                      SizedBox(height: widgetHeight(40),),
                       questionNTitleField("제목", questionTitleController, questionFocusNode, "제목을 입력해주세요.", validateTitle),
                       //Text "제목" & 일대일 질문 제목
                       SizedBox(height: widgetHeight(22.5),),

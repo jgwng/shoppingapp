@@ -240,7 +240,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                         width: double.infinity,
                         child: RaisedButton(
                           elevation: 0,
-                          onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage())),
+                          onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [],))),
                           color: AppThemes.mainColor,
                           child: Text("바로 주문",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
                         ),
