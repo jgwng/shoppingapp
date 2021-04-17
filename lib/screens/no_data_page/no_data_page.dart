@@ -15,7 +15,7 @@ class _DataNonePageState extends State<DataNonePage>{
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-      appBar: TextTitleAppBar(title : "알림"),
+      appBar: (widget.title == null) ? TextTitleAppBar(title : "알림") : null,
       body : Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -25,9 +25,9 @@ class _DataNonePageState extends State<DataNonePage>{
               child: Image.asset("assets/images/data_none_page/unicorn.png",fit: BoxFit.cover),),
             SizedBox(height: 40,),
             Text(
-              "알림이 없습니다.",
+              widget.title,textAlign: TextAlign.center,
               style: AppThemes.textTheme.headline1.copyWith(
-                  fontSize: 25),
+                  fontSize: 25,height: 1.5),
             ),
             SizedBox(height: 100,)
           ],

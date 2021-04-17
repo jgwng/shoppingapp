@@ -10,6 +10,10 @@ import 'package:intl/intl.dart';
 import 'package:shoppingapp/main.dart';
 import 'package:shoppingapp/utils/keyboard_pop.dart';
 import 'package:flutter/services.dart';
+import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shoppingapp/models/user.dart';
+
 
 class PersonalInfoPage extends StatefulWidget{
   @override
@@ -76,6 +80,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
   @override
   void initState(){
     super.initState();
+    User user = context.read(userStateProvider).currentUser;
+    nameController.text = user.name;
+
     _overlayState = Overlay.of(context);
   }
 
@@ -89,91 +96,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title:"개인정보 변경"),
-      body: GestureDetector(
-        onTap: (){
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if(!currentFocus.hasPrimaryFocus){
-            currentFocus.unfocus();
-          }
-        },child: SingleChildScrollView(
-
-          child: Center(
-            child: Column(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 10),
-                  GestureDetector(
-                    onTap: ()  {
-
-                      _overlayEntry = _createOverlayEntry();
-                      _overlayState.insert(_overlayEntry);
-                    },
-                    child: CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Colors.grey[300],
-                      child: Center(
-                        child : SizedBox(
-                          width: 80,
-                          height: 80,
-                          child: Image.asset("assets/images/avatar_image/boy_$imageIndex.png"),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    width: 160,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.0),
-                      border: Border.all(color: Colors.black)
-                    ),
-                    child: TextFormField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 10,right: 10,bottom:10),
-                        border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.transparent)),
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.transparent)),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.transparent)),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15,),
-                  Text("*캐릭터를 눌러서 이미지를 변경해 보아요!",style: AppThemes.textTheme.subtitle2.copyWith(color:Colors.grey),),
-                  SizedBox(height:15),
-                ],
-              ),
-              SizedBox(height:20,child: Container(color: Colors.grey[200],),),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    SizedBox(height:30),
-                    infoField(phoneNumberController,phoneNumberFocusNode,"(-) 없이",validatePhoneNumber,true,"휴대폰"),
-                    SizedBox(height:40),
-                    _inputBirthDay(),
-                    SizedBox(height: 30,),
-                    labelField("자주 쓰는 배송지 관리"),
-                    SizedBox(height: 10,),
-                    labelField("기본 환불 계좌 설정"),
-                  ],
-                ),
-              ),
-
-            ],
-          ),
-        ),
-      ),
-      ),
+      body:Consumer(builder : (context,watch,child){
+        return buildBody(context,watch(userStateProvider));
+      }),
       bottomNavigationBar: Container(
         child: Row(
           children: [
@@ -186,6 +111,96 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
 
     );
   }
+
+  Widget buildBody(BuildContext context, UserState userState){
+    return GestureDetector(
+      onTap: (){
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if(!currentFocus.hasPrimaryFocus){
+          currentFocus.unfocus();
+        }
+      },child: SingleChildScrollView(
+
+      child: Center(
+        child: Column(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 10),
+                GestureDetector(
+                  onTap: ()  {
+
+                    _overlayEntry = _createOverlayEntry();
+                    _overlayState.insert(_overlayEntry);
+                  },
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundColor: Colors.grey[300],
+                    child: Center(
+                      child : SizedBox(
+                        width: 80,
+                        height: 80,
+                        child: Image.asset("assets/images/avatar_image/boy_$imageIndex.png"),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  width: 160,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      border: Border.all(color: Colors.black)
+                  ),
+                  child: TextFormField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(left: 10,right: 10,bottom:10),
+                      border: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.transparent)),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.transparent)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.transparent)),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15,),
+                Text("*캐릭터를 눌러서 이미지를 변경해 보아요!",style: AppThemes.textTheme.subtitle2.copyWith(color:Colors.grey),),
+                SizedBox(height:15),
+              ],
+            ),
+            SizedBox(height:20,child: Container(color: Colors.grey[200],),),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  SizedBox(height:30),
+                  infoField(phoneNumberController,phoneNumberFocusNode,"(-) 없이",validatePhoneNumber,true,"휴대폰"),
+                  SizedBox(height:40),
+                  _inputBirthDay(),
+                  SizedBox(height: 30,),
+                  labelField("자주 쓰는 배송지 관리"),
+                  SizedBox(height: 10,),
+                  labelField("기본 환불 계좌 설정"),
+                ],
+              ),
+            ),
+
+          ],
+        ),
+      ),
+    ),
+    );
+  }
+
+
 
   Widget infoField(TextEditingController textEditingController,
       FocusNode focusNode,String hintText,Function(String number) function,bool verification,String label){
@@ -225,7 +240,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
                       child: Text(hintText == "관리자 번호" ? "번호 인증" : "번호 변경",style: textStyle,),
                     ),
                   ) : null,
-
                   contentPadding: EdgeInsets.only(left:20,bottom:3),
                   hintText: hintText,
                   hintStyle: TextStyle(color: Colors.black45),

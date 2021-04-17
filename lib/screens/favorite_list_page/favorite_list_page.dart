@@ -18,12 +18,16 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
   List<SelectStringModel> categoryModel = List<SelectStringModel>();
   List<String> aaaList = ["","","","","","",""];
   bool isEditMode = false;
+  List<Product> favoriteItemList;
+  List<Product> displayList;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     categoryList.insert(0, "전체");
     categoryModel = List.generate(categoryList.length,(i) => SelectStringModel(text: categoryList[i],isSelected:(i == 0)?true:false));
+    favoriteItemList = List.generate(10,(i)=> Product());
+    displayList = favoriteItemList;
   }
 
 
@@ -148,4 +152,15 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
       ),
     );
   }
+
+  void sortFavorite(String category){
+    setState(() {
+      displayList = [];
+      favoriteItemList.forEach((element) {
+        if(element.category == category)
+          displayList.add(element);
+      });
+    });
+  }
+
 }

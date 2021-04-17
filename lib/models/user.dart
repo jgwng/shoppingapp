@@ -6,6 +6,7 @@ class User{
   List<String> firstAddress;
   List<String> secondAddress;
   int userState;
+  bool isMan;
   bool isAdmin;
   String userToken;
   int characterIndex;
@@ -15,7 +16,7 @@ class User{
   List<String> refundAccount;
   User({this.userUID, this.name,this.phoneNumber,this.firstAddress,this.characterIndex : 0,
     this.secondAddress,this.postNumber,this.userState : 0,this.isAdmin :false,this.userToken,
-    this.couponAmount : 0,this.level : 1,this.useAmount : 0,this.refundAccount
+    this.couponAmount : 0,this.level : 1,this.useAmount : 0,this.refundAccount,this.isMan
   });
 
   Map<String, dynamic> toJson() {
@@ -34,6 +35,7 @@ class User{
       'couponAmount': this.couponAmount,
       'useAmount': this.useAmount,
       'refundAccount': this.refundAccount,
+      'isMan' : this.isMan
     };
   }
 
@@ -53,6 +55,7 @@ class User{
       couponAmount: map['couponAmount'] as int,
       useAmount: map['useAmount'] as int,
       refundAccount: map['refundAccount'] as List<String>,
+      isMan: map['isMan'] as bool
     );
   }
 

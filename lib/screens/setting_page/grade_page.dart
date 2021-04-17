@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GradeDetail extends StatefulWidget{
   @override
@@ -18,58 +20,68 @@ class _GradeDetailState extends State<GradeDetail>{
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title: "등급 안내",),
-      body:  NotificationListener<OverscrollIndicatorNotification>(
-          onNotification: (OverscrollIndicatorNotification overScroll) {
-            overScroll.disallowGlow();
-            return false;
-          },child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding : EdgeInsets.symmetric(horizontal : 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 90,
-                    height: 90,
-                    child: Image.asset('assets/images/grade_page/grade_1.png',fit: BoxFit.cover,),
-                  ),
-                   SizedBox(width: 50,),
-                   Column(
-                     mainAxisAlignment: MainAxisAlignment.end,
-                     crossAxisAlignment: CrossAxisAlignment.end,
-                     children: [
-                       SizedBox(height: 30,),
-                       Text('이번달 회원님의 등급',style : AppThemes.textTheme.bodyText1),
-                       Text('레벨 1\n',style : AppThemes.textTheme.headline1.copyWith(color: AppThemes.pointColor)),
-                       Text('이번달 결제 금액',style : AppThemes.textTheme.bodyText1),
-                       Text('30000원\n',style : AppThemes.textTheme.headline1.copyWith(color: AppThemes.pointColor)),
-                     ],
-                   )
-                ],
-              ),),
-            SizedBox(height: 20,),
-            Text('전체 등급 목록',style: AppThemes.textTheme.bodyText1.copyWith(color: Colors.grey),),
-            Container(
-              height: 660,
-              child: ListView.separated(
-                itemCount: 5,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (ctx,i) => gradeItem(i),
-                separatorBuilder:(ctx,i) =>  Divider(height: 2,color: AppThemes.mainColor,thickness: 1,),
-              ),
-            ),
-            SizedBox(height: 20,),
-            gradeNotice(),
-
-          ],
-        ),
-      )),
+      body:Consumer(builder : (context,watch,child){
+        return buildBody(context,watch(userStateProvider));
+      }),
     );
   }
+
+  Widget buildBody(BuildContext context, UserState userState){
+    return NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (OverscrollIndicatorNotification overScroll) {
+          overScroll.disallowGlow();
+          return false;
+        },child: SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding : EdgeInsets.symmetric(horizontal : 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 90,
+                  height: 90,
+                  child: Image.asset('assets/images/grade_page/grade_${userState.currentUser.level}.png',fit: BoxFit.cover,),
+                ),
+                SizedBox(width: 50,),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(height: 30,),
+                    Text('이번달 회원님의 등급',style : AppThemes.textTheme.bodyText1),
+                    Text('레벨 ${userState.currentUser.level}\n',style : AppThemes.textTheme.headline1.copyWith(color: AppThemes.pointColor)),
+                    Text('이번달 결제 금액',style : AppThemes.textTheme.bodyText1),
+                    Text('${userState.currentUser.useAmount}원\n',style : AppThemes.textTheme.headline1.copyWith(color: AppThemes.pointColor)),
+                  ],
+                )
+              ],
+            ),),
+          SizedBox(height: 20,),
+          Text('전체 등급 목록',style: AppThemes.textTheme.bodyText1.copyWith(color: Colors.grey),),
+          Container(
+            height: 660,
+            child: ListView.separated(
+              itemCount: 5,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (ctx,i) => gradeItem(i),
+              separatorBuilder:(ctx,i) =>  Divider(height: 2,color: AppThemes.mainColor,thickness: 1,),
+            ),
+          ),
+          SizedBox(height: 20,),
+          gradeNotice(),
+
+        ],
+      ),
+    ));
+  }
+
+
+
+
 
 
   Widget gradeItem(int index){

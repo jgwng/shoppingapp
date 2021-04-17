@@ -5,6 +5,7 @@ class Product with ChangeNotifier{
   final String title;
   final String description;
   final double price;
+  final String category;
   final String imageUrl;
   bool isFavorite;
 
@@ -13,6 +14,7 @@ class Product with ChangeNotifier{
      this.description = 'aaaa',
      this.price = 50000,
      this.imageUrl,
+    this.category ='',
     this.isFavorite = false});
 
 
@@ -29,6 +31,7 @@ class Product with ChangeNotifier{
       'price': this.price,
       'imageUrl': this.imageUrl,
       'isFavorite': this.isFavorite,
+      'category' : this.category
     };
   }
 
@@ -40,6 +43,7 @@ class Product with ChangeNotifier{
       price: map['price'] as double,
       imageUrl: map['imageUrl'] as String,
       isFavorite: map['isFavorite'] as bool,
+      category: map['category'] as String
     );
   }
 }

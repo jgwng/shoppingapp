@@ -429,7 +429,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
   void onPressed() async{
     user.name = nameController.text;
     user.userState = 2;
-
+    user.isMan = gender;
     await context.read(nowStateProvider).registerUserData(user);
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(

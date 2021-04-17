@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
 import 'package:shoppingapp/screens/setting_page/personal_info_page/personal_info_page.dart';
@@ -18,8 +19,24 @@ class SettingPage extends StatefulWidget{
 }
 
 class _SettingPageState extends State<SettingPage>{
-  List<String> itemTitle = ["알림설정","공지사항","1:1문의하기","등급 관련 안내","자주 묻는 질문","이용 약관","버전 정보"];
+  List<String> itemTitle = ["알림설정","공지사항","1:1문의하기","등급 관련 안내","자주 묻는 질문","이용 약관","버전 정보 "];
   TextStyle textStyle = AppThemes.textTheme.bodyText1;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    super.initState();
+    getData().then((value) => {
+      setState(() {
+        itemTitle.last = itemTitle.last + value;
+      })
+    });
+
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +80,7 @@ class _SettingPageState extends State<SettingPage>{
                               children: [
                                 SizedBox(height: 20,),
                                 SizedBox(width: 80,height: 80,
-                                  child:Image.asset("assets/images/avatar_image/boy_0.png") ,),
+                                  child:Image.asset("assets/images/avatar_image/${(userState.currentUser.isMan) ? 'boy' : 'girl'}_${userState.currentUser.characterIndex}.png") ,),
                               ],
                             ),
                           ),
@@ -123,11 +140,6 @@ class _SettingPageState extends State<SettingPage>{
                             onTap: () => onTap(i),
                             child: listItem(i))),
               ),),
-
-
-
-
-
 
 
               //버전정보 Container 생성
@@ -261,5 +273,11 @@ class _SettingPageState extends State<SettingPage>{
     }
   }
 
+  Future<String> getData() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+    return version + "+" + buildNumber;
+  }
 
 }
