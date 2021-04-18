@@ -131,7 +131,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
                 SizedBox(height: 10),
                 GestureDetector(
                   onTap: ()  {
-
                     _overlayEntry = _createOverlayEntry();
                     _overlayState.insert(_overlayEntry);
                   },

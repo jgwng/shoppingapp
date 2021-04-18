@@ -41,23 +41,25 @@ class CurrentUserState extends StateNotifier<UserState> {
     Map<String, dynamic> updateData = {
       'phone': phoneNumber
     };
-    await read(firestoreProvider).updateUser(updateData);
-    read(nowLoadingStateProvider).offLoading("user");
-  }
-
-  updateUserInfo(String name, String email) async{
-    read(nowLoadingStateProvider).onLoading("user");
-    Map<String, dynamic> updateData = {'email': email,'name':name};
-    await read(firestoreProvider).updateUser(updateData);
+    await read(firestoreProvider).updateUserInfo(updateData);
     read(nowLoadingStateProvider).offLoading("user");
   }
 
   updateUser(Map<String, dynamic> updateData) async{
     read(nowLoadingStateProvider).onLoading("user");
-    await read(firestoreProvider).updateUser(updateData);
+    await read(firestoreProvider).updateUserInfo(updateData);
     read(nowLoadingStateProvider).offLoading("user");
   }
 
+  updateRefundAccount(List<String> accountInfo) async{
+    read(nowLoadingStateProvider).onLoading("user");
+    Map<String, dynamic> updateData = {
+      'refundAccount': accountInfo
+    };
+    await read(firestoreProvider).updateUserInfo(updateData);
+    getUserData();
+    read(nowLoadingStateProvider).offLoading("user");
+  }
   void clear(){
     state = initialUserState;
   }

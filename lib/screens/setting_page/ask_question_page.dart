@@ -7,7 +7,7 @@ import 'package:shoppingapp/models/question.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_checkbox.dart';
-
+import 'package:shoppingapp/service/send_email.dart';
 class OneOnOneQuestion extends StatefulWidget {
   @override
   _OneOnOneQuestionState createState() => _OneOnOneQuestionState();
@@ -18,7 +18,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
   FocusNode mailFocusNode = FocusNode();
   FocusNode contentFocusNode = FocusNode();
   bool isFocused = false;
-  bool isCompleted = false;
+  bool isCompleted = true;
 
   double _inputHeight = 170;
   String email;
@@ -116,16 +116,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
                         ),
                         child: RaisedButton(
                           color:AppThemes.mainColor,
-                          onPressed: (){
-                            question.createdAt = DateTime.now();
-                            question.title = questionTitleController.text;
-                            question.content = questionContentController.text;
-                            question.replyState = 0;
-
-                            // question.uid = user.uid/ question.replytoken = user.token
-
-                            //FCM전송 & FirebaseDB 업데이트
-                          },
+                          onPressed: onPressed,
                           child: Center(
                             child: Text("문의 전송",textAlign: TextAlign.center,style: textStyle.copyWith(color: Colors.white),),
                           ),
@@ -263,6 +254,7 @@ class _OneOnOneQuestionState extends State<OneOnOneQuestion> {
       try {
         final result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          sendEmail();
         }
         Navigator.pop(context,);
       } catch (e) {

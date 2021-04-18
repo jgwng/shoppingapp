@@ -3,7 +3,9 @@ import 'package:shoppingapp/constants/app_themes.dart';
 
 class TextTitleAppBar extends StatelessWidget implements PreferredSizeWidget{
   final String title;
-  TextTitleAppBar({this.title});
+  final VoidCallback onPop;
+
+  TextTitleAppBar({this.title,this.onPop});
 
 
   @override
@@ -17,9 +19,9 @@ class TextTitleAppBar extends StatelessWidget implements PreferredSizeWidget{
              splashColor: Colors.transparent,
              highlightColor: Colors.transparent,
            ),
-           child: IconButton(onPressed: (){
+           child: IconButton(onPressed: (onPop == null) ? (){
              Navigator.pop(context);
-           },
+           } : onPop,
              icon: Icon(Icons.arrow_back_ios_outlined,color: Colors.black,),
            )),
        backgroundColor: Colors.white,

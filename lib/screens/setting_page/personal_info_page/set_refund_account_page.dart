@@ -6,7 +6,9 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/text_label_field.dart';
-
+import 'package:shoppingapp/models/user.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
 class RefundAccountPage extends StatefulWidget{
   @override
   _RefundAccountPageState createState() => _RefundAccountPageState();
@@ -40,6 +42,13 @@ class _RefundAccountPageState extends State<RefundAccountPage>{
     );
     // TODO: implement initState
     super.initState();
+    List<String> refundAccount = context.read(userStateProvider).currentUser.refundAccount;
+    if(refundAccount != null){
+      accountBank = refundAccount[0];
+      accountOwnerController.text = refundAccount[1];
+      accountNumberController.text = refundAccount[2];
+    }
+
   }
 
 
@@ -135,5 +144,17 @@ class _RefundAccountPageState extends State<RefundAccountPage>{
         ]
     );
   }
+
+
+  void onSave(){
+    if((accountBank != '은행 선택') & (accountOwnerController.text != "") & (accountOwnerController.text != '')){
+      List<String> accountInfo = [accountBank, accountOwnerController.text,accountOwnerController.text];
+      context.read(currentUserProvider).updateRefundAccount(accountInfo);
+    }
+  }
+
+
+
+
 
 }

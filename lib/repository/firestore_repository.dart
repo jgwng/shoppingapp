@@ -31,7 +31,7 @@ class FirestoreRepository {
     return user;
   }
 
-  updateUser(Map<String, dynamic> updateData) async {
+  updateUserInfo(Map<String, dynamic> updateData) async {
     DocumentReference userRef = firestore.doc(FirestorePath.user(uid));
     await userRef.update(updateData);
   }

@@ -2,9 +2,7 @@ class User{
   String userUID;
   String name;
   String phoneNumber;
-  List<String> postNumber;
-  List<String> firstAddress;
-  List<String> secondAddress;
+  List<String> address;
   int userState;
   bool isMan;
   bool isAdmin;
@@ -14,8 +12,8 @@ class User{
   int couponAmount;
   int useAmount;
   List<String> refundAccount;
-  User({this.userUID, this.name,this.phoneNumber,this.firstAddress,this.characterIndex : 0,
-    this.secondAddress,this.postNumber,this.userState : 0,this.isAdmin :false,this.userToken,
+  User({this.userUID, this.name,this.phoneNumber,this.address,this.characterIndex : 0,
+   this.userState : 0,this.isAdmin :false,this.userToken,
     this.couponAmount : 0,this.level : 1,this.useAmount : 0,this.refundAccount,this.isMan
   });
 
@@ -24,9 +22,7 @@ class User{
       'userUID': this.userUID,
       'name': this.name,
       'phoneNumber': this.phoneNumber,
-      'postNumber': this.postNumber,
-      'firstAddress': this.firstAddress,
-      'secondAddress': this.secondAddress,
+      'address': this.address,
       'userState': this.userState,
       'isAdmin': this.isAdmin,
       'userToken': this.userToken,
@@ -44,9 +40,7 @@ class User{
       userUID: map['userUID'] as String,
       name: map['name'] as String,
       phoneNumber: map['phoneNumber'] as String,
-      postNumber: map['postNumber'] as List<String>,
-      firstAddress: map['firstAddress'] as List<String>,
-      secondAddress: map['secondAddress'] as List<String>,
+      address: map['address'] as List<String>,
       userState: map['userState'] as int,
       isAdmin: map['isAdmin'] as bool,
       userToken: map['userToken'] as String,
