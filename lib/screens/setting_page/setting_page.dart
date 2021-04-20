@@ -13,6 +13,8 @@ import 'package:shoppingapp/screens/setting_page/notification_setting_page.dart'
 import 'package:shoppingapp/screens/setting_page/point_info_page/point_info_page.dart';
 import 'package:shoppingapp/screens/setting_page/term_of_use_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
+
 class SettingPage extends StatefulWidget{
   @override
   _SettingPageState createState() => _SettingPageState();
@@ -22,18 +24,12 @@ class _SettingPageState extends State<SettingPage>{
   List<String> itemTitle = ["알림설정","공지사항","1:1문의하기","등급 관련 안내","자주 묻는 질문","이용 약관","버전 정보 "];
   TextStyle textStyle = AppThemes.textTheme.bodyText1;
 
-
+  Future fetchVersion;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    super.initState();
-    getData().then((value) => {
-      setState(() {
-        itemTitle.last = itemTitle.last + value;
-      })
-    });
-
+    fetchVersion = getData();
 
 
   }
@@ -43,10 +39,17 @@ class _SettingPageState extends State<SettingPage>{
     // TODO: implement build
    return Scaffold(
      backgroundColor: Colors.white,
+     appBar: MainAppBar(title:'마이 페이지',),
      body: Consumer(builder : (context,watch,child){
-       return buildBody(context,watch(userStateProvider));
+        return FutureBuilder(
+          future: fetchVersion,
+          builder: (context,snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return buildBody(context, watch(userStateProvider));
+            }
+            return Center(child: CircularProgressIndicator());
+          });
      }),
-
        );
   }
 
@@ -55,7 +58,7 @@ class _SettingPageState extends State<SettingPage>{
 
 
   Widget buildBody(BuildContext context, UserState userState){
-
+  print(userState.currentUser.isMan);
 
     return NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (OverscrollIndicatorNotification overScroll){
@@ -273,11 +276,11 @@ class _SettingPageState extends State<SettingPage>{
     }
   }
 
-  Future<String> getData() async {
+  Future<void> getData() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     String buildNumber = packageInfo.buildNumber;
-    return version + "+" + buildNumber;
+    itemTitle.last = itemTitle.last + version + "+" + buildNumber;
   }
 
 }

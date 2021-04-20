@@ -14,7 +14,7 @@ class User{
   List<String> refundAccount;
   User({this.userUID, this.name,this.phoneNumber,this.address,this.characterIndex : 0,
    this.userState : 0,this.isAdmin :false,this.userToken,
-    this.couponAmount : 0,this.level : 1,this.useAmount : 0,this.refundAccount,this.isMan
+    this.couponAmount : 0,this.level : 1,this.useAmount : 0,this.refundAccount,this.isMan : false
   });
 
   Map<String, dynamic> toJson() {

@@ -6,7 +6,6 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/text_label_field.dart';
-import 'package:shoppingapp/models/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
 class RefundAccountPage extends StatefulWidget{

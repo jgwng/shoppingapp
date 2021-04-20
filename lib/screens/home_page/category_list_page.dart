@@ -4,8 +4,11 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/app_text_list.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/screens/home_page/product_list_page.dart';
+import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
 
 class CategoryList extends StatefulWidget{
+  CategoryList({this.onPush});
+  final Function onPush;
   @override
   _CategoryListState createState() => _CategoryListState();
 }
@@ -18,8 +21,8 @@ class _CategoryListState extends State<CategoryList>{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: MainAppBar(title:'카테고리',),
       body:SingleChildScrollView(
-
         child: Stack(
           children: [
             Container(
@@ -62,7 +65,7 @@ class _CategoryListState extends State<CategoryList>{
     return GestureDetector(
         onTap: () {
           if(title != "카테고리")
-          Navigator.push(context,MaterialPageRoute(builder:(c) => ProductListPage(category: title,)));
+          Navigator.push(context,MaterialPageRoute(builder:(c) => ProductListPage(category: title,onPush : widget.onPush)));
         },
         child:
         Padding(

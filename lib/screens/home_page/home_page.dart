@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_text_list.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
-import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 import 'package:shoppingapp/widgets/product_item.dart';
+import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
 import 'package:shoppingapp/models/product.dart';
 
 class HomePage extends StatefulWidget{
+  HomePage({this.onPush});
+  final Function onPush;
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage>{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: MainAppBar(title: 'Gunny',),
       body:  NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (OverscrollIndicatorNotification overScroll){
         overScroll.disallowGlow();
@@ -86,7 +88,7 @@ class _HomePageState extends State<HomePage>{
                   mainAxisSpacing: 20.0,
                   shrinkWrap: true,
                   children: List.generate(8, (index){
-                    return ProductItem();
+                    return ProductItem(onPush : widget.onPush);
                   })
               ),
             )
@@ -102,7 +104,7 @@ class _HomePageState extends State<HomePage>{
   Widget bestProductListItem(){
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen(product: Product(),))),
+      onTap: () => widget.onPush(Product()),
       child: Container(
         height: 120,
         width: 250,
@@ -170,65 +172,5 @@ class _HomePageState extends State<HomePage>{
     ),
     );
   }
-
-  Widget discountListItem(){
-    return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen(product: Product()))),
-        child: Container(
-      height: widgetHeight(200),
-      width: 140,
-      padding: EdgeInsets.only(left: 20,top: 15),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.0),
-          border: Border.all(color: AppThemes.mainColor)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 120,
-            height: 120,
-            child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.cover,),),
-          SizedBox(height: 12,),
-          Text.rich(TextSpan(
-            children: <TextSpan>[
-              new TextSpan(
-                  text: '40%  ',
-                  style: priceStyle.copyWith(color: AppThemes.pointColor,fontSize: 16)
-              ),
-              new TextSpan(
-                text: '할인',
-                style: priceStyle,
-              ),
-
-            ],
-          )),
-          SizedBox(height: 8,),
-          Text("챔피온 티셔츠",style: AppThemes.textTheme.bodyText1),
-          SizedBox(height: 6,),
-          Text.rich(TextSpan(
-            children: <TextSpan>[
-              new TextSpan(
-                text: '9000원   ',
-                style: priceStyle
-              ),
-              new TextSpan(
-            text: '15000원',
-            style: priceStyle.copyWith(
-              color: Colors.grey,
-              decoration: TextDecoration.lineThrough,
-            ),
-          ),
-
-
-        ],
-      )),
-          SizedBox(height: 6,),
-        ],
-      ),
-    ));
-  }
-
 
 }

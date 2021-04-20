@@ -7,8 +7,11 @@ import 'package:shoppingapp/constants/app_text_list.dart';
 import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 import 'package:shoppingapp/models/product.dart';
+import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
 
 class FavoriteListPage extends StatefulWidget{
+  FavoriteListPage({this.onPush});
+  final Function onPush;
   @override
   _FavoriteListPageState createState() => _FavoriteListPageState();
 }
@@ -36,6 +39,7 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: MainAppBar(title:'찜',),
       body: SingleChildScrollView(
         child: Column(
             children: [
@@ -111,7 +115,7 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
   Widget favoriteListItem(){
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () =>  Navigator.push(context,MaterialPageRoute(builder:(c) => ProductDetailScreen(product: Product()))),
+      onTap: () =>  widget.onPush(Product()),
       onLongPress: (){
         setState(() {
           isEditMode = true;
