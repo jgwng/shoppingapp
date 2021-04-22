@@ -3,6 +3,7 @@ import 'package:shoppingapp/constants/firestore_path.dart';
 import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/models/cart.dart';
+import 'package:shoppingapp/models/address.dart';
 import 'package:shoppingapp/models/coupon.dart';
 import 'package:shoppingapp/models/review.dart';
 import 'package:shoppingapp/models/announcement.dart';
@@ -27,13 +28,30 @@ class FirestoreRepository {
   Future<User> fetchUserData() async {
     DocumentReference userRef = firestore.doc(FirestorePath.user(uid));
     DocumentSnapshot userSnapshot = await userRef.get();
+    print(userSnapshot.data());
     User user = User.fromJson(userSnapshot.data());
+    print(user);
+    print(user.toString());
     return user;
   }
 
   updateUserInfo(Map<String, dynamic> updateData) async {
     DocumentReference userRef = firestore.doc(FirestorePath.user(uid));
     await userRef.update(updateData);
+  }
+
+  updateAddressList(List<Address> addressList) async {
+    WriteBatch batch = firestore.batch();
+    for(int i = 0;i<addressList.length;i++){
+      DocumentReference addressRef = firestore.collection(FirestorePath.address(uid)).doc();
+      batch.set(addressRef,addressList[i].toMap());
+    }
+    await batch.commit();
+  }
+  
+  deleteAddressList(Address address) async{
+    QuerySnapshot addressRef  = await firestore.collection(FirestorePath.address(uid)).where("address", isEqualTo: address.address).get();
+    await firestore.doc(FirestorePath.addressItem(uid,addressRef.docs[0].id)).delete();
   }
 
   Future<void> setUserData(User user) async {

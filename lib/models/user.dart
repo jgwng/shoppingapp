@@ -2,7 +2,7 @@ class User{
   String userUID;
   String name;
   String phoneNumber;
-  List<String> address;
+  List<dynamic> address;
   int userState;
   bool isMan;
   bool isAdmin;
@@ -11,7 +11,7 @@ class User{
   int level;
   int couponAmount;
   int useAmount;
-  List<String> refundAccount;
+  List<dynamic> refundAccount;
   User({this.userUID, this.name,this.phoneNumber,this.address,this.characterIndex : 0,
    this.userState : 0,this.isAdmin :false,this.userToken,
     this.couponAmount : 0,this.level : 1,this.useAmount : 0,this.refundAccount,this.isMan : false
@@ -34,13 +34,17 @@ class User{
       'isMan' : this.isMan
     };
   }
+  @override
+  String toString(){
+    return 'user : refund ${this.refundAccount.runtimeType} address ${this.address.runtimeType}';
+  }
 
   factory User.fromJson(Map<String, dynamic> map) {
     return new User(
       userUID: map['userUID'] as String,
       name: map['name'] as String,
       phoneNumber: map['phoneNumber'] as String,
-      address: map['address'] as List<String>,
+      address: map['address'] as List<dynamic>,
       userState: map['userState'] as int,
       isAdmin: map['isAdmin'] as bool,
       userToken: map['userToken'] as String,
@@ -48,7 +52,7 @@ class User{
       level: map['level'] as int,
       couponAmount: map['couponAmount'] as int,
       useAmount: map['useAmount'] as int,
-      refundAccount: map['refundAccount'] as List<String>,
+      refundAccount: map['refundAccount'] as List<dynamic>,
       isMan: map['isMan'] as bool
     );
   }

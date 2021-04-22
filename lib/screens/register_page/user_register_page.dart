@@ -337,7 +337,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
 
                 if (model != null) {
                   setState(() {
-                    postNumber = model.zonecode;
+                    postNumber = model.zonecode.toString();
                     firstAddress = model.address;
                     FocusScope.of(context).requestFocus(secondAddressFocusNode);
                   });
@@ -417,8 +417,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
         SizedBox(width:8),
         Text(
           genderText,
-          style:TextStyle( color: Color.fromRGBO(42, 42, 42, 1.0)
-             ),
+          style:AppThemes.textTheme.subtitle2.copyWith( color: Color.fromRGBO(42, 42, 42, 1.0)),
         )
       ],
     );
@@ -430,6 +429,7 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
     user.name = nameController.text;
     user.userState = 2;
     user.isMan = gender;
+    user.address =[postNumber,firstAddress,secondAddressController.text];
     await context.read(nowStateProvider).registerUserData(user);
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(

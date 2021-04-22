@@ -2,6 +2,7 @@ import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/providers/firestore_provider.dart';
 import 'package:shoppingapp/providers/loading_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shoppingapp/models/address.dart';
 
 final userStateProvider = Provider<UserState>((ref) {
   final UserState myUser = ref.watch(currentUserProvider.state);
@@ -60,6 +61,7 @@ class CurrentUserState extends StateNotifier<UserState> {
     getUserData();
     read(nowLoadingStateProvider).offLoading("user");
   }
+
   void clear(){
     state = initialUserState;
   }

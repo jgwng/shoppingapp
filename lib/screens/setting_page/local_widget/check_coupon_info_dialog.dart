@@ -16,8 +16,6 @@ class _CheckCouponDialogState extends State<CheckCouponDialog>{
   bool buttonClicked = false;
   TextStyle boldStyle = AppThemes.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w700,fontSize: 14);
 
-  TextEditingController textEditingController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     Coupon couponInfo = widget.coupon;
@@ -103,13 +101,6 @@ class _CheckCouponDialogState extends State<CheckCouponDialog>{
     return newFormat;
   }
 
-
- void unFocus() {
-    FocusScopeNode currentFocus = FocusScope.of(context);
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
-  }
 
 
 }

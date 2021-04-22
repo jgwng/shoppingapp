@@ -21,8 +21,6 @@ class _CouponListPageState extends State<CouponListPage>{
   @override
   void initState() {
     // TODO: implement initState
-
-
     super.initState();
   }
 

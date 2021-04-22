@@ -5,7 +5,7 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/text_label_field.dart';
-
+import 'package:shoppingapp/models/address.dart';
 class ModifyAddress extends StatefulWidget{
   @override
   _ModifyAddressState createState() => _ModifyAddressState();
@@ -15,6 +15,7 @@ class _ModifyAddressState extends State<ModifyAddress>{
   String postNumber = '';
   String firstAddress = '검색을 통해 주소를 입력하세요';
 
+  Address newAddress = Address();
   TextEditingController secondAddressController = TextEditingController();
   TextEditingController recipientController = TextEditingController();
   FocusNode secondAddressFocusNode = FocusNode();
@@ -49,7 +50,11 @@ class _ModifyAddressState extends State<ModifyAddress>{
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6.0),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            newAddress.address = [postNumber,firstAddress,secondAddressController.text];
+            newAddress.isBasic = false;
+            Navigator.pop(context,newAddress);
+          },
           child: Text("배송지 수정하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
         ),
       ),
@@ -59,9 +64,6 @@ class _ModifyAddressState extends State<ModifyAddress>{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height:10),
-        TextLabelField(controller: recipientController,focusNode: recipientFocusNode,label: "받는 사람",hintText: "수령인",isNumber: false,),
-        SizedBox(height:20),
         Row(
           children: [
             Container(
