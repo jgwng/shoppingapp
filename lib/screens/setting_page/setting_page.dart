@@ -14,6 +14,7 @@ import 'package:shoppingapp/screens/setting_page/point_info_page/point_info_page
 import 'package:shoppingapp/screens/setting_page/term_of_use_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SettingPage extends StatefulWidget{
   @override
@@ -41,6 +42,7 @@ class _SettingPageState extends State<SettingPage>{
      backgroundColor: Colors.white,
      appBar: MainAppBar(title:'마이 페이지',),
      body: Consumer(builder : (context,watch,child){
+
         return FutureBuilder(
           future: fetchVersion,
           builder: (context,snapshot) {
@@ -59,6 +61,8 @@ class _SettingPageState extends State<SettingPage>{
 
   Widget buildBody(BuildContext context, UserState userState){
   print(userState.currentUser.isMan);
+  User _user = FirebaseAuth.instance.currentUser;
+  print("User: ${_user.displayName ?? "None"}");
 
     return NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (OverscrollIndicatorNotification overScroll){

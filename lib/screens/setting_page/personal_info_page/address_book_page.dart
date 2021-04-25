@@ -130,7 +130,7 @@ class _AddressBookPageState extends State<AddressBookPage>{
                   addressItemButton("수정",() => Navigator.push(context,MaterialPageRoute(builder:(c) => ModifyAddress()))),
                   SizedBox(width: 20,),
                   addressItemButton("삭제", () async{
-                    await context.read(firestoreProvider).deleteAddressList(address);
+                    context.read(firestoreProvider).deleteAddressList(address);
                     addressList.remove(address);
                     setState(() {
 

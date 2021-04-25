@@ -5,7 +5,6 @@ import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
 import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/screens/register_page/admin_notice_dialog.dart';
-import 'package:shoppingapp/screens/register_page/register_page.dart';
 import 'package:shoppingapp/utils/validators.dart';
 import 'package:kopo/kopo.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
@@ -14,7 +13,8 @@ import 'package:shoppingapp/utils/bottom_sheet.dart';
 import 'package:flutter/services.dart';
 import 'package:shoppingapp/screens/register_page/phone_verification.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shoppingapp/providers/user_provider/register_state_provider.dart';
+import 'package:shoppingapp/screens/select_page/select_page.dart';
+import  'package:shoppingapp/providers/firestore_provider.dart';
 
 class UserRegisterPage extends StatefulWidget{
   @override
@@ -430,11 +430,11 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
     user.userState = 2;
     user.isMan = gender;
     user.address =[postNumber,firstAddress,secondAddressController.text];
-    await context.read(nowStateProvider).registerUserData(user);
+    await context.read(firestoreProvider).setUserData(user);
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (BuildContext context) =>
-            RegisterPage()), (route) => true);
+            SelectOnOrOff()), (route) => true);
 
   }
 
