@@ -365,7 +365,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
   Widget labelField(String text){
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => (text == "기본 환불 계좌 설정") ? RefundAccountPage() : AddressBookPage() )),
+        onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => (text == "기본 환불 계좌 설정") ? RefundAccountPage() : AddressBookPage(isChange : true) )),
 
         child: Container(
           height : 70,

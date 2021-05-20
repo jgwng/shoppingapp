@@ -32,14 +32,25 @@ class _AddressBookPageState extends State<AddressBookPage>{
     return Scaffold(
       backgroundColor: Colors.white,
       appBar : TextTitleAppBar(title : "배송지 주소록 관리",onPop: () async{
-        bool result = await showDialog(
-            context: context,
-            builder: (BuildContext context){
-              return ModifyInfoDialog();
-            }
-        );
-        if(result) context.read(firestoreProvider).updateAddressList(addressList);
+        if(widget.isChange){
+          bool result = await showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return ModifyInfoDialog();
+              }
+          );
+          if(result) context.read(firestoreProvider).updateAddressList(addressList);
           Navigator.pop(context);
+        }else{
+          List<dynamic> address = [];
+          addressList.forEach((element){
+           if(element.isBasic)
+             address = element.address;
+          }
+          );
+          Navigator.pop(context,address);
+        }
+
       },),
       body: SingleChildScrollView(
         controller: scrollController,

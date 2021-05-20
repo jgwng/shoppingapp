@@ -54,6 +54,6 @@ class OrderItem{
   String color;
   String size;
 
-  OrderItem({this.productName,this.quantity,this.amount,this.color,this.size});
+  OrderItem({this.productName = 'aaaa',this.quantity = '1',this.amount = '40000',this.color = '보라',this.size = 'XL'});
 
 }

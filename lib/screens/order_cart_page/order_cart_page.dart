@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/models/product.dart';
+import 'package:shoppingapp/models/order.dart';
 import 'package:shoppingapp/screens/order_check_page/order_info_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/widgets/custom_checkbox.dart';
@@ -130,7 +130,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6.0),
             ),
-          onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [Product()],))),
+          onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [OrderItem()],))),
           child: Text("${totalPrice+2000}원 주문하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
         ),
       ) : null

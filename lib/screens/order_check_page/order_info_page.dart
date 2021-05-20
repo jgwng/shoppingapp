@@ -4,15 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:kopo/kopo.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/size.dart';
+import 'package:shoppingapp/models/order.dart';
 import 'package:shoppingapp/models/select_model.dart';
 import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.dart';
 import 'package:shoppingapp/screens/setting_page/personal_info_page/address_book_page.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
+import 'package:shoppingapp/widgets/custom_checkbox.dart';
 import 'package:shoppingapp/widgets/text_label_field.dart';
-import 'package:shoppingapp/models/product.dart';
 class OrderInfoPage extends StatefulWidget{
   OrderInfoPage({Key key, this.productList}) : super(key: key);
-  final List<Product> productList;
+  final List<OrderItem> productList;
   @override
   _OrderInfoPageState createState() => _OrderInfoPageState();
 }
@@ -44,8 +45,13 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
 
   String postNumber = "우편번호";
   String firstAddress = '검색을 통해 주소를 입력하세요';
-
+  String name = 'aaaaaa';
+  String phoneNumber = '010-4415-2253';
   bool isDefault = false;
+
+
+
+
   @override
   void initState() {
     super.initState();
@@ -107,16 +113,21 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
                   behavior: HitTestBehavior.opaque,
                   onTap: (){
                   setState(() {
+                    if(userInfoSelect){
+                      name = orderNameController.text  == '' ? 'aaaa' : orderNameController.text;
+                      phoneNumber = (phoneFirstController.text == '' ? '010' : phoneFirstController.text) + '-' +
+                          (phoneSecondController.text == '' ? '4415' : phoneSecondController.text) + '-'
+                          +(phoneThirdController.text == '' ? '4456': phoneThirdController.text);
+                    }
                     userInfoSelect = ! userInfoSelect;
                   });
                 },
                   child:Container(
-                height: 40,
-                child: Row(
-                  children: [
-                    Text("aaaaaaaa | 010-4434-5151",style: AppThemes.textTheme.subtitle2,),
-
-                    Icon(userInfoSelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
+                    height: 40,
+                    child: Row(
+                      children: [
+                        Text("$name | $phoneNumber",style: AppThemes.textTheme.subtitle2,),
+                        Icon(userInfoSelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
                   ],
                 ),
               )),
@@ -203,7 +214,16 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
           inputFormatters: [
             LengthLimitingTextInputFormatter(maxLength),
           ],
+          maxLength: maxLength,
+          keyboardType: TextInputType.number,
+          controller: textEditingController,
+          focusNode: focusNode,
+          onChanged: (newText){
+            if(textEditingController.text.length == maxLength)
+              Focus.of(context).nextFocus();
+          },
           decoration: InputDecoration(
+          counterText:'',
             border: UnderlineInputBorder(
                 borderSide: BorderSide(
                     color: Colors.transparent)),
@@ -248,17 +268,46 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
         if(userAddressSelect)
         Column(
           children: [
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () async {
-                List<String> addressList = await Navigator.push(context,MaterialPageRoute(builder:(c) =>  AddressBookPage()));
-              },
-              child: Container(
-                height:40,alignment: Alignment.centerRight,child: Text("주소록 확인하기",style: AppThemes.textTheme.subtitle1,textAlign: TextAlign.right,),),
-
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 20,height: 20,
+                      child: CustomCheckBox(
+                      radius: Radius.circular(3),
+                      borderColor: Colors.black,
+                      value: isDefault,
+                      checkColor: Colors.white,
+                      activeColor: AppThemes.mainColor,
+                      onChanged: (value)  {
+                        setState(() {
+                          isDefault = !isDefault;
+                       });
+                      }, //체크시 개인정보 수집 및 이용 동의
+                    ),),
+                    SizedBox(width: 10,),
+                    Text('기본 배송지',style: AppThemes.textTheme.bodyText1,textAlign: TextAlign.left,),
+                  ],
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () async {
+                    List<dynamic> result = await Navigator.push(context,MaterialPageRoute(builder:(c) =>  AddressBookPage(isChange: false,)));
+                    if(result != null){
+                      setState(() {
+                        postNumber = result[0];
+                        firstAddress = result[1];
+                        secondAddressController.text = result[2];
+                      });
+                    }
+                    },
+                  child: Container(
+                    height:40,alignment: Alignment.centerRight,child: Text("주소록 확인하기",style: AppThemes.textTheme.subtitle1,textAlign: TextAlign.right,),),
+                ),
+              ],
             ),
-
-            
             SizedBox(height: 10,),
             TextLabelField(controller: recipientController,focusNode: recipientFocusNode,label: "받는 사람",hintText: "수령인",isNumber: false,),
             SizedBox(height: 20,),
@@ -361,7 +410,7 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
     );
   }
 
-  Widget orderListItem(Product product){
+  Widget orderListItem(OrderItem orderItem){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -378,10 +427,8 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
               children: [
                 SizedBox(height: 10,),
                 Text("상품명이 아주 긴 경우\n\n45000원",style: AppThemes.textTheme.headline1),
-
               ],
             ),
-
           ],
         ),
         SizedBox(height: 20,),
@@ -420,22 +467,23 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
             Text("결제 금액",style: AppThemes.textTheme.subtitle1,),
-            Container(
-              height: 40,
-              child: Row(
-              children: [
-               Text("${45000-int.parse(pointController.text=="" ? "0" : pointController.text)}원",style: AppThemes.textTheme.headline1.copyWith(color: AppThemes.pointColor),),
-                SizedBox(width: 20,),
-                 GestureDetector(
-                    onTap: (){
-                    setState(() {
-                      orderAmountSelect = ! orderAmountSelect;
-                    });
-                    },
-                    child: Icon(orderAmountSelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
-                    )],
+              GestureDetector(
+                onTap: (){
+                  setState(() {
+                    orderAmountSelect = ! orderAmountSelect;
+                  });
+                },
+                child:
+                Container(
+                   height: 40,
+                    child: Row(
+                    children: [
+                       Text("${45000-int.parse(pointController.text=="" ? "0" : pointController.text)}원",style: AppThemes.textTheme.headline1.copyWith(color: AppThemes.pointColor),),
+                       SizedBox(width: 20,),
+                       Icon(orderAmountSelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
+               ],
                     ),
-                    ),
+                    )),
                 ],
       ),
           SizedBox(height: 10,),
@@ -542,8 +590,6 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
               SizedBox(height:15),
               amountListItem("총 상품 금액","45000원"),
               SizedBox(height:10),
-              amountListItem("상품 할인","0원"),
-              SizedBox(height:10),
                amountListItem("쿠폰/포인트 할인","${ (pointController.text == "") ? 0 : pointController.text}원"),
               SizedBox(height:10),
               amountListItem("배송비","2000원"),
@@ -572,22 +618,24 @@ class _OrderInfoPageState extends State<OrderInfoPage>{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("결제 수단",style: AppThemes.textTheme.subtitle1,),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                    onTap: (){
+                    setState(() {
+                      howToPaySelect = ! howToPaySelect;
+                    });
+                  },
+                  child:
                 Container(
                   height: 40,
                   child: Row(
                     children: [
                       Text(howToPay,style: AppThemes.textTheme.bodyText1,),
                       SizedBox(width: 20,),
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            howToPaySelect = ! howToPaySelect;
-                          });
-                        },
-                        child: Icon(howToPaySelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
-                      )],
+                       Icon(howToPaySelect ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
+                      ],
                   ),
-                ),
+                )),
               ],
             ),
             SizedBox(height: 10,),

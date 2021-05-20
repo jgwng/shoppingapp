@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shoppingapp/models/cart.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:shoppingapp/models/order.dart';
+import 'package:shoppingapp/screens/order_check_page/order_info_page.dart';
 import 'package:shoppingapp/widgets/custom_snackbar.dart';
 import 'package:shoppingapp/providers/firestore_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -177,8 +179,18 @@ class _ProductOptionSelectPageState extends State<ProductOptionSelectPage> {
         padding: EdgeInsets.only(bottom: 20),
         child: Row(
           children: [
-            bottomNavigationButton("장바구니", addCart),
-            bottomNavigationButton("바로 구매", () { }),
+            bottomNavigationButton("장바구니 담기", addCart),
+            bottomNavigationButton("바로 구매", () {
+              if((option1 != '옵션1 선택') &&( option2 == '옵션2 선택'))
+              Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [
+                OrderItem(productName: widget.productName,quantity: itemCount.toString(),color: option1,size: option2,
+                    amount: (widget.productPrice * itemCount).toString())
+              ],)));
+             else{
+                scaffoldKey.currentState.showSnackBar(CustomSnackBar(
+                  backgroundColor: AppThemes.mainColor,
+                  content: Text("옵션을 모두 선택해 주시기 바랍니다.",style: AppThemes.textTheme.subtitle2.copyWith(color: Colors.white),),));}
+            }),
           ],
         ),
       ),
@@ -246,8 +258,6 @@ class _ProductOptionSelectPageState extends State<ProductOptionSelectPage> {
     ],))
     );
   }
-
-
 
 
   void addCart() async{

@@ -17,7 +17,7 @@ class FavoriteListPage extends StatefulWidget{
 }
 
 class _FavoriteListPageState extends State<FavoriteListPage>{
-  List<String> categoryList =AppText.categoryList;
+  List<String> categoryList =['전체' ,...AppText.categoryList];
   List<SelectStringModel> categoryModel = List<SelectStringModel>();
   List<String> aaaList = ["","","","","","",""];
   bool isEditMode = false;
@@ -27,10 +27,13 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    categoryList.insert(0, "전체");
     categoryModel = List.generate(categoryList.length,(i) => SelectStringModel(text: categoryList[i],isSelected:(i == 0)?true:false));
-    favoriteItemList = List.generate(10,(i)=> Product());
+    favoriteItemList = List.generate(10,(i)=> Product(
+      category: categoryList[(i%6 ==0) ? 1 : i%6]
+    ));
     displayList = favoriteItemList;
+    for(int i= 0;i<10;i++)
+      print(i%6);
   }
 
 
@@ -71,8 +74,8 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
                     crossAxisSpacing: 5.0,
                     mainAxisSpacing: 30.0,
                     shrinkWrap: true,
-                    children: List.generate(aaaList.length, (index){
-                      return favoriteListItem();
+                    children: List.generate(displayList.length, (index){
+                      return favoriteListItem(index);
                     })
                 ),
               )
@@ -87,12 +90,24 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
         setState(() {
           categoryModel.forEach((element) => element.isSelected = false);
           selectModel.isSelected = true;
+
+          displayList = [];
+          if(selectModel.text == '전체'){
+            displayList = favoriteItemList;
+          }else {
+            favoriteItemList.forEach((element) {
+              if(element.category == selectModel.text)
+                displayList.add(element);
+              print(element.category);
+            });
+          }
+          print(displayList.length);
+
         });
       },child:Container(
       width: 90,
       height: 10,
       child: Card(
-
         elevation: 2,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: selectModel.isSelected ? AppThemes.mainColor : Colors.white70, width: 2),
@@ -112,7 +127,7 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
     );
   }
 
-  Widget favoriteListItem(){
+  Widget favoriteListItem(int index){
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () =>  widget.onPush(Product()),
@@ -133,7 +148,7 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
             child: SizedBox(
               width: 155,
               height: 155,
-              child: Image.asset("assets/logo/grocery-cart.png",fit: BoxFit.fitWidth),
+              child: productImage(displayList[index].category),
             ),
           ),
           Positioned(
@@ -160,11 +175,49 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
   void sortFavorite(String category){
     setState(() {
       displayList = [];
-      favoriteItemList.forEach((element) {
-        if(element.category == category)
-          displayList.add(element);
-      });
+      if(category == '전체'){
+        displayList = favoriteItemList;
+      }else {
+        favoriteItemList.forEach((element) {
+           if(element.category == category)
+            displayList.add(element);
+        });
+      }
     });
   }
+
+
+  Widget productImage(String category){
+    String imageAddress;
+    switch(category){
+      case '유니섹스':
+        imageAddress = 'hoodie';
+        break;
+      case "가방 잡화":
+        imageAddress = 'dress';
+        break;
+      case "남성":
+        imageAddress = 'braces';
+        break;
+      case "여성":
+        imageAddress = 'cap';
+        break;
+      case "슈즈":
+        imageAddress = 'sneakers';
+        break;
+      case "뷰티":
+        imageAddress = 'fragance';
+        break;
+    }
+    return Image.asset("assets/images/category_icon/$imageAddress.png",fit: BoxFit.fitWidth);
+  }
+
+
+
+
+
+
+
+
 
 }

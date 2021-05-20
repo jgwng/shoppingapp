@@ -48,9 +48,7 @@ class _ModifyInfoDialogState extends State<ModifyInfoDialog>{
     return Expanded(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: (){
-           Navigator.pop(context,(text == '확인') ? true : false);
-          },
+          onTap: () => Navigator.pop(context,(text == '확인') ? true : false),
           child: Container(
             height: 60,
             alignment: Alignment.center,
