@@ -181,7 +181,7 @@ class _ProductOptionSelectPageState extends State<ProductOptionSelectPage> {
           children: [
             bottomNavigationButton("장바구니 담기", addCart),
             bottomNavigationButton("바로 구매", () {
-              if((option1 != '옵션1 선택') &&( option2 == '옵션2 선택'))
+              if((option1 != '옵션1 선택') &&( option2 != '옵션2 선택'))
               Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [
                 OrderItem(productName: widget.productName,quantity: itemCount.toString(),color: option1,size: option2,
                     amount: (widget.productPrice * itemCount).toString())

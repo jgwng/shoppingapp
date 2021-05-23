@@ -4,6 +4,7 @@ import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/models/cart.dart';
 import 'package:shoppingapp/models/address.dart';
+import 'package:shoppingapp/models/notice.dart';
 import 'package:shoppingapp/models/coupon.dart';
 import 'package:shoppingapp/models/review.dart';
 import 'package:shoppingapp/models/announcement.dart';
@@ -33,6 +34,15 @@ class FirestoreRepository {
     print(user);
     print(user.toString());
     return user;
+  }
+
+  Stream<List<Notice>> noticeStream() {
+    final Query noticeQry = firestore.collection(FirestorePath.notices(uid)).orderBy('createdAt', descending: true);
+    final Stream<QuerySnapshot> snapshots = noticeQry.snapshots();
+    return snapshots.map((snapshot) {
+      final result = snapshot.docs.map((snapshot) => Notice.fromJson(snapshot.data(), snapshot.id)).toList();
+      return result;
+    });
   }
 
   updateUserInfo(Map<String, dynamic> updateData) async {

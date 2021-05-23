@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
-import 'package:shoppingapp/screens/notice_page/notice_list_page.dart';
+import 'package:shoppingapp/widgets/notice_icon.dart';
 import 'package:shoppingapp/screens/order_cart_page/order_cart_page.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
@@ -16,18 +16,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget{
       titleSpacing: 0,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: InkWell(
-          onTap:()=> Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => NoticeListPage()),
-          ),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Icon(Icons.notifications_outlined,color: Colors.black,size: 30,),
-          )
-        //알림 없을때는 - Icons.notification_none_outlined 있을때는 Icons.Notification_on_outlined
-
-      ),
+      leading: NoticeIcon(),
       centerTitle: true,
       actions: [InkWell(
           onTap:()=> Navigator.push(

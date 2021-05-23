@@ -9,13 +9,11 @@ class Notice{
 
   Map<String, dynamic> toJson() {
     return {
-
       'noticeKey': this.noticeKey,
       'title': this.title,
       'content': this.content,
       'createdAt': this.createdAt,
       'isRead': this.isRead,
-
     };
   }
 

@@ -32,7 +32,6 @@ class _SettingPageState extends State<SettingPage>{
     super.initState();
     fetchVersion = getData();
 
-
   }
 
   @override
@@ -54,10 +53,6 @@ class _SettingPageState extends State<SettingPage>{
      }),
        );
   }
-
-
-
-
 
   Widget buildBody(BuildContext context, UserState userState){
   print(userState.currentUser.isMan);

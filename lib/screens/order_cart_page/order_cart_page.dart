@@ -20,6 +20,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
   int selectItemCount = 0;
   String option = 'XL / 퍼플';
   int itemCount = 1;
+  int shipFee = 0;
   int totalPrice = 0;
   ScrollController scrollController = ScrollController();
   List<String> optionList;
@@ -35,22 +36,14 @@ class _OrderCartPageState extends State<OrderCartPage>{
     cartSelectList = List.generate(3,(index) => false);
     optionList = [];
     cartList.forEach((element) {
-      totalPrice += (element.price);
+
       String option = "";
       element.option.forEach((element) {
         option = option + element;
       });
       optionList.add(option);
     });
-
   }
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +124,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
               borderRadius: BorderRadius.circular(6.0),
             ),
           onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [OrderItem()],))),
-          child: Text("${totalPrice+2000}원 주문하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
+          child: Text("${(totalPrice ==0) ? 0 : totalPrice+2000}원 주문하기",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
         ),
       ) : null
     );
@@ -172,13 +165,14 @@ class _OrderCartPageState extends State<OrderCartPage>{
                 mainAxisAlignment:MainAxisAlignment.spaceBetween,
                 children: [
                   Text("배송비",style: AppThemes.textTheme.subtitle1.copyWith(color: Colors.grey)),
-                  Text("2000원", style: AppThemes.textTheme.subtitle1)
+                  Text("$shipFee원", style: AppThemes.textTheme.subtitle1)
                 ],
               ),
             ),
-            SizedBox(height: 10,),
-            Divider(height:1,thickness: 1,color: AppThemes.mainColor,),
-            SizedBox(height: 10,),
+            Padding(
+              padding : EdgeInsets.symmetric(vertical: 10),
+              child : Divider(height: 1,thickness: 1,color: AppThemes.mainColor,)
+            ),
             Container(
               height: 40,
               padding: EdgeInsets.symmetric(horizontal: 24),
@@ -186,7 +180,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                 mainAxisAlignment:MainAxisAlignment.spaceBetween,
                 children: [
                   Text("총 주문 금액",style: AppThemes.textTheme.subtitle1.copyWith(color: Colors.grey)),
-                  Text("${totalPrice+2000}원", style: AppThemes.textTheme.subtitle1)
+                  Text("${(totalPrice ==0) ? 0 : totalPrice+2000}원", style: AppThemes.textTheme.subtitle1)
                 ],
               ),
             ),
@@ -198,7 +192,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                 mainAxisAlignment:MainAxisAlignment.spaceBetween,
                 children: [
                   Text("예상 적립금",style: AppThemes.textTheme.subtitle1.copyWith(color: Colors.grey)),
-                  Text("${((totalPrice+2000)*0.01).toStringAsFixed(0)}원", style: AppThemes.textTheme.subtitle1)
+                  Text("${(((totalPrice ==0) ? 0 : totalPrice+2000)*0.01).toStringAsFixed(0)}원", style: AppThemes.textTheme.subtitle1)
                 ],
               ),
             ),
@@ -207,11 +201,6 @@ class _OrderCartPageState extends State<OrderCartPage>{
       ],
     );
    }
-
-
-
-
-
 
   Widget cartItem(int index){
     return  Container(
@@ -223,7 +212,6 @@ class _OrderCartPageState extends State<OrderCartPage>{
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               SizedBox(width:20,child: CustomCheckBox(
                 radius: Radius.circular(3),
                 borderColor: Colors.black,
@@ -235,7 +223,6 @@ class _OrderCartPageState extends State<OrderCartPage>{
                     cartSelectList[index] = !cartSelectList[index];
                     selectItemCount = (value) ? selectItemCount + 1 : selectItemCount - 1;
                     changeTotalPrice();
-                    print(cartSelectList);
                   });
                 }, //체크시 개인정보 수집 및 이용 동의
               ),),
@@ -249,7 +236,6 @@ class _OrderCartPageState extends State<OrderCartPage>{
                 children: [
                   SizedBox(height: 20,),
                   Text("${cartList[index].productName}\n${cartList[index].price}원",style: AppThemes.textTheme.headline1,overflow: TextOverflow.ellipsis,),
-
                 ],
               ),
               SizedBox(width:30),
@@ -342,7 +328,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                           setState(() {
                             if(cartList[index].itemCount !=1){
                               cartList[index].itemCount -=1;
-                              changeTotalPrice();
+
                             }
                           });
                         },
@@ -352,7 +338,7 @@ class _OrderCartPageState extends State<OrderCartPage>{
                         onTap: (){
                           setState(() {
                             cartList[index].itemCount +=1;
-                            changeTotalPrice();
+
                           });
                         },
                         child: Text("+",style: AppThemes.textTheme.subtitle1.copyWith(fontSize: 20),),
@@ -386,7 +372,10 @@ class _OrderCartPageState extends State<OrderCartPage>{
             width: double.infinity,
             child: RaisedButton(
               elevation: 0,
-              onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [],))),
+              onPressed: () => Navigator.push(context,MaterialPageRoute(builder:(c) => OrderInfoPage(productList: [
+                OrderItem(productName: cartList[index].productName,quantity: cartList[index].itemCount.toString(),color: '퍼플',size: 'XL',
+                    amount: (cartList[index].price * cartList[index].itemCount).toString())
+              ],))),
               color: AppThemes.mainColor,
               child: Text("바로 주문",style: AppThemes.textTheme.subtitle1.copyWith(color:Colors.white),),
             ),
@@ -402,10 +391,16 @@ class _OrderCartPageState extends State<OrderCartPage>{
     setState(() {
       totalPrice = 0;
       for(int i =0;i<cartList.length;i++){
-        if(cartSelectList[i])
+        if(cartSelectList[i]){
           totalPrice +=(cartList[i].price) * (cartList[i].itemCount);
+          shipFee =2000;
+        }
+
       }
-      if(totalPrice == 0 ) totalPrice = -2000;
+      if(totalPrice == 0 ){
+        totalPrice = 0;
+        shipFee = 0;
+      }
     });
   }
 

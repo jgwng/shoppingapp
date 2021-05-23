@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/screens/home_page/home_page.dart';
+import 'dart:async';
 import 'package:shoppingapp/screens/home_page/category_list_page.dart';
 import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 import 'package:shoppingapp/screens/order_check_page/order_list_page.dart';
@@ -9,6 +10,10 @@ import 'package:shoppingapp/screens/setting_page/setting_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
 import 'package:shoppingapp/screens/favorite_list_page/favorite_list_page.dart';
+import 'package:shoppingapp/models/notice.dart';
+import 'package:shoppingapp/providers/user_provider/notice_state_provider.dart';
+import 'package:shoppingapp/providers/firestore_provider.dart';
+
 class MainPage extends StatefulWidget{
   @override
   _MainPageState createState() => _MainPageState();
@@ -16,6 +21,9 @@ class MainPage extends StatefulWidget{
 
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
+  var noticeSnapshot;
+  StreamSubscription noticeSub;
+
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
@@ -58,6 +66,10 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     Future.delayed(Duration(seconds: 0), () =>
         context.read(currentUserProvider).getUserData());
+    noticeSnapshot = context.read(firestoreProvider).noticeStream();
+    noticeSub = noticeSnapshot.listen((List<Notice> notice) {
+      context.read(nowNoticeProvider).fetchNotice(notice);
+    });
   }
 
   @override

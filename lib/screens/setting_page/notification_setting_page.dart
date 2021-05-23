@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
+import 'package:notification_permissions/notification_permissions.dart';
+import 'package:system_settings/system_settings.dart';
 
 
 class NotificationSettingPage extends StatefulWidget{
@@ -10,55 +11,105 @@ class NotificationSettingPage extends StatefulWidget{
   _NotificationSettingPageState createState() => _NotificationSettingPageState();
 }
  
-class _NotificationSettingPageState extends State<NotificationSettingPage>{
+class _NotificationSettingPageState extends State<NotificationSettingPage> with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar : TextTitleAppBar(title: "알림 설정"),
-      body: SingleChildScrollView(
-        child: Column(
+      body: FutureBuilder(
+        future: checkNotification(),
+        builder : (context,snapshot){
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return CircularProgressIndicator();
+          }
+          if(snapshot.hasData){
+            return buildBody(snapshot.data);
+          }
+          return CircularProgressIndicator();
+        }
+      ),
+    );
+  }
 
-          children: [
-            settingExplanation(),
-            SizedBox(height: 20,child: Container(color: Colors.grey[200],)),
-            SizedBox(height: 20,),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("마케팅 정보 알림",style: AppThemes.textTheme.headline1,textAlign: TextAlign.left),
-                  SizedBox(height: 5,),
-                  Text("할인 혜택 및 마케팅 정보 알림을 보내드려요",style: AppThemes.textTheme.subtitle2.copyWith(color: Colors.grey[400],fontSize: 13),textAlign: TextAlign.left),
-                  Container(
-                    height: 60,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("SMS 수신 동의"),
-                        CupertinoSwitch(
-                          activeColor: Color.fromRGBO(0, 204, 0, 1.0), // **ACTIVE STATE COLOR**
-                          value: true,
-                          onChanged: (value){},
-                        )
-                      ],
-                    ),
+  @override
+  void initState(){
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if(mounted)
+        setState(() {
+
+        });
+    }
+  }
+
+  Future<String> checkNotification() {
+    return NotificationPermissions.getNotificationPermissionStatus()
+        .then((status) {
+      switch (status) {
+        case PermissionStatus.denied:
+          return 'denied';
+        case PermissionStatus.granted:
+          return 'granted';
+        case PermissionStatus.unknown:
+          return 'unknown';
+        case PermissionStatus.provisional:
+          return 'provisional';
+        default:
+          return null;
+      }
+    });
+  }
+
+  Widget buildBody(String result){
+    print(result);
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          if(result != 'granted')
+          settingExplanation(),
+          SizedBox(height: 20,child: Container(color: Colors.grey[200],)),
+          SizedBox(height: 20,),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("마케팅 정보 알림",style: AppThemes.textTheme.headline1,textAlign: TextAlign.left),
+                SizedBox(height: 5,),
+                Text("할인 혜택 및 마케팅 정보 알림을 보내드려요",style: AppThemes.textTheme.subtitle2.copyWith(color: Colors.grey[400],fontSize: 13),textAlign: TextAlign.left),
+                Container(
+                  height: 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("SMS 수신 동의"),
+                      CupertinoSwitch(
+                        activeColor: Color.fromRGBO(0, 204, 0, 1.0), // **ACTIVE STATE COLOR**
+                        value: true,
+                        onChanged: (value){},
+                      )
+                    ],
                   ),
+                ),
 
 
 
 
 
-                ],
-              ),
-            )
+              ],
+            ),
+          )
 
 
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -121,7 +172,12 @@ class _NotificationSettingPageState extends State<NotificationSettingPage>{
             width: double.infinity,
             height: 50,
             child: RaisedButton(
-              onPressed: aaa,
+              onPressed: () async{
+                await SystemSettings.appNotifications();
+                setState(() {
+
+                });
+              },
               color: AppThemes.mainColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.0)
@@ -134,11 +190,5 @@ class _NotificationSettingPageState extends State<NotificationSettingPage>{
       ),
     );
   }
-  void aaa() async{
-    var status = await Permission.notification.status;
-    print(status);
-    var qqqq = await Permission.camera.status;
-    print(qqqq);
 
-  }
 }

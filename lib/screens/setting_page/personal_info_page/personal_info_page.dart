@@ -13,7 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:shoppingapp/providers/user_provider/user_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/models/user.dart';
-
+import 'package:shoppingapp/widgets/modify_info_dialog.dart';
 
 class PersonalInfoPage extends StatefulWidget{
   @override
@@ -23,12 +23,21 @@ class PersonalInfoPage extends StatefulWidget{
 class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-
-
   OverlayEntry _overlayEntry;
   OverlayState _overlayState;
-
   int text = 0;
+  int imageIndex;
+  DateTime age;
+  num birthYear;
+  String birthMD;
+  String gender;
+  String birthday = "생년월일을 입력하세요.";
+  FocusNode nameFocusNode = FocusNode();
+  FocusNode phoneNumberFocusNode = FocusNode();
+  TextStyle textStyle =  AppThemes.textTheme.bodyText1.copyWith(fontSize: 16,
+      color: Color.fromRGBO(
+          42, 42, 42, 1.0));
+
 
 
   @override
@@ -45,7 +54,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
 
     _overlayEntry?.remove();
     routeObserver.unsubscribe(this);
-    print("AAAAA");
+
 
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
@@ -54,8 +63,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
   void didPush() async{
     print("AAA");
     if(_overlayEntry != null){
-
-
       await keyboardDown(context);
     }
   }
@@ -66,36 +73,29 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
 
   }
 
-  int imageIndex = 0;
-  DateTime age;
-  num birthYear;
-  String birthMD;
-  String birthday = "생년월일을 입력하세요.";
-  FocusNode nameFocusNode = FocusNode();
-  FocusNode phoneNumberFocusNode = FocusNode();
-  TextStyle textStyle =  AppThemes.textTheme.bodyText1.copyWith(fontSize: 16,
-      color: Color.fromRGBO(
-          42, 42, 42, 1.0));
-
   @override
   void initState(){
     super.initState();
     User user = context.read(userStateProvider).currentUser;
     nameController.text = user.name;
-
+    gender = user.isMan ? 'boy' : 'girl';
     _overlayState = Overlay.of(context);
+    imageIndex = user.characterIndex;
+    phoneNumberController.text = user.phoneNumber ?? '';
+    var userBirth = user.birth.split('/');
+    birthday = '${userBirth[0]}년 ${userBirth[1]}월 ${userBirth[2]}일';
+
+
+
   }
 
 
 
   @override
   Widget build(BuildContext context) {
-    print("AAAAAAAA");
-
-
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TextTitleAppBar(title:"개인정보 변경"),
+      appBar: TextTitleAppBar(title:"개인정보 변경",onPop: onPop,),
       body:Consumer(builder : (context,watch,child){
         return buildBody(context,watch(userStateProvider));
       }),
@@ -105,13 +105,22 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
           bottomNavigationButton("로그 아웃"),
           bottomNavigationButton("회원 탈퇴"),
           ],
-
         ),
       ),
-
     );
   }
+  void onPop() async{
+    bool result = await showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return ModifyInfoDialog();
+        }
+    );
+    if(result){
 
+    }
+    Navigator.pop(context);
+  }
   Widget buildBody(BuildContext context, UserState userState){
     return GestureDetector(
       onTap: (){
@@ -141,7 +150,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
                       child : SizedBox(
                         width: 80,
                         height: 80,
-                        child: Image.asset("assets/images/avatar_image/boy_$imageIndex.png"),
+                        child: Image.asset("assets/images/avatar_image/${gender}_$imageIndex.png"),
                       ),
                     ),
                   ),
@@ -227,7 +236,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
                     minWidth: 2,
                     minHeight: 2,
                   ),
-
                   suffixIcon: (verification) ? GestureDetector(
                     onTap :(){
                       print("aaa");
@@ -286,7 +294,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
 
   Widget avatarListItem(OverlayEntry overlayEntry,OverlayState overlayState,int index){
     return GestureDetector(
-      onTap: (){
+      onTap: () async{
         overlayState.setState(() {
           setState(() {
             print("overlayState : ${index.toString()}");
@@ -295,12 +303,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
         });
         overlayEntry.remove();
         _overlayEntry = null;
+        await context.read(currentUserProvider).updateCharacterImage(imageIndex);
 
       },
       child: SizedBox(
           width: 50,
           height : 50,
-        child: Image.asset("assets/images/avatar_image/boy_$index.png"))
+        child: Image.asset("assets/images/avatar_image/${gender}_$index.png"))
     );
   }
 
@@ -350,12 +359,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
         child: Container(
           height: 80,
           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-              decoration: BoxDecoration(
-
-                  borderRadius: BorderRadius.circular(10.0)
-              ),
               child: RaisedButton(
                 color: AppThemes.mainColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)
+                ),
                 onPressed: (){},
                 child: Text(text,style: AppThemes.textTheme.bodyText1.copyWith(color:Colors.white),),
               ),
@@ -366,7 +374,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with RouteAware{
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => Navigator.push(context,MaterialPageRoute(builder:(c) => (text == "기본 환불 계좌 설정") ? RefundAccountPage() : AddressBookPage(isChange : true) )),
-
         child: Container(
           height : 70,
           child: Row(

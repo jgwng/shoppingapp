@@ -5,7 +5,6 @@ import 'package:shoppingapp/screens/setting_page/local_widget/scroll_behavior.da
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/constants/app_text_list.dart';
 import 'package:shoppingapp/models/select_model.dart';
-import 'package:shoppingapp/screens/home_page/product_detail_page.dart';
 import 'package:shoppingapp/models/product.dart';
 import 'package:shoppingapp/widgets/app_bar/main_page_appbar.dart';
 
@@ -32,8 +31,6 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
       category: categoryList[(i%6 ==0) ? 1 : i%6]
     ));
     displayList = favoriteItemList;
-    for(int i= 0;i<10;i++)
-      print(i%6);
   }
 
 
@@ -157,7 +154,9 @@ class _FavoriteListPageState extends State<FavoriteListPage>{
             child: GestureDetector(
               onTap: (){
                 setState(() {
-                  aaaList.remove(aaaList.last);
+                  Product product = displayList[index];
+                  displayList.remove(product);
+                  favoriteItemList.remove(product);
                 });
               },
               child: Visibility(

@@ -2,7 +2,6 @@ import 'package:shoppingapp/models/user.dart';
 import 'package:shoppingapp/providers/firestore_provider.dart';
 import 'package:shoppingapp/providers/loading_state_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shoppingapp/models/address.dart';
 
 final userStateProvider = Provider<UserState>((ref) {
   final UserState myUser = ref.watch(currentUserProvider.state);
@@ -59,6 +58,12 @@ class CurrentUserState extends StateNotifier<UserState> {
     };
     await read(firestoreProvider).updateUserInfo(updateData);
     getUserData();
+    read(nowLoadingStateProvider).offLoading("user");
+  }
+
+  updateCharacterImage(int index) async{
+    read(nowLoadingStateProvider).onLoading("user");
+    state.currentUser.characterIndex = index;
     read(nowLoadingStateProvider).offLoading("user");
   }
 

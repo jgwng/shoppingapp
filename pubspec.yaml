@@ -56,7 +56,7 @@ dependencies:
   korean_words: ^1.0.3
   permission_handler: 5.1.0+2
   sticky_headers: ^0.1.8+1
-
+  notification_permissions : ^0.4.8
 
 dev_dependencies:
   flutter_test:

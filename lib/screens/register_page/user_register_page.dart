@@ -275,7 +275,6 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
               child:  Text("생년월일",style: textStyle,)),
           SizedBox(width: 20,),
           Expanded(
-
               child: GestureDetector(
                 onTap: () async {
                   age = await onBirthdayPickerBottomSheet(context);
@@ -292,7 +291,6 @@ class _UserRegisterPageState extends State<UserRegisterPage>{
                 },
                 child: Container(
                   height: 50,
-
                   padding: EdgeInsets.only(left:20),
                   alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(

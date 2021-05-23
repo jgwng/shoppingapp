@@ -37,54 +37,55 @@ class _PointInfoPageState extends State<PointInfoPage> with AutomaticKeepAliveCl
   }
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: TextTitleAppBar(title: "적립금",),
       body: Consumer(
         builder : (context,watch,child){
-    return FutureBuilder(
-    future: getData(context),
-    builder: (context,snapshot){
-      if(snapshot.connectionState == ConnectionState.done){
-        if(snapshot.data == null){
-          return Center(
-            child: Column(
-              children: [
-                SizedBox(height: size.height * .25,),
-                Image.asset('assets/images/data_none_page/unicorn.png'),
-                Text("데이터가 없습니다.", style: AppThemes.textTheme.headline2.copyWith(fontSize: 21, color: AppThemes.inActiveColor),),
-                SizedBox(height: size.height * .25,),
-              ],
-            ),
-          );
-        }
-        else if(snapshot.data[0] == -1){
-          return Center(
-            child: Column(
-              children: [
-                SizedBox(height: widgetHeight(264)),
-                Text(
-                    "데이터를\n가져오지 못하였습니다",
-                    textAlign: TextAlign.center,
-                    style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 21)
-                ),
-                SizedBox(height: 11),
-                Text("와이파이 연결 후 다시 시도해주세요.",textAlign: TextAlign.center, style: AppThemes.textTheme.bodyText1.copyWith(color: AppThemes.inActiveColor))
-              ],
-            ),
-          );
-        }
-        else{
-          totalList = snapshot.data[0];
-          usePointList = snapshot.data[1];
-          addPointList = snapshot.data[2];
-          return buildBody();
-        }
-      }
-      return Center(child: CircularProgressIndicator());
+          return FutureBuilder(
+          future: getData(context),
+          builder: (context,snapshot){
+            if(snapshot.connectionState == ConnectionState.done){
+              if(snapshot.data == null){
+                return Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: size.height * .25,),
+                      Image.asset('assets/images/data_none_page/unicorn.png'),
+                      Text("데이터가 없습니다.", style: AppThemes.textTheme.headline2.copyWith(fontSize: 21, color: AppThemes.inActiveColor),),
+                      SizedBox(height: size.height * .25,),
+                    ],
+                  ),
+                );
+              }
+              else if(snapshot.data[0] == -1){
+                return Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: widgetHeight(264)),
+                      Text(
+                          "데이터를\n가져오지 못하였습니다",
+                          textAlign: TextAlign.center,
+                          style: AppThemes.textTheme.bodyText1.copyWith(fontSize: 21)
+                      ),
+                      SizedBox(height: 11),
+                      Text("와이파이 연결 후 다시 시도해주세요.",textAlign: TextAlign.center, style: AppThemes.textTheme.bodyText1.copyWith(color: AppThemes.inActiveColor))
+                    ],
+                  ),
+                );
+              }
+              else{
+                totalList = snapshot.data[0];
+                usePointList = snapshot.data[1];
+                addPointList = snapshot.data[2];
+                return buildBody();
+              }
+            }
+            return Center(child: CircularProgressIndicator());
 
 
-    }
+          }
     );
     })
 

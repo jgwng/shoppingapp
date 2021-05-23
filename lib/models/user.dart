@@ -6,6 +6,7 @@ class User{
   int userState;
   bool isMan;
   bool isAdmin;
+  String birth;
   String userToken;
   int characterIndex;
   int level;
@@ -13,7 +14,7 @@ class User{
   int useAmount;
   List<dynamic> refundAccount;
   User({this.userUID, this.name,this.phoneNumber,this.address,this.characterIndex : 0,
-   this.userState : 0,this.isAdmin :false,this.userToken,
+   this.userState : 0,this.isAdmin :false,this.userToken,this.birth,
     this.couponAmount : 0,this.level : 1,this.useAmount : 0,this.refundAccount,this.isMan : false
   });
 
@@ -31,7 +32,8 @@ class User{
       'couponAmount': this.couponAmount,
       'useAmount': this.useAmount,
       'refundAccount': this.refundAccount,
-      'isMan' : this.isMan
+      'isMan' : this.isMan,
+      'birthday' : this.birth
     };
   }
   @override
@@ -49,6 +51,7 @@ class User{
       isAdmin: map['isAdmin'] as bool,
       userToken: map['userToken'] as String,
       characterIndex: map['characterIndex'] as int,
+      birth: map['birthday'] as String,
       level: map['level'] as int,
       couponAmount: map['couponAmount'] as int,
       useAmount: map['useAmount'] as int,
