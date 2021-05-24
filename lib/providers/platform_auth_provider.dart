@@ -13,7 +13,7 @@ class SignInViewModel with ChangeNotifier {
   bool isLoading = false;
   dynamic error;
 
-  Future<void> _signIn(String platform, dynamic token) async {
+  Future<String> _signIn(String platform, dynamic token) async {
     try {
       isLoading = true;
       notifyListeners();
@@ -26,9 +26,10 @@ class SignInViewModel with ChangeNotifier {
           break;
       }
       error = null;
+      return '카카오톡 로그인 성공';
     } catch (e) {
       error = e;
-      rethrow;
+      return '카카오톡 로그인 실패';
     } finally {
       isLoading = false;
       notifyListeners();
@@ -42,7 +43,8 @@ class SignInViewModel with ChangeNotifier {
       if(googleSignInAccount != null){
         final GoogleSignInAuthentication googleAuth = await googleSignInAccount.authentication;
         if(googleAuth.accessToken != null && googleAuth.idToken != null) {
-          _signIn("google", GoogleAuthProvider.credential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken));
+          var result = await _signIn("google", GoogleAuthProvider.credential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken));
+          print(result);
         }
       }
     }catch(e){

@@ -82,7 +82,6 @@ class _MainPageState extends State<MainPage> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-
         body: Stack(
           children: [
             _buildOffstageNavigator(0),

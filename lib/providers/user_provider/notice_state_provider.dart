@@ -1,4 +1,3 @@
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shoppingapp/models/notice.dart';
 final noticeStateProvider = Provider<NoticeState>((ref) {
@@ -45,7 +44,6 @@ class NowNoticeState extends StateNotifier<NoticeState>{
 
 
   sendNoticeNFCM(String title, String body) async {
-    DateTime now = DateTime.now();
 //    String token = read(userStateProvider).currentUser.token;
 //    HttpsCallable callable = FirebaseFunctions.instanceFor(region: 'asia-northeast3').httpsCallable('fcmTest');
 //    await callable(<String, dynamic>{"title": title, "body": body, "target": token});
