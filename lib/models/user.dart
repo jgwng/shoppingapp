@@ -61,3 +61,20 @@ class User{
   }
 
 }
+class CheckInState{
+  bool isEnter;
+
+  CheckInState({this.isEnter});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'isEnter': this.isEnter,
+    };
+  }
+
+  factory CheckInState.fromJson(Map<String, dynamic> map) {
+    return new CheckInState(
+      isEnter: map['isEnter'] as bool,
+    );
+  }
+}

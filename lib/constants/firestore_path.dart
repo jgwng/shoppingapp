@@ -19,4 +19,5 @@ class FirestorePath{
   static String review(String userUid,String product) => 'product/$product/review/$userUid';
 
   static String notices(String userUid) => 'user/$userUid/notices';
+  static String checkIn(String userUid) => 'user/$userUid/checkIn';
 }

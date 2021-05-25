@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:math';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:korean_words/korean_words.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:shoppingapp/providers/firestore_provider.dart';
+import 'package:shoppingapp/providers/user_provider/checkin_state_provider.dart';
 import 'package:shoppingapp/widgets/app_bar/text_title_appbar.dart';
 import 'package:shoppingapp/constants/app_themes.dart';
 import 'package:shoppingapp/widgets/count_down_timer.dart';
@@ -14,13 +17,15 @@ class QRCodeCheckIn extends StatefulWidget{
 }
 
 class _QRCodeCheckInState extends State<QRCodeCheckIn> with TickerProviderStateMixin{
-
   AnimationController animationController;
   bool hasTimerStopped = false;
   String frontMockWord = "";
   String backMockWord = "";
 
   String personalNumber = "";
+  var checkInSnapshot;
+  StreamSubscription checkInSub;
+
   @override
   void initState() {
     super.initState();
@@ -40,9 +45,19 @@ class _QRCodeCheckInState extends State<QRCodeCheckIn> with TickerProviderStateM
 
     personalNumber = otpNumber.toString() + firstLetter + (99-otpNumber).toString() + lastLetter;
 
+
+    checkInSnapshot = context.read(firestoreProvider).noticeStream();
+    checkInSub = checkInSnapshot.listen((bool isEnter) {
+      context.read(nowCheckInProvider).fetchCheckInState(isEnter);
+    });
   }
 
-
+  @override
+  void dispose() {
+    checkInSub.cancel();
+    super.dispose();
+  }
+  
   @override
   Widget build(BuildContext context) {
    return Scaffold(

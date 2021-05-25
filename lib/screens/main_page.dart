@@ -71,6 +71,11 @@ class _MainPageState extends State<MainPage> {
       context.read(nowNoticeProvider).fetchNotice(notice);
     });
   }
+  @override
+  void dispose() {
+    noticeSub.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

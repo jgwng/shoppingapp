@@ -36,6 +36,21 @@ class FirestoreRepository {
     return user;
   }
 
+  Stream<bool> checkInStream() {
+    final Query checkInQry = firestore.collection(FirestorePath.checkIn(uid));
+    final Stream<QuerySnapshot> snapshots = checkInQry.snapshots();
+
+    return snapshots.map((snapshot) {
+      final result = snapshot.docs.map((snapshot) => CheckInState.fromJson(snapshot.data()));
+      return result.first.isEnter;
+    });
+  }
+
+
+
+
+
+
   Stream<List<Notice>> noticeStream() {
     final Query noticeQry = firestore.collection(FirestorePath.notices(uid)).orderBy('createdAt', descending: true);
     final Stream<QuerySnapshot> snapshots = noticeQry.snapshots();
